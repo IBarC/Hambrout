@@ -33,7 +33,7 @@ class _LogIn extends State<LogInWidget>{
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: const [
                     Image(image: AssetImage("images/icons/write.png"), width: 30,),
                     SizedBox(width: 20,),
                     Text("Hambrout")
