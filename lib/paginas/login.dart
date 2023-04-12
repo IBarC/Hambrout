@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hambrout/utils/formatosDisenio.dart';
+import 'package:hambrout/utils/formularios.dart';
 
 class LogInWidget extends StatefulWidget{
   const LogInWidget({super.key});
@@ -10,72 +12,7 @@ class LogInWidget extends StatefulWidget{
 }
 
 class _LogIn extends State<LogInWidget>{
-/**
-  final _formKey = GlobalKey<FormState>();
-  final List<TextEditingController> _textEditingControllers = [];
-  final List<Widget> _widgets = [];
-  String usuario = "usuario";
-  String password = "1234";
-
-  @override
-  void initState(){
-    super.initState();
-    _setValoresIniciales();
-  }
-
-  _setValoresIniciales(){
-
-  TextEditingController textEditingController =
-    TextEditingController(text: "");
-    _textEditingControllers.add(textEditingController);
-    _widgets.add(Padding(
-      padding: const EdgeInsets.all(7.0),
-      child: _createTextFormField("Usuario", textEditingController, usuario),
-    ));
-    TextEditingController textEditingController2 = TextEditingController(text: "");
-    _textEditingControllers.add(textEditingController2);
-    _widgets.add(Padding(padding: const EdgeInsets.all(7.0),
-      child: _createTextFormField("Contraseña", textEditingController2, password),
-    ));
-
-    _widgets.add(ElevatedButton(
-      onPressed: () {
-        _formKey.currentState?.validate();
-      },
-      child: const Text('Guardar'),
-    ));
-  }
-
-  TextFormField _createTextFormField(
-      String fieldName, TextEditingController controller, String valor) {
-    return TextFormField(
-      validator: (value) {
-        if (value!.isEmpty) {
-          return 'Por favor, introduzca $fieldName.';
-        } else if (value != valor) {
-          return "El valor no es correcto";
-        }
-        return null;
-      },
-      decoration: InputDecoration(
-          icon: const Icon(Icons.person),
-          hintText: fieldName,
-          labelText: 'Introduzca $fieldName'),
-      controller: controller,
-      obscureText: oscurecerTexto(fieldName),
-    );
-  }
-
-  bool oscurecerTexto(String fieldName){
-    if(fieldName=="Contraseña"){
-      return true;
-    } else {
-      return false;
-    }
-  }
-**/
-
-
+  FormatosDisenio formatosDisenio=FormatosDisenio();
 
   @override
   Widget build(BuildContext context) {
@@ -109,12 +46,11 @@ class _LogIn extends State<LogInWidget>{
                   mainAxisAlignment: MainAxisAlignment.center,
                   //crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
+                    SizedBox(
                       height: media.height,
                       width: media.width,
                       child: FormWidget(),
-                    )
-                    ],
+                    )],
                 ),
                 Row(),
                 Row(),
@@ -129,73 +65,4 @@ class _LogIn extends State<LogInWidget>{
   }
 }
 
-class FormWidget extends StatelessWidget {
-  final _formKey = GlobalKey<FormState>();
-  final List<TextEditingController> _textEditingControllers = [];
-  final List<Widget> _widgets = [];
-  String usuario = "usuario";
-  String password = "1234";
 
-  FormWidget({Key? key}) : super(key: key) {
-
-    TextEditingController textEditingController =
-    TextEditingController(text: "");
-    _textEditingControllers.add(textEditingController);
-    _widgets.add(Padding(
-      padding: const EdgeInsets.all(7.0),
-      child: _createTextFormField("Usuario", textEditingController, usuario),
-    ));
-    TextEditingController textEditingController2 = TextEditingController(text: "");
-    _textEditingControllers.add(textEditingController2);
-    _widgets.add(Padding(padding: const EdgeInsets.all(7.0),
-      child: _createTextFormField("Contraseña", textEditingController2, password),
-    ));
-
-    _widgets.add(ElevatedButton(
-      onPressed: () {
-        _formKey.currentState?.validate();
-      },
-      child: const Text('Guardar'),
-    ));
-  }
-
-  bool oscurecerTexto(String fieldName){
-    if(fieldName=="Contraseña"){
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  TextFormField _createTextFormField(
-      String fieldName, TextEditingController controller, String valor) {
-    return TextFormField(
-      validator: (value) {
-        if (value!.isEmpty) {
-          return 'Por favor, introduzca $fieldName.';
-        } else if (value != valor){
-          return "El valor no es correcto";
-        }
-        return null;
-      },
-      decoration: InputDecoration(
-          icon: const Icon(Icons.person),
-          hintText: fieldName,
-          labelText: 'Introduzca $fieldName'),
-      controller: controller,
-      obscureText: oscurecerTexto(fieldName),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Form(
-            key: _formKey,
-            child: ListView(
-
-              children: _widgets,
-            )));
-  }
-}
