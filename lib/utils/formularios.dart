@@ -65,7 +65,7 @@ class FormWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
         padding: const EdgeInsets.all(20.0),
         child: Form(
             key: _formKey,

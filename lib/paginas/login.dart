@@ -32,7 +32,7 @@ class _LogIn extends State<LogInWidget>{
           scrollDirection: Axis.vertical,
           children: [
             Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -44,18 +44,41 @@ class _LogIn extends State<LogInWidget>{
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  //crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox(
-                      height: media.height,
+                      height: 200,
                       width: media.width,
                       child: FormWidget(),
                     )],
                 ),
-                Row(),
-                Row(),
-                Row(),
-                Row(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    TextButton(
+                        onPressed: (){},
+                        child: const Text("He olvidado la contraseña",
+                            style: TextStyle(
+                              color: Colors.deepPurple,
+                              fontWeight: FontWeight.bold,
+                              decoration: TextDecoration.underline,
+                            )))
+                    ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      onPressed: (){},
+                      style: ElevatedButton.styleFrom(
+                          foregroundColor: Colors.black,
+                          backgroundColor: Colors.amberAccent,
+                          shadowColor: Colors.black54,
+                          elevation: 10
+                      ),
+                      child: const Text('Elevated Button :D'))
+                  ],
+                ),
+
               ],
             )
           ],
