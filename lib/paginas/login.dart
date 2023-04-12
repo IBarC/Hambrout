@@ -31,8 +31,9 @@ class _LogIn extends State<LogInWidget>{
         child: ListView(
           scrollDirection: Axis.vertical,
           children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            Wrap(
+              //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              alignment: WrapAlignment.center,
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
