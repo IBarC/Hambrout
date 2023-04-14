@@ -20,6 +20,8 @@ class _LogIn extends State<LogInWidget>{
   Size media = MediaQuery.of(context).size;
     return Scaffold(
       body: Container(
+        width: media.width,
+        height: media.height,
         ///Fondo degradado
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -28,62 +30,40 @@ class _LogIn extends State<LogInWidget>{
               colors: <Color>[
                 Color(0xFFF5B067),Color(0xFFAE7575),
               ])),
-        child: ListView(
-          scrollDirection: Axis.vertical,
-          children: [
-            Wrap(
-              //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              alignment: WrapAlignment.center,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Image(image: AssetImage("images/icons/write.png"), width: 30,),
-                    SizedBox(width: 20,),
-                    Text("Hambrout")
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: 200,
-                      width: media.width,
-                      child: FormWidget(),
-                    )],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    TextButton(
-                        onPressed: (){},
-                        child: const Text("He olvidado la contraseña",
-                            style: TextStyle(
-                              color: Colors.deepPurple,
-                              fontWeight: FontWeight.bold,
-                              decoration: TextDecoration.underline,
-                            )))
-                    ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ElevatedButton(
-                      onPressed: (){},
-                      style: ElevatedButton.styleFrom(
-                          foregroundColor: Colors.black,
-                          backgroundColor: Colors.amberAccent,
-                          shadowColor: Colors.black54,
-                          elevation: 10
-                      ),
-                      child: const Text('Elevated Button :D'))
-                  ],
-                ),
+        child: Center(
+          child: ListView(
+            shrinkWrap: true,
+            padding: const EdgeInsets.all(20.0),
+            scrollDirection: Axis.vertical,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image(image: const AssetImage("images/icons/write.png"), width: media.width/12,),
+                  SizedBox(width: media.width/13,),
+                  const Text("Hambrout")
+                ],
+              ),
+              SizedBox(
+                child: FormWidget(),
+              ),
 
-              ],
-            )
-          ],
-        ),
+              TextButton(
+                  onPressed: (){},
+                  child: const Text("He olvidado la contraseña",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        decoration: TextDecoration.underline,
+                      ))),
+              //SizedBox(width: media.height,),
+              ElevatedButton(
+                  onPressed: (){},
+                  style: formatosDisenio.btnBurdeos(),
+                  child: const Text('No tengo cuenta'))
+            ],
+          ),
+        )
       )
     );
   }

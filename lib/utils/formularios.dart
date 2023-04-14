@@ -18,22 +18,23 @@ class FormWidget extends StatelessWidget {
     TextEditingController(text: "");
     _textEditingControllers.add(textEditingController);
     _widgets.add(Padding(
-      padding: const EdgeInsets.all(7.0),
+      padding: const EdgeInsets.all(0),
       child: _createTextFormField("Usuario", textEditingController, usuario),
     ));
     TextEditingController textEditingController2 = TextEditingController(text: "");
     _textEditingControllers.add(textEditingController2);
-    _widgets.add(Padding(padding: const EdgeInsets.all(7.0),
+    _widgets.add(Padding(padding: const EdgeInsets.all(0),
       child: _createTextFormField("Contraseña", textEditingController2, password),
     ));
 
     _widgets.add(ElevatedButton(
-      style: formatosDisenio.btnBurdeos(),
-      onPressed: () {
-        _formKey.currentState?.validate();
-      },
-      child: const Text('Guardar'),
-    ));
+        style: formatosDisenio.btnBurdeos(),
+        onPressed: () {
+          _formKey.currentState?.validate();
+        },
+        child: const Text('Guardar'),
+      ),
+    );
   }
 
   bool oscurecerTexto(String fieldName){
@@ -65,12 +66,11 @@ class FormWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        padding: const EdgeInsets.all(20.0),
-        child: Form(
+    return Form(
             key: _formKey,
-            child: ListView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: _widgets,
-            )));
+            ));
   }
 }

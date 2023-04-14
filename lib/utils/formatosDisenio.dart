@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class FormatosDisenio{
+
   ButtonStyle btnBurdeos(){
     return ElevatedButton.styleFrom(
       shadowColor: Colors.black,
