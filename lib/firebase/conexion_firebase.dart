@@ -23,4 +23,44 @@ Future<void> main() async {
 
 class ConexionDatos {
 
+  Future<void> crearUsuario(String username, String password) async {
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+
+    try{
+      final collection = FirebaseFirestore.instance.collection('userdata');
+
+      final datos = <String, dynamic>{
+        'username': username,
+        'password': password
+      };
+      collection.doc(username).set(datos);
+    } catch(_){
+
+    }
+  }
+
+  Future<Map<String, dynamic>> buscarUsuario(String username, String password) async {
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+
+    try{
+      final collection = FirebaseFirestore.instance.collection('userdata');
+
+      final documento = collection.doc(username);
+      documento.get().then((DocumentSnapshot docSnap) {
+        final datos = docSnap.data() as Map<String, dynamic>;
+        print("---------------------------------------------$datos");
+        return datos;
+      });
+    } catch(_){
+
+    }
+    return {'null':'null'};
+  }
+
 }
