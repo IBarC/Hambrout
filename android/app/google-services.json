@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "583598744130",
+    "project_id": "hambrout",
+    "storage_bucket": "hambrout.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:583598744130:android:24c93f608a6ceba0fe03db",
+        "android_client_info": {
+          "package_name": "com.example.hambrout"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "583598744130-g6dbu1n8u963upsjd302c49acft6cm4e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmontLNrLIwq2SuHUU_WhlHnEX969AF-I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "583598744130-g6dbu1n8u963upsjd302c49acft6cm4e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

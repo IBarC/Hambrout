@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hambrout/utils/formatosDisenio.dart';
+import 'package:hambrout/utils/formatos_disenio.dart';
 import 'package:hambrout/utils/formularios.dart';
 
 class LogInWidget extends StatefulWidget{
@@ -18,7 +18,9 @@ class _LogIn extends State<LogInWidget>{
   Widget build(BuildContext context) {
 
   Size media = MediaQuery.of(context).size;
-    return Scaffold(
+  double tamanioLogo = media.width/12;
+
+  return Scaffold(
       body: Container(
         width: media.width,
         height: media.height,
@@ -33,21 +35,22 @@ class _LogIn extends State<LogInWidget>{
         child: Center(
           child: ListView(
             shrinkWrap: true,
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(40.0),
             scrollDirection: Axis.vertical,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image(image: const AssetImage("images/icons/write.png"), width: media.width/12,),
+                  Image(image: const AssetImage("images/icons/write.png"), width: tamanioLogo,),
                   SizedBox(width: media.width/13,),
                   const Text("Hambrout")
                 ],
               ),
+              formatosDisenio.separacionNormal(context),
               SizedBox(
                 child: FormWidget(),
               ),
-
+              formatosDisenio.separacionNormal(context),
               TextButton(
                   onPressed: (){},
                   child: const Text("He olvidado la contraseña",
@@ -56,7 +59,7 @@ class _LogIn extends State<LogInWidget>{
                         fontWeight: FontWeight.bold,
                         decoration: TextDecoration.underline,
                       ))),
-              //SizedBox(width: media.height,),
+              formatosDisenio.separacionNormal(context),
               ElevatedButton(
                   onPressed: (){},
                   style: formatosDisenio.btnBurdeos(),

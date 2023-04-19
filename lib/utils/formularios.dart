@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'formatosDisenio.dart';
+import 'formatos_disenio.dart';
 
 class FormWidget extends StatelessWidget {
 
-  FormatosDisenio formatosDisenio=FormatosDisenio();
+  final FormatosDisenio formatosDisenio=FormatosDisenio();
 
   final _formKey = GlobalKey<FormState>();
   final List<TextEditingController> _textEditingControllers = [];
   final List<Widget> _widgets = [];
   ///Se convertira en comprobacion de si exsite en la base de datos el usuario dado
-  String usuario = "usuario";
-  String password = "1234";
+  final String usuario = "usuario";
+  final String password = "1234";
 
   FormWidget({Key? key}) : super(key: key) {
 
@@ -21,11 +21,13 @@ class FormWidget extends StatelessWidget {
       padding: const EdgeInsets.all(0),
       child: _createTextFormField("Usuario", textEditingController, usuario),
     ));
+    _widgets.add(const SizedBox(height: 7));
     TextEditingController textEditingController2 = TextEditingController(text: "");
     _textEditingControllers.add(textEditingController2);
     _widgets.add(Padding(padding: const EdgeInsets.all(0),
       child: _createTextFormField("Contraseña", textEditingController2, password),
     ));
+    _widgets.add(const SizedBox(height: 7));
 
     _widgets.add(ElevatedButton(
         style: formatosDisenio.btnBurdeos(),
