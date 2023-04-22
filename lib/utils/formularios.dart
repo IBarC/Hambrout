@@ -15,17 +15,18 @@ class FormWidget extends StatelessWidget {
   final String usuario = "usuario";
   final String password = "1234";
 
+  TextEditingController controladorUser = TextEditingController(text: "");
+  TextEditingController controladorPassw = TextEditingController(text: "");
+
   FormWidget({Key? key}) : super(key: key) {
 
-    TextEditingController controladorUser =
-    TextEditingController(text: "");
     _textEditingControllers.add(controladorUser);
     _widgets.add(Padding(
       padding: const EdgeInsets.all(0),
       child: _createTextFormField("Usuario", controladorUser, usuario),
     ));
     _widgets.add(const SizedBox(height: 7));
-    TextEditingController controladorPassw = TextEditingController(text: "");
+
     _textEditingControllers.add(controladorPassw);
     _widgets.add(Padding(padding: const EdgeInsets.all(0),
       child: _createTextFormField("Contraseña", controladorPassw, password),
@@ -36,8 +37,7 @@ class FormWidget extends StatelessWidget {
         style: formatosDisenio.btnBurdeos(),
         onPressed: () {
           if(_formKey.currentState!.validate()){
-            //conexionDatos.crearUsuario(controladorUser.text, controladorPassw.text);
-            conexionDatos.buscarUsuario(controladorUser.text, controladorPassw.text);
+            //lleva a la pagina de inicio
           }
         },
         child: const Text('Iniciar sesión'),
@@ -57,11 +57,14 @@ class FormWidget extends StatelessWidget {
       String fieldName, TextEditingController controller, String valor) {
     return TextFormField(
       validator: (value) {
+        conexionDatos.existeUser(controladorUser.text, controladorPassw.text);
+        bool existeUser=conexionDatos.existeUsu;
+print("------------------------------------> EXISTE O NO --> $existeUser");
         if (value!.isEmpty) {
-          return 'Por favor, introduzca $fieldName.';
-        } //else if (value != valor){
-          //return "El valor no es correcto";
-        //}
+          return 'El campo no puede estar vacio';
+        } else if (!existeUser){
+          return 'Los datos no son correctos';
+        }
         return null;
       },
       decoration: InputDecoration(
@@ -71,6 +74,8 @@ class FormWidget extends StatelessWidget {
       obscureText: oscurecerTexto(fieldName),
     );
   }
+
+
 
   @override
   Widget build(BuildContext context) {

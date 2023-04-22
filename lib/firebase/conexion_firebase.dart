@@ -42,7 +42,13 @@ class ConexionDatos {
     }
   }
 
-  Future<Map<String, dynamic>> buscarUsuario(String username, String password) async {
+  late bool existeUsu=true;
+
+  void existeUser(String username, String password) async{
+    existeUsu = await existeUsuario(username, password);
+  }
+
+  Future<bool> existeUsuario(String username, String password) async {
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
@@ -52,15 +58,23 @@ class ConexionDatos {
       final collection = FirebaseFirestore.instance.collection('userdata');
 
       final documento = collection.doc(username);
-      documento.get().then((DocumentSnapshot docSnap) {
-        final datos = docSnap.data() as Map<String, dynamic>;
-        print("---------------------------------------------$datos");
-        return datos;
+      documento.get().then((DocumentSnapshot? docSnap) {
+
+        if(docSnap?.data()!=null){
+          final datos = docSnap?.data() as Map<String, dynamic>;
+          if(datos['username']==username && datos['password']==password){
+            print("---------------------------------------------> $datos BIEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEN");
+
+            return true;
+          }
+          print("---------------------------------------------> $datos MAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL");
+
+        }
       });
     } catch(_){
-
     }
-    return {'null':'null'};
+    print("---------------------------------------------> MAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL");
+    return false;
   }
 
 }
