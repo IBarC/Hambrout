@@ -23,6 +23,8 @@ Future<void> main() async {
 
 class ConexionDatos {
 
+  //FirebaseFirestore db = FirebaseFirestore.instance;
+
   Future<void> crearUsuario(String username, String password) async {
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp(
@@ -42,28 +44,43 @@ class ConexionDatos {
     }
   }
 
-  late bool existeUsu=true;
+  //late bool existeUsu=true;
 
-  void existeUser(String username, String password) async{
-    existeUsu = await existeUsuario(username, password);
-  }
+  //void existeUser(String username, String password) async{
+    //existeUsu = await existeUsuario(username, password);
+  //}
 
-  Future<bool> existeUsuario(String username, String password) async {
+  Future<List> existeUsuario(String username, String password) async {
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
 
-    try{
+    List usuario = [];
+    CollectionReference collectionReferenceUsuario = FirebaseFirestore.instance.collection('userdata');
+
+    final document = collectionReferenceUsuario.doc(username);
+    //document.get();
+
+    QuerySnapshot queryUsuario = await collectionReferenceUsuario.get();
+
+    queryUsuario.docs.forEach((documento) {
+      print(documento.data());
+      usuario.add(documento.data());
+    });
+    print("---------------------------------------------> $usuario BIEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEN");
+
+    return usuario;pe
+
+    /**try{
       final collection = FirebaseFirestore.instance.collection('userdata');
 
       final documento = collection.doc(username);
-      documento.get().then((DocumentSnapshot? docSnap) {
+      documento.get().then((DocumentSnapshot? docSnap) async{
 
-        if(docSnap?.data()!=null){
+        if(await docSnap?.data()!=null){
           final datos = docSnap?.data() as Map<String, dynamic>;
           if(datos['username']==username && datos['password']==password){
-            print("---------------------------------------------> $datos BIEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEN");
 
             return true;
           }
@@ -74,7 +91,9 @@ class ConexionDatos {
     } catch(_){
     }
     print("---------------------------------------------> MAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL");
-    return false;
+    return {};
+     **/
+
   }
 
 }
