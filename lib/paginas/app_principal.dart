@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hambrout/paginas/fuera.dart';
+import 'package:hambrout/paginas/pagina_base.dart';
 
 class AppPrincipalWidget extends StatelessWidget{
   const AppPrincipalWidget({super.key});
