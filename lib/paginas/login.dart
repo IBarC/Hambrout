@@ -49,7 +49,7 @@ class _LogIn extends State<LogInWidget>{
               ),
               formatosDisenio.separacionNormal(context),
               SizedBox(
-                child: FormularioLogIn(),
+                child: FormularioLogIn(context),
               ),
               formatosDisenio.separacionNormal(context),
               /**TextButton(

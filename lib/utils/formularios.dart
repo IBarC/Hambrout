@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:hambrout/firebase/conexion_firebase.dart';
+import 'package:hambrout/paginas/app_principal.dart';
 import '../paginas/login.dart';
 import 'formatos_disenio.dart';
 
+final FormatosDisenio formatosDisenio=FormatosDisenio();
+final ConexionDatos conexionDatos = ConexionDatos();
+
 class FormularioLogIn extends StatelessWidget {
-
-  final FormatosDisenio formatosDisenio=FormatosDisenio();
-
-  final ConexionDatos conexionDatos = ConexionDatos();
-
   final _formKey = GlobalKey<FormState>();
   final List<TextEditingController> _textEditingControllers = [];
   final List<Widget> _widgets = [];
@@ -17,7 +16,7 @@ class FormularioLogIn extends StatelessWidget {
   TextEditingController userContr = TextEditingController(text: "");
   TextEditingController passwContr = TextEditingController(text: "");
 
-  FormularioLogIn({Key? key}) : super(key: key) {
+  FormularioLogIn(BuildContext context, {Key? key}) : super(key: key) {
 
     _textEditingControllers.add(userContr);
     _widgets.add(Padding(
@@ -39,7 +38,13 @@ class FormularioLogIn extends StatelessWidget {
           //existeUser=conexionDatos.existeUsu;
           //_formKey.currentState!.validate();
           if(_formKey.currentState!.validate()){
-            //lleva a la pagina de inicio
+            Navigator.push(
+              context!,
+              MaterialPageRoute(builder: (context) {
+                return const AppPrincipalWidget();
+              }),
+            );
+
           }
         },
         child: const Text('Iniciar sesión'),
@@ -78,7 +83,6 @@ class FormularioLogIn extends StatelessWidget {
         if(!exist){
           return 'Usuario no valido';
         }
-        //print("------------------------------------> NO VACIO --> $usuarioRegistrado");
         return null;
       },
       decoration: InputDecoration(
@@ -88,8 +92,6 @@ class FormularioLogIn extends StatelessWidget {
       obscureText: oscurecerTexto(fieldName),
     );
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -103,10 +105,6 @@ class FormularioLogIn extends StatelessWidget {
 }
 
 class FormularioCrearCuenta extends StatelessWidget{
-
-
-  final ConexionDatos conexionDatos = ConexionDatos();
-
   final _formKey = GlobalKey<FormState>();
   final List<TextEditingController> _textEditingControllers = [];
   final List<Widget> _widgets = [];
@@ -155,11 +153,9 @@ class FormularioCrearCuenta extends StatelessWidget{
     _widgets.add(const SizedBox(height: 7));
 
     _widgets.add(ElevatedButton(
-      //style: formatosDisenio.btnBurdeos(),
+      style: formatosDisenio.btnBurdeos(),
       onPressed: () async{
         usuarioRegistrado = await conexionDatos.existeUsuario(correoContr.text, passwContr.text);
-        //existeUser=conexionDatos.existeUsu;
-        //_formKey.currentState!.validate();
         if(_formKey.currentState!.validate()){
           conexionDatos.crearUsuario(nombreContr.text, apellidosContr.text, correoContr.text, passwContr.text);
           Navigator.pushNamed(context!, '/');
