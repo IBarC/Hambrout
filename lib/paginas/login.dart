@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hambrout/paginas/crear_cuenta.dart';
 import 'package:hambrout/utils/formatos_disenio.dart';
 import 'package:hambrout/utils/formularios.dart';
 
@@ -48,20 +49,27 @@ class _LogIn extends State<LogInWidget>{
               ),
               formatosDisenio.separacionNormal(context),
               SizedBox(
-                child: FormWidget(),
+                child: FormularioLogIn(),
               ),
               formatosDisenio.separacionNormal(context),
-              TextButton(
+              /**TextButton(
                   onPressed: (){},
                   child: const Text("He olvidado la contraseña",
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                         decoration: TextDecoration.underline,
-                      ))),
+                      ))),**/
               formatosDisenio.separacionNormal(context),
               ElevatedButton(
-                  onPressed: (){},
+                  onPressed: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) {
+                        return const CrearCuentaWidget();
+                        })
+                    );
+                  },
                   style: formatosDisenio.btnBurdeos(),
                   child: const Text('No tengo cuenta'))
             ],

@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hambrout/firebase_options.dart';
-
+/**
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -19,13 +19,13 @@ Future<void> main() async {
   } catch(_){
 
   }
-}
+}**/
 
 class ConexionDatos {
 
   //FirebaseFirestore db = FirebaseFirestore.instance;
 
-  Future<void> crearUsuario(String username, String password) async {
+  Future<void> crearUsuario(String nombre, String apellidos, String username, String password) async {
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
@@ -35,6 +35,8 @@ class ConexionDatos {
       final collection = FirebaseFirestore.instance.collection('userdata');
 
       final datos = <String, dynamic>{
+        'nombre': nombre,
+        'apellidos': apellidos,
         'username': username,
         'password': password
       };
@@ -59,40 +61,18 @@ class ConexionDatos {
     List usuario = [];
     CollectionReference collectionReferenceUsuario = FirebaseFirestore.instance.collection('userdata');
 
-    final document = collectionReferenceUsuario.doc(username);
+    //final document = collectionReferenceUsuario.doc(username);
     //document.get();
 
     QuerySnapshot queryUsuario = await collectionReferenceUsuario.get();
 
     queryUsuario.docs.forEach((documento) {
-      print(documento.data());
+      //print(documento.data());
       usuario.add(documento.data());
     });
-    print("---------------------------------------------> $usuario BIEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEN");
+    //print("---------------------------------------------> $usuario BIEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEN");
 
-    return usuario;pe
-
-    /**try{
-      final collection = FirebaseFirestore.instance.collection('userdata');
-
-      final documento = collection.doc(username);
-      documento.get().then((DocumentSnapshot? docSnap) async{
-
-        if(await docSnap?.data()!=null){
-          final datos = docSnap?.data() as Map<String, dynamic>;
-          if(datos['username']==username && datos['password']==password){
-
-            return true;
-          }
-          print("---------------------------------------------> $datos MAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL");
-
-        }
-      });
-    } catch(_){
-    }
-    print("---------------------------------------------> MAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL");
-    return {};
-     **/
+    return usuario;
 
   }
 

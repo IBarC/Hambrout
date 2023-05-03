@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hambrout/firebase/conexion_firebase.dart';
+import '../paginas/login.dart';
 import 'formatos_disenio.dart';
 
-class FormWidget extends StatelessWidget {
+class FormularioLogIn extends StatelessWidget {
 
   final FormatosDisenio formatosDisenio=FormatosDisenio();
 
@@ -11,40 +12,35 @@ class FormWidget extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   final List<TextEditingController> _textEditingControllers = [];
   final List<Widget> _widgets = [];
-  ///Se convertira en comprobacion de si exsite en la base de datos el usuario dado
-  final String usuario = "usuario";
-  final String password = "1234";
-
-  late bool existeUser;
   late List usuarioRegistrado;
 
-  TextEditingController controladorUser = TextEditingController(text: "");
-  TextEditingController controladorPassw = TextEditingController(text: "");
+  TextEditingController userContr = TextEditingController(text: "");
+  TextEditingController passwContr = TextEditingController(text: "");
 
-  FormWidget({Key? key}) : super(key: key) {
+  FormularioLogIn({Key? key}) : super(key: key) {
 
-    _textEditingControllers.add(controladorUser);
+    _textEditingControllers.add(userContr);
     _widgets.add(Padding(
       padding: const EdgeInsets.all(0),
-      child: _createTextFormField("Usuario", controladorUser, usuario),
+      child: _createTextFormField("Usuario", userContr),
     ));
     _widgets.add(const SizedBox(height: 7));
 
-    _textEditingControllers.add(controladorPassw);
+    _textEditingControllers.add(passwContr);
     _widgets.add(Padding(padding: const EdgeInsets.all(0),
-      child: _createTextFormField("Contraseña", controladorPassw, password),
+      child: _createTextFormField("Contraseña", passwContr),
     ));
     _widgets.add(const SizedBox(height: 7));
 
     _widgets.add(ElevatedButton(
         style: formatosDisenio.btnBurdeos(),
         onPressed: () async{
-          usuarioRegistrado = await conexionDatos.existeUsuario(controladorUser.text, controladorPassw.text);
+          usuarioRegistrado = await conexionDatos.existeUsuario(userContr.text, passwContr.text);
           //existeUser=conexionDatos.existeUsu;
-          _formKey.currentState!.validate();
-          //if(_formKey.currentState!.validate()){
+          //_formKey.currentState!.validate();
+          if(_formKey.currentState!.validate()){
             //lleva a la pagina de inicio
-          //}
+          }
         },
         child: const Text('Iniciar sesión'),
       ),
@@ -60,29 +56,29 @@ class FormWidget extends StatelessWidget {
   }
 
   TextFormField _createTextFormField(
-      String fieldName, TextEditingController controller, String valor) {
+      String fieldName, TextEditingController controller) {
     return TextFormField(
       validator: (value) {
 
         if (value!.isEmpty) {
           return 'El campo no puede estar vacio';
         } else if (usuarioRegistrado.isEmpty){
-          print("------------------------------------> VACIO --> $usuarioRegistrado");
+          //print("------------------------------------> VACIO --> $usuarioRegistrado");
           return 'Usuario no valido';
         }
         print('USUARIOS');
         bool exist = false;
         for(int i = 0; i<usuarioRegistrado.length; i++){
-          print(usuarioRegistrado[i]);
-          print(usuarioRegistrado[i]['username']);
-          if(usuarioRegistrado[i]['username']==controladorUser.text && usuarioRegistrado[i]['password']==controladorPassw.text){
+         // print(usuarioRegistrado[i]);
+          //print(usuarioRegistrado[i]['username']);
+          if(usuarioRegistrado[i]['username']==userContr.text && usuarioRegistrado[i]['password']==passwContr.text){
             exist = true;
           }
         }
         if(!exist){
           return 'Usuario no valido';
         }
-        print("------------------------------------> NO VACIO --> $usuarioRegistrado");
+        //print("------------------------------------> NO VACIO --> $usuarioRegistrado");
         return null;
       },
       decoration: InputDecoration(
@@ -105,102 +101,145 @@ class FormWidget extends StatelessWidget {
             ));
   }
 }
-/**
-class FormWidget extends StatelessWidget {
 
-  final FormatosDisenio formatosDisenio=FormatosDisenio();
+class FormularioCrearCuenta extends StatelessWidget{
+
 
   final ConexionDatos conexionDatos = ConexionDatos();
 
   final _formKey = GlobalKey<FormState>();
   final List<TextEditingController> _textEditingControllers = [];
   final List<Widget> _widgets = [];
-  ///Se convertira en comprobacion de si exsite en la base de datos el usuario dado
-  final String usuario = "usuario";
-  final String password = "1234";
-
-  late bool existeUser;
   late List usuarioRegistrado;
 
-  TextEditingController controladorUser = TextEditingController(text: "");
-  TextEditingController controladorPassw = TextEditingController(text: "");
+  TextEditingController nombreContr = TextEditingController(text: "");
+  TextEditingController apellidosContr = TextEditingController(text: "");
+  TextEditingController correoContr = TextEditingController(text: "");
+  TextEditingController passwContr = TextEditingController(text: "");
+  TextEditingController repePasswContr = TextEditingController(text: "");
 
-  FormWidget({Key? key}) : super(key: key) {
+  FormularioCrearCuenta(BuildContext context, {Key? key}) : super(key: key) {
 
-    _textEditingControllers.add(controladorUser);
+    _textEditingControllers.add(nombreContr);
     _widgets.add(Padding(
       padding: const EdgeInsets.all(0),
-      child: _createTextFormField("Usuario", controladorUser, usuario),
+      child: _createTextFormField("Nombre", nombreContr),
     ));
     _widgets.add(const SizedBox(height: 7));
 
-    _textEditingControllers.add(controladorPassw);
+    _textEditingControllers.add(apellidosContr);
+    _widgets.add(Padding(
+      padding: const EdgeInsets.all(0),
+      child: _createTextFormField("Apellidos", apellidosContr),
+    ));
+    _widgets.add(const SizedBox(height: 7));
+
+    _textEditingControllers.add(correoContr);
+    _widgets.add(Padding(
+      padding: const EdgeInsets.all(0),
+      child: _createCorreoFormField("Correo electrónico", correoContr),
+    ));
+    _widgets.add(const SizedBox(height: 7));
+
+    _textEditingControllers.add(passwContr);
     _widgets.add(Padding(padding: const EdgeInsets.all(0),
-      child: _createTextFormField("Contraseña", controladorPassw, password),
+      child: _createPasswFormField("Contraseña", passwContr),
+    ));
+    _widgets.add(const SizedBox(height: 7));
+
+    _textEditingControllers.add(repePasswContr);
+    _widgets.add(Padding(
+      padding: const EdgeInsets.all(0),
+      child: _createPasswFormField("Repite la contraseña", repePasswContr),
     ));
     _widgets.add(const SizedBox(height: 7));
 
     _widgets.add(ElevatedButton(
-      style: formatosDisenio.btnBurdeos(),
+      //style: formatosDisenio.btnBurdeos(),
       onPressed: () async{
-        usuarioRegistrado = await conexionDatos.existeUsuario(controladorUser.text, controladorPassw.text);
+        usuarioRegistrado = await conexionDatos.existeUsuario(correoContr.text, passwContr.text);
         //existeUser=conexionDatos.existeUsu;
-        _formKey.currentState!.validate();
-        //if(_formKey.currentState!.validate()){
-        //lleva a la pagina de inicio
-        //}
+        //_formKey.currentState!.validate();
+        if(_formKey.currentState!.validate()){
+          conexionDatos.crearUsuario(nombreContr.text, apellidosContr.text, correoContr.text, passwContr.text);
+          Navigator.pushNamed(context!, '/');
+        }
       },
-      child: const Text('Iniciar sesión'),
+      child: const Text('Crear cuenta'),
     ),
     );
   }
 
-  bool oscurecerTexto(String fieldName){
-    if(fieldName=="Contraseña"){
-      return true;
-    } else {
-      return false;
-    }
-  }
-
   TextFormField _createTextFormField(
-      String fieldName, TextEditingController controller, String valor) {
+      String fieldName, TextEditingController controller) {
     return TextFormField(
       validator: (value) {
 
         if (value!.isEmpty) {
           return 'El campo no puede estar vacio';
-        } else if (usuarioRegistrado.isEmpty){
-          print("------------------------------------> VACIO --> $usuarioRegistrado");
-          return 'Los datos no son correctos';
         }
-        print("------------------------------------> NO VACIO --> $usuarioRegistrado");
         return null;
       },
       decoration: InputDecoration(
           hintText: fieldName,
           labelText: fieldName),
       controller: controller,
-      obscureText: oscurecerTexto(fieldName),
     );
   }
 
-  late var usus;
+  TextFormField _createCorreoFormField(
+      String fieldName, TextEditingController controller) {
+    return TextFormField(
+      validator: (value) {
+
+        if (value!.isEmpty) {
+          return 'El campo no puede estar vacio';
+        }
+
+        //Comprueba que no haya un usuario con el mismo correo
+        for(int i = 0; i<usuarioRegistrado.length; i++){
+          if(usuarioRegistrado[i]['username']==correoContr.text){
+            return 'Usuario no valido';
+          }
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+          hintText: fieldName,
+          labelText: fieldName),
+      controller: controller,
+    );
+  }
+
+
+  TextFormField _createPasswFormField(
+      String fieldName, TextEditingController controller) {
+    return TextFormField(
+      validator: (value) {
+
+        if (value!.isEmpty) {
+          return 'El campo no puede estar vacio';
+        } else if (passwContr.text!=repePasswContr.text) {
+          return 'Las contraseñas deben coincidir';
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+          hintText: fieldName,
+          labelText: fieldName),
+      controller: controller,
+      obscureText: true,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: conexionDatos.existeUsuario(controladorUser.text, controladorPassw.text),
-      builder: ((context, snapshot){
-        usus=snapshot.data?[0]['username'];
-        print("usuuuuuuuuuuuuuuuuuuuuuuuuuuus $usus");
-        return Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: _widgets,
-            ));
-      }),
-    );
+    return Form(
+        key: _formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: _widgets,
+        ));
   }
-}**/
+
+}
