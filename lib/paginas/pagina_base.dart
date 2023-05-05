@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:hambrout/paginas/ayuda.dart';
 import 'package:hambrout/paginas/casa.dart';
-import 'package:hambrout/paginas/crear_cuenta.dart';
 import 'package:hambrout/paginas/favs.dart';
 import 'package:hambrout/paginas/fuera.dart';
 import 'package:hambrout/paginas/listas.dart';
 import 'package:hambrout/utils/formatos_disenio.dart';
-import 'package:hambrout/utils/formularios.dart';
+
+import '../firebase/conexion_firebase.dart';
+
+final ConexionDatos conexionDatos = ConexionDatos();
 
 class PaginaBaseWidget extends StatefulWidget{
   const PaginaBaseWidget({super.key});
@@ -28,6 +30,10 @@ class _PaginaBase extends State<PaginaBaseWidget>{
     });
   }
 
+  final List<Future<List>> _funciones = [
+    conexionDatos.buscarRecetas()
+  ];
+
   static const List<Widget> _pages = <Widget>[
     FueraWidget(),
     CasaWidget(),
@@ -43,7 +49,7 @@ class _PaginaBase extends State<PaginaBaseWidget>{
     double tamanioIcono = media.width/14;
 
     return Scaffold(
-      body: Container(
+      body: SizedBox(
           width: media.width,
           height: media.height,
           child: Center(
@@ -64,33 +70,23 @@ class _PaginaBase extends State<PaginaBaseWidget>{
         onTap: _cambiarPantalla,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-              icon: Icon(Icons.location_on_outlined, size: tamanioIcono,)/**Image(
-              image: const AssetImage("images/icons/sun-umbrella-and-deck-chair.png"),
-              width: tamanioLogo,)**/,
+              icon: Icon(Icons.location_on_outlined, size: tamanioIcono,),
               label: 'Fuera'
           ),
           BottomNavigationBarItem(
-              icon:Icon(Icons.house_outlined, size: tamanioIcono,) /**Image(
-                image: const AssetImage("images/icons/hosting.png"),
-                width: tamanioLogo,)**/,
+              icon:Icon(Icons.house_outlined, size: tamanioIcono,),
               label: 'Casa'
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.star_purple500_rounded, size: tamanioIcono,)/**Image(
-                image: const AssetImage("images/icons/heart.png"),
-                width: tamanioLogo,)**/,
+              icon: Icon(Icons.star_purple500_rounded, size: tamanioIcono,),
               label: 'Favs'
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.event_note, size: tamanioIcono,)/**Image(
-                image: const AssetImage("images/icons/write.png"),
-                width: tamanioLogo,)**/,
+              icon: Icon(Icons.event_note, size: tamanioIcono,),
               label: 'Listas'
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.settings, size: tamanioIcono,)/**Image(
-                image: const AssetImage("images/icons/big-cogwheel.png"),
-                width: tamanioLogo,)**/,
+              icon: Icon(Icons.settings, size: tamanioIcono,),
               label: 'Ayuda'
           ),
         ],

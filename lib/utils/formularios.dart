@@ -71,7 +71,6 @@ class FormularioLogIn extends StatelessWidget {
           //print("------------------------------------> VACIO --> $usuarioRegistrado");
           return 'Usuario no valido';
         }
-        print('USUARIOS');
         bool exist = false;
         for(int i = 0; i<usuarioRegistrado.length; i++){
          // print(usuarioRegistrado[i]);
