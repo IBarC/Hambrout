@@ -52,8 +52,9 @@ class _PaginaBase extends State<PaginaBaseWidget>{
       body: SizedBox(
           width: media.width,
           height: media.height,
-          child: Center(
-              child: _pages.elementAt(_indiceSeleccionado)
+          child: IndexedStack(
+              index: _indiceSeleccionado,
+            children: _pages,
           )
       ),
       bottomNavigationBar: BottomNavigationBar(
