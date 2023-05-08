@@ -44,7 +44,6 @@ class FormularioLogIn extends StatelessWidget {
                 return const AppPrincipalWidget();
               }),
             );
-
           }
         },
         child: const Text('Iniciar sesión'),

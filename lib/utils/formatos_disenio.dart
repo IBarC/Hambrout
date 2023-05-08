@@ -16,6 +16,6 @@ class FormatosDisenio{
   }
 
   SizedBox separacionPequenia(BuildContext context){
-    return SizedBox(height: MediaQuery.of(context).size.width/20);
+    return SizedBox(height: MediaQuery.of(context).size.width/35);
   }
 }
