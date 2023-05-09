@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hambrout/paginas/receta.dart';
 
 import '../firebase/conexion_firebase.dart';
 import '../utils/formularios.dart';
@@ -88,7 +89,13 @@ class _Casa extends State<CasaWidget> with SingleTickerProviderStateMixin {
                             //DEPENDIENDO DE QUE BOTON SE PULSA
                             return GestureDetector(
                                 onTap: (){
-                                  //Lleva a la página donde muestra las recetas indvididuales
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                    return RecetaWidget(dificultad: snapshot.data?[index]['dificultad'], tipo: snapshot.data?[index]['tipo'],
+                                      elaboracion: snapshot.data?[index]['elaboracion'], foto: snapshot.data?[index]['foto'], ingredientes: snapshot.data?[index]['ingredientes'],
+                                      nombre: snapshot.data?[index]['nombre'], npersonas: snapshot.data?[index]['npersonas'], origen: snapshot.data?[index]['origen'],
+                                      tiempo: snapshot.data?[index]['tiempo'],
+                                    );
+                                  }),);
                                 },
                                 child: Padding(
                                     padding: EdgeInsets.only(bottom: media.height/30),
