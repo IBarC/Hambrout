@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hambrout/paginas/login.dart';
+import 'package:hambrout/paginas/login_view.dart';
 import 'package:hambrout/utils/formularios.dart';
 
 class CrearCuentaWidget extends StatefulWidget{

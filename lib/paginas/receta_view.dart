@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hambrout/paginas/casa.dart';
+import 'package:hambrout/paginas/casa_view.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 class RecetaWidget extends StatefulWidget{

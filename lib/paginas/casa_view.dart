@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hambrout/paginas/receta.dart';
+import 'package:hambrout/enum/enumReceta.dart';
+import 'package:hambrout/paginas/receta_view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../firebase/conexion_firebase.dart';
 import '../utils/formularios.dart';
@@ -31,11 +33,16 @@ class _Casa extends State<CasaWidget> with SingleTickerProviderStateMixin {
     _botones = [
       ElevatedButton(onPressed: (){btnPulsado='todo'; cambiarRecetas(); setState((){});}, child: Text('Todo')),
       ElevatedButton(onPressed: (){btnPulsado='España'; cambiarRecetas();setState((){});}, child: Text('España')),
-      ElevatedButton(onPressed: (){btnPulsado='Rumania'; cambiarRecetas();}, child: Text('Rumanía')),
-      ElevatedButton(onPressed: (){btnPulsado='marruecos'; cambiarRecetas();}, child: Text('Marruecos')),
-      ElevatedButton(onPressed: (){btnPulsado='eeuu'; cambiarRecetas();}, child: Text('EE.UU')),
-      ElevatedButton(onPressed: (){btnPulsado='japon'; cambiarRecetas();}, child: Text('Japón')),
+      ElevatedButton(onPressed: (){btnPulsado='Rumanía'; cambiarRecetas();}, child: Text('Rumanía')),
+      ElevatedButton(onPressed: (){btnPulsado='Marruecos'; cambiarRecetas();}, child: Text('Marruecos')),
+      ElevatedButton(onPressed: (){btnPulsado='EE.UU'; cambiarRecetas();}, child: Text('EE.UU')),
+      ElevatedButton(onPressed: (){btnPulsado='Japón'; cambiarRecetas();}, child: Text('Japón')),
     ];
+    _inicializar();
+  }
+
+  _inicializar() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
   }
 
   @override
@@ -109,13 +116,19 @@ class _Casa extends State<CasaWidget> with SingleTickerProviderStateMixin {
                                             children: [
                                               Column(
                                                 children: [
-                                                  Row(children: [Text(snapshot.data?[index]['nombre'])],),
+                                                  Row(children: [Text(snapshot.data?[index][dR(DatosReceta.nombre)])],),
                                                   Row(children: [Text(snapshot.data?[index]['origen'] +" · "+ snapshot.data?[index]['tipo'])],),
                                                   Row(children: [Text("${snapshot.data?[index]['npersonas'].toString()} personas · ${snapshot.data?[index]['dificultad']}")],),
                                                 ],
                                               ),
                                               Column(
-                                                children: [IconButton(onPressed:(){},icon: Icon(Icons.star_border_purple500_sharp),)],
+                                                children: [
+                                                  IconButton(
+                                                    onPressed:()async{
+                                                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                                                      print(prefs.getString('username'));
+                                                    },
+                                                    icon: Icon(Icons.star_border_purple500_sharp),)],
                                               )
                                             ],
                                           ),

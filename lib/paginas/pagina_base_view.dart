@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:hambrout/paginas/ayuda.dart';
-import 'package:hambrout/paginas/casa.dart';
-import 'package:hambrout/paginas/favs.dart';
-import 'package:hambrout/paginas/fuera.dart';
-import 'package:hambrout/paginas/listas.dart';
+import 'package:hambrout/paginas/ayuda_view.dart';
+import 'package:hambrout/paginas/casa_view.dart';
+import 'package:hambrout/paginas/favs_view.dart';
+import 'package:hambrout/paginas/fuera_view.dart';
+import 'package:hambrout/paginas/listas_view.dart';
 import 'package:hambrout/utils/formatos_disenio.dart';
 
 import '../firebase/conexion_firebase.dart';

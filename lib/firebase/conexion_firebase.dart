@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:hambrout/enum/enumUsuario.dart';
 import 'package:hambrout/firebase_options.dart';
 
 class ConexionDatos {
@@ -15,10 +16,10 @@ class ConexionDatos {
       final collection = FirebaseFirestore.instance.collection('userdata');
 
       final datos = <String, dynamic>{
-        'nombre': nombre,
-        'apellidos': apellidos,
-        'username': username,
-        'password': password
+        dU(DatosUsuario.nombre): nombre,
+        dU(DatosUsuario.apellidos): apellidos,
+        dU(DatosUsuario.username): username,
+        dU(DatosUsuario.password): password
       };
       collection.doc(username).set(datos);
     } catch(_){
@@ -40,7 +41,6 @@ class ConexionDatos {
     for (var documento in queryUsuario.docs) {
       usuario.add(documento.data());
     }
-
     return usuario;
   }
 
@@ -58,8 +58,9 @@ class ConexionDatos {
     for (var documento in queryRecetas.docs) {
       recetas.add(documento.data());
     }
-
     return recetas;
   }
+
+
 
 }

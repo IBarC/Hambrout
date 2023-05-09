@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hambrout/enum/enumUsuario.dart';
 import 'package:hambrout/firebase/conexion_firebase.dart';
-import 'package:hambrout/paginas/app_principal.dart';
-import '../paginas/login.dart';
+import 'package:hambrout/paginas/app_principal_view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../paginas/login_view.dart';
 import 'formatos_disenio.dart';
 
 final FormatosDisenio formatosDisenio=FormatosDisenio();
@@ -34,10 +36,13 @@ class FormularioLogIn extends StatelessWidget {
     _widgets.add(ElevatedButton(
         style: formatosDisenio.btnBurdeos(),
         onPressed: () async{
+          SharedPreferences prefs = await SharedPreferences.getInstance();
           usuarioRegistrado = await conexionDatos.existeUsuario(userContr.text, passwContr.text);
           //existeUser=conexionDatos.existeUsu;
           //_formKey.currentState!.validate();
           if(_formKey.currentState!.validate()){
+            prefs.setString(dU(DatosUsuario.username), userContr.text);
+            prefs.setBool(dU(DatosUsuario.sesionIniciada),true);
             Navigator.push(
               context!,
               MaterialPageRoute(builder: (context) {

@@ -32,6 +32,7 @@ dependencies:
   flutter:
     sdk: flutter
   persistent_bottom_nav_bar: ^5.0.2
+  shared_preferences: ^2.0.16
 
 
   # The following adds the Cupertino Icons font to your application.

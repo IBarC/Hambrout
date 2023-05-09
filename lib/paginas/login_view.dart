@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hambrout/paginas/crear_cuenta.dart';
+import 'package:hambrout/paginas/crear_cuenta_view.dart';
 import 'package:hambrout/utils/formatos_disenio.dart';
 import 'package:hambrout/utils/formularios.dart';
 
