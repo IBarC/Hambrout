@@ -18,8 +18,6 @@ class CasaWidget extends StatefulWidget{
 
 final ConexionDatos conexionDatos = ConexionDatos();
 
-
-
 class _Casa extends State<CasaWidget> with SingleTickerProviderStateMixin {
 
   late List<ElevatedButton> _botones = [];
@@ -29,27 +27,55 @@ class _Casa extends State<CasaWidget> with SingleTickerProviderStateMixin {
 
   late String btnPulsado='todo';
 
+  late List recetasFavs=[];
+
   @override
   void initState() {
     _botones = [
-      ElevatedButton(onPressed: (){btnPulsado='todo'; cambiarRecetas(); setState((){});}, child: Text('Todo')),
-      ElevatedButton(onPressed: (){btnPulsado='España'; cambiarRecetas();setState((){});}, child: Text('España')),
-      ElevatedButton(onPressed: (){btnPulsado='Rumanía'; cambiarRecetas();setState((){});}, child: Text('Rumanía')),
-      ElevatedButton(onPressed: (){btnPulsado='Marruecos'; cambiarRecetas();setState((){});}, child: Text('Marruecos')),
-      ElevatedButton(onPressed: (){btnPulsado='EE.UU'; cambiarRecetas();setState((){});}, child: Text('EE.UU')),
-      ElevatedButton(onPressed: (){btnPulsado='Japón'; cambiarRecetas();setState((){});}, child: Text('Japón')),
+      ElevatedButton(onPressed: (){btnPulsado='todo';  setState((){});}, child: Text('Todo')),
+      ElevatedButton(onPressed: (){btnPulsado='España'; setState((){});}, child: Text('España')),
+      ElevatedButton(onPressed: (){btnPulsado='Rumanía'; setState((){});}, child: Text('Rumanía')),
+      ElevatedButton(onPressed: (){btnPulsado='Marruecos'; setState((){});}, child: Text('Marruecos')),
+      ElevatedButton(onPressed: (){btnPulsado='EE.UU'; setState((){});}, child: Text('EE.UU')),
+      ElevatedButton(onPressed: (){btnPulsado='Japón'; setState((){});}, child: Text('Japón')),
     ];
     _inicializar();
+    _buscaRecetasFavs();
   }
 
   _inicializar() async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
   }
 
+  _buscaRecetasFavs() async{
+    recetasFavs = await conexionDatos.buscarRecetasFavs();
+  }
+
+  Icon establecerFavs(var receta){
+    for(var rf in recetasFavs){
+      if(receta[dR(DatosReceta.nombre)]==rf[dR(DatosReceta.nombre)]){
+        return Icon(Icons.star, color: Colors.orange,);
+      }
+    }
+    return Icon(Icons.star_border);
+  }
+
+  bool esFav(String nombre){
+    for(var rf in recetasFavs){
+      if(rf[dR(DatosReceta.nombre)]==nombre){
+        return true;
+      }
+    }
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
 
     Size media = MediaQuery.of(context).size;
+    setState(() {
+
+    });
 
     return Padding(
         padding: EdgeInsets.only(top: media.height/30),
@@ -93,16 +119,10 @@ class _Casa extends State<CasaWidget> with SingleTickerProviderStateMixin {
                           shrinkWrap: true,
                           itemCount: snapshot.data?.length,
                           itemBuilder: (context, index){
-                            //TIENE QUE LLAMAR A UNA FUNCION QUE CONSTRUYA LOS DATOS
-                            //DEPENDIENDO DE QUE BOTON SE PULSA
                             return GestureDetector(
                                 onTap: (){
                                   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                    return /**RecetaWidget(dificultad: snapshot.data?[index]['dificultad'], tipo: snapshot.data?[index]['tipo'],
-                                      elaboracion: snapshot.data?[index]['elaboracion'], foto: snapshot.data?[index]['foto'], ingredientes: snapshot.data?[index]['ingredientes'],
-                                      nombre: snapshot.data?[index]['nombre'], npersonas: snapshot.data?[index]['npersonas'], origen: snapshot.data?[index]['origen'],
-                                      tiempo: snapshot.data?[index]['tiempo'],
-                                    );**/RecetaWidget(receta: Receta(dificultad: snapshot.data?[index]['dificultad'], tipo: snapshot.data?[index]['tipo'],
+                                    return RecetaWidget(receta: Receta(dificultad: snapshot.data?[index]['dificultad'], tipo: snapshot.data?[index]['tipo'],
                                       elaboracion: snapshot.data?[index]['elaboracion'], foto: snapshot.data?[index]['foto'], ingredientes: snapshot.data?[index]['ingredientes'],
                                       nombre: snapshot.data?[index]['nombre'], npersonas: snapshot.data?[index]['npersonas'], origen: snapshot.data?[index]['origen'],
                                       tiempo: snapshot.data?[index]['tiempo'],));
@@ -127,12 +147,40 @@ class _Casa extends State<CasaWidget> with SingleTickerProviderStateMixin {
                                               ),
                                               Column(
                                                 children: [
+                                                  //ESTRELLA QUE INDICA SI ES FAV
                                                   IconButton(
                                                     onPressed:()async{
-                                                      SharedPreferences prefs = await SharedPreferences.getInstance();
-                                                      print(prefs.getString('username'));
+                                                      if(esFav(snapshot.data?[index][dR(DatosReceta.nombre)])){
+                                                        await conexionDatos.borrarRecetaFav(snapshot.data?[index][dR(DatosReceta.nombre)]);
+                                                      } else {
+                                                        await conexionDatos
+                                                            .crearRecetaFav(
+                                                            Receta(
+                                                              dificultad: snapshot
+                                                                  .data?[index]['dificultad'],
+                                                              tipo: snapshot
+                                                                  .data?[index]['tipo'],
+                                                              elaboracion: snapshot
+                                                                  .data?[index]['elaboracion'],
+                                                              foto: snapshot
+                                                                  .data?[index]['foto'],
+                                                              ingredientes: snapshot
+                                                                  .data?[index]['ingredientes'],
+                                                              nombre: snapshot
+                                                                  .data?[index]['nombre'],
+                                                              npersonas: snapshot
+                                                                  .data?[index]['npersonas'],
+                                                              origen: snapshot
+                                                                  .data?[index]['origen'],
+                                                              tiempo: snapshot
+                                                                  .data?[index]['tiempo'],));
+                                                      }
+                                                      _buscaRecetasFavs();
+                                                      setState(() {});
                                                     },
-                                                    icon: Icon(Icons.star_border_purple500_sharp),)],
+                                                    icon: establecerFavs(snapshot.data?[index])
+                                                  )
+                                                ],
                                               )
                                             ],
                                           ),
