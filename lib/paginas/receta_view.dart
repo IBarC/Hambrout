@@ -1,48 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:hambrout/paginas/casa_view.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+
+import '../models/receta.dart';
 
 class RecetaWidget extends StatefulWidget{
-  String nombre;
-  List ingredientes;
-  int npersonas;
-  String origen;
-  String tiempo;
-  String tipo;
-  String foto;
-  List elaboracion;
-  String dificultad;
+  final Receta receta;
 
-  RecetaWidget({
-   required this.nombre, required this.ingredientes, required this.npersonas,
-    required this.origen, required this.tiempo, required this.tipo, required this.foto,
-    required this.elaboracion, required this.dificultad
+  const RecetaWidget({super.key,
+    required this.receta
   });
 
   @override
   State<StatefulWidget> createState() {
-    return _Receta(dificultad: this.dificultad, elaboracion: this.elaboracion,
-      foto: this.foto, ingredientes: this.ingredientes, nombre: this.nombre,
-      npersonas: this.npersonas, origen: this.origen, tiempo: this.tiempo, tipo: this.tipo
-    );
+    return _Receta(receta: receta);
   }
 }
 
 class _Receta extends State<RecetaWidget>{
-  String nombre;
-  List ingredientes;
-  int npersonas;
-  String origen;
-  String tiempo;
-  String tipo;
-  String foto;
-  List elaboracion;
-  String dificultad;
+  Receta receta;
 
   _Receta({
-    required this.nombre, required this.ingredientes, required this.npersonas,
-    required this.origen, required this.tiempo, required this.tipo, required this.foto,
-    required this.elaboracion, required this.dificultad
+    required this.receta
   });
 
   @override
@@ -63,13 +40,11 @@ class _Receta extends State<RecetaWidget>{
                 children: [ IconButton(onPressed: (){Navigator.pop(context);}, icon: const Icon(Icons.arrow_back_ios_new))
                 ],
               ),
-              Row()
+              Row(children: [Text(receta.nombre)],)
             ],
           ),
         ),
       ) ,
     );
   }
-
-
 }
