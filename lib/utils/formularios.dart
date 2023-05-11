@@ -9,16 +9,31 @@ import 'formatos_disenio.dart';
 final FormatosDisenio formatosDisenio=FormatosDisenio();
 final ConexionDatos conexionDatos = ConexionDatos();
 
-class FormularioLogIn extends StatelessWidget {
+class FormularioLogInWidget extends StatefulWidget{
+
+  @override
+  State<StatefulWidget> createState() {
+    return FormularioLogIn();
+  }
+
+}
+
+class FormularioLogIn extends  State<FormularioLogInWidget>{
   final _formKey = GlobalKey<FormState>();
   final List<TextEditingController> _textEditingControllers = [];
   final List<Widget> _widgets = [];
   late List usuarioRegistrado;
 
-  TextEditingController userContr = TextEditingController(text: "");
-  TextEditingController passwContr = TextEditingController(text: "");
+  late TextEditingController userContr;
+  late TextEditingController passwContr;
 
-  FormularioLogIn(BuildContext context, {Key? key}) : super(key: key) {
+
+
+  @override
+  initState(){
+
+    userContr = TextEditingController(text: "");
+    passwContr = TextEditingController(text: "");
 
     _textEditingControllers.add(userContr);
     _widgets.add(Padding(
@@ -38,8 +53,7 @@ class FormularioLogIn extends StatelessWidget {
         onPressed: () async{
           SharedPreferences prefs = await SharedPreferences.getInstance();
           usuarioRegistrado = await conexionDatos.existeUsuario(userContr.text, passwContr.text);
-          //existeUser=conexionDatos.existeUsu;
-          //_formKey.currentState!.validate();
+
           if(_formKey.currentState!.validate()){
             prefs.setString(dU(DatosUsuario.username), userContr.text);
             prefs.setBool(dU(DatosUsuario.sesionIniciada),true);
@@ -72,13 +86,10 @@ class FormularioLogIn extends StatelessWidget {
         if (value!.isEmpty) {
           return 'El campo no puede estar vacio';
         } else if (usuarioRegistrado.isEmpty){
-          //print("------------------------------------> VACIO --> $usuarioRegistrado");
           return 'Usuario no valido';
         }
         bool exist = false;
         for(int i = 0; i<usuarioRegistrado.length; i++){
-         // print(usuarioRegistrado[i]);
-          //print(usuarioRegistrado[i]['username']);
           if(usuarioRegistrado[i]['username']==userContr.text && usuarioRegistrado[i]['password']==passwContr.text){
             exist = true;
           }
@@ -98,16 +109,28 @@ class FormularioLogIn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: _widgets,
-            ));
+    return SizedBox(
+      child:  Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: _widgets,
+          )),
+    );
   }
+
 }
 
-class FormularioCrearCuenta extends StatelessWidget{
+class FormularioCrearCuentaWidget extends StatefulWidget{
+
+  @override
+  State<StatefulWidget> createState() {
+    return FormularioCrearCuenta();
+  }
+
+}
+
+class FormularioCrearCuenta extends State<FormularioCrearCuentaWidget>{
   final _formKey = GlobalKey<FormState>();
   final List<TextEditingController> _textEditingControllers = [];
   final List<Widget> _widgets = [];
@@ -119,7 +142,8 @@ class FormularioCrearCuenta extends StatelessWidget{
   TextEditingController passwContr = TextEditingController(text: "");
   TextEditingController repePasswContr = TextEditingController(text: "");
 
-  FormularioCrearCuenta(BuildContext context, {Key? key}) : super(key: key) {
+  @override
+  initState() {
 
     _textEditingControllers.add(nombreContr);
     _widgets.add(Padding(

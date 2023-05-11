@@ -23,11 +23,8 @@ class _CrearCuenta extends State<CrearCuentaWidget>{
       floatingActionButton: IconButton(
         icon: Icon(Icons.arrow_back_ios_new),
         onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) {
-                return const LogInWidget();
-              })
+          Navigator.pop(
+              context
           );
         },
       ),
@@ -49,7 +46,7 @@ class _CrearCuenta extends State<CrearCuentaWidget>{
               scrollDirection: Axis.vertical,
               children: [
                 SizedBox(
-                  child: FormularioCrearCuenta(context),
+                  child: FormularioCrearCuentaWidget(),
                 )
               ]
           ),
