@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:hambrout/enum/enumColecciones.dart';
-import 'package:hambrout/enum/enumReceta.dart';
-import 'package:hambrout/enum/enumUsuario.dart';
+import 'package:hambrout/enum/enum_colecciones.dart';
+import 'package:hambrout/enum/enum_receta.dart';
+import 'package:hambrout/enum/enum_usuario.dart';
 import 'package:hambrout/firebase_options.dart';
 import 'package:hambrout/models/receta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -129,6 +129,26 @@ class ConexionDatos {
     } catch(_){
 
     }
+  }
+
+  Future<List> buscarListas() async{
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? username = prefs.getString(dU(DatosUsuario.username));
+
+    List listas = [];
+    CollectionReference collectionReferenceRecetas = FirebaseFirestore.instance.collection(c(Colecciones.userdata));
+
+    QuerySnapshot queryListas = await collectionReferenceRecetas.doc(username).collection(c(Colecciones.listas)).get();
+
+    for (var documento in queryListas.docs) {
+      listas.add(documento.data());
+    }
+    return listas;
   }
 
 }

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hambrout/enum/enumReceta.dart';
+import 'package:hambrout/enum/enum_receta.dart';
 import 'package:hambrout/models/receta.dart';
 import 'package:hambrout/paginas/receta_view.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:math';
 
 import '../firebase/conexion_firebase.dart';
@@ -38,12 +37,12 @@ class _Casa extends State<CasaWidget> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     _botones = [
-      ElevatedButton(onPressed: (){btnPulsado='todo';  setState((){});}, child: Text('Todo')),
-      ElevatedButton(onPressed: (){btnPulsado='España'; setState((){});}, child: Text('España')),
-      ElevatedButton(onPressed: (){btnPulsado='Rumanía'; setState((){});}, child: Text('Rumanía')),
-      ElevatedButton(onPressed: (){btnPulsado='Marruecos'; setState((){});}, child: Text('Marruecos')),
-      ElevatedButton(onPressed: (){btnPulsado='EE.UU'; setState((){});}, child: Text('EE.UU')),
-      ElevatedButton(onPressed: (){btnPulsado='Japón'; setState((){});}, child: Text('Japón')),
+      ElevatedButton(onPressed: (){btnPulsado='todo';  setState((){});}, child: const Text('Todo')),
+      ElevatedButton(onPressed: (){btnPulsado='España'; setState((){});}, child: const Text('España')),
+      ElevatedButton(onPressed: (){btnPulsado='Rumanía'; setState((){});}, child: const Text('Rumanía')),
+      ElevatedButton(onPressed: (){btnPulsado='Marruecos'; setState((){});}, child: const Text('Marruecos')),
+      ElevatedButton(onPressed: (){btnPulsado='EE.UU'; setState((){});}, child: const Text('EE.UU')),
+      ElevatedButton(onPressed: (){btnPulsado='Japón'; setState((){});}, child: const Text('Japón')),
     ];
     ///_inicializar();
     _buscaRecetasFavs();
@@ -53,7 +52,7 @@ class _Casa extends State<CasaWidget> with SingleTickerProviderStateMixin {
 
   Future<Null> refreshList() async {
     refreshKey.currentState?.show();
-    await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(const Duration(seconds: 1));
     setState(() {
       list = List.generate(random.nextInt(10), (i) => "Item $i");
     });
@@ -71,10 +70,10 @@ class _Casa extends State<CasaWidget> with SingleTickerProviderStateMixin {
   Icon establecerFavs(var receta){
     for(var rf in recetasFavs){
       if(receta[dR(DatosReceta.nombre)]==rf[dR(DatosReceta.nombre)]){
-        return Icon(Icons.star, color: Colors.orange,);
+        return const Icon(Icons.star, color: Colors.orange,);
       }
     }
-    return Icon(Icons.star_border);
+    return const Icon(Icons.star_border);
   }
 
   bool esFav(String nombre){
@@ -120,7 +119,7 @@ class _Casa extends State<CasaWidget> with SingleTickerProviderStateMixin {
                 formatosDisenio.separacionNormal(context),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: const [
                     Text('buscador')
                   ],
                 ),
@@ -164,10 +163,10 @@ class _Casa extends State<CasaWidget> with SingleTickerProviderStateMixin {
                                 child: Padding(
                                   padding: EdgeInsets.only(bottom: media.height/30),
                                   child: Container(
-                                      decoration: BoxDecoration(color: Colors.cyanAccent),
+                                      decoration: const BoxDecoration(color: Colors.cyanAccent),
                                       child: Column(
                                         children: [
-                                          Row(children: [Text('Imagen')],),
+                                          Row(children: const [Text('Imagen')],),
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [

@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'dart:math';
 
-import '../enum/enumReceta.dart';
+import '../enum/enum_receta.dart';
 import '../models/receta.dart';
 import '../utils/formularios.dart';
 

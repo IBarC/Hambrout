@@ -1,4 +1,4 @@
-enum Colecciones {userdata, recetas, recetasFavs}
+enum Colecciones {userdata, recetas, recetasFavs, listas}
 
 String c(var dato){
   switch(dato){
@@ -8,6 +8,8 @@ String c(var dato){
       return 'recetas';
     case Colecciones.recetasFavs:
       return 'recetasFavs';
+    case Colecciones.listas:
+      return 'listas';
     default:
       return '';
   }
