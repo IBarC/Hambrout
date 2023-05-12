@@ -3,19 +3,18 @@ import 'package:hambrout/enum/enumUsuario.dart';
 import 'package:hambrout/firebase/conexion_firebase.dart';
 import 'package:hambrout/paginas/app_principal_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../paginas/login_view.dart';
 import 'formatos_disenio.dart';
 
 final FormatosDisenio formatosDisenio=FormatosDisenio();
 final ConexionDatos conexionDatos = ConexionDatos();
 
 class FormularioLogInWidget extends StatefulWidget{
+  const FormularioLogInWidget({super.key});
 
   @override
   State<StatefulWidget> createState() {
     return FormularioLogIn();
   }
-
 }
 
 class FormularioLogIn extends  State<FormularioLogInWidget>{
@@ -27,10 +26,9 @@ class FormularioLogIn extends  State<FormularioLogInWidget>{
   late TextEditingController userContr;
   late TextEditingController passwContr;
 
-
-
   @override
   initState(){
+    super.initState();
 
     userContr = TextEditingController(text: "");
     passwContr = TextEditingController(text: "");
@@ -122,6 +120,7 @@ class FormularioLogIn extends  State<FormularioLogInWidget>{
 }
 
 class FormularioCrearCuentaWidget extends StatefulWidget{
+  const FormularioCrearCuentaWidget({super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -144,6 +143,7 @@ class FormularioCrearCuenta extends State<FormularioCrearCuentaWidget>{
 
   @override
   initState() {
+    super.initState();
 
     _textEditingControllers.add(nombreContr);
     _widgets.add(Padding(
@@ -233,7 +233,6 @@ class FormularioCrearCuenta extends State<FormularioCrearCuentaWidget>{
       controller: controller,
     );
   }
-
 
   TextFormField _createPasswFormField(
       String fieldName, TextEditingController controller) {

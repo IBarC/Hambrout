@@ -30,7 +30,7 @@ class _Receta extends State<RecetaWidget>{
       body: Container(
         height: media.height,
         width: media.width,
-        decoration: BoxDecoration(color: Colors.white70),
+        decoration: const BoxDecoration(color: Colors.white70),
         child: Padding(
           padding: EdgeInsets.all(media.height/50),
           child: Column(
