@@ -46,7 +46,9 @@ class _Lista extends State<ListaWidget>{
     if(elemento.tachado){
       return Row(
         children: [
-          Column(children: [IconButton(onPressed: (){}, icon: Icon(Icons.check_box_outlined))],),
+          Column(children: [IconButton(onPressed: (){
+            if(elementoVacio!=elemento){elemento.tachado=false;}setState(() {});},
+              icon: Icon(Icons.check_box_outlined))],),
           Column(children: [SizedBox(width: tam, child: TextFormField(
               style: const TextStyle(decoration: TextDecoration.lineThrough),
               enabled: false,
@@ -57,7 +59,9 @@ class _Lista extends State<ListaWidget>{
     }
     return Row(
       children: [
-        Column(children: [IconButton(onPressed: (){}, icon: Icon(Icons.crop_square))],),
+        Column(children: [IconButton(onPressed: (){
+          if(elemento.controlador.text!=''){elemento.tachado=true;}setState(() {});},
+            icon: Icon(Icons.crop_square))],),
         Column(children: [SizedBox(width: tam, child: TextFormField(
             controller: elemento.controlador,
             onEditingComplete: (){terminaEdidion(elemento);}),)],)
