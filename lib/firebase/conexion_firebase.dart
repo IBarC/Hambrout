@@ -2,9 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hambrout/enum/enum_colecciones.dart';
+import 'package:hambrout/enum/enum_listas.dart';
 import 'package:hambrout/enum/enum_receta.dart';
 import 'package:hambrout/enum/enum_usuario.dart';
 import 'package:hambrout/firebase_options.dart';
+import 'package:hambrout/models/lista.dart';
 import 'package:hambrout/models/receta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -144,11 +146,57 @@ class ConexionDatos {
     CollectionReference collectionReferenceRecetas = FirebaseFirestore.instance.collection(c(Colecciones.userdata));
 
     QuerySnapshot queryListas = await collectionReferenceRecetas.doc(username).collection(c(Colecciones.listas)).get();
-
     for (var documento in queryListas.docs) {
       listas.add(documento.data());
     }
     return listas;
   }
 
+  Future<List> documentosActualizados() async{
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? username = prefs.getString(dU(DatosUsuario.username));
+
+    List docs = [];
+    CollectionReference collectionReferenceDocumentos = FirebaseFirestore.instance.collection(c(Colecciones.userdata));
+
+    QuerySnapshot queryDocumentos = await collectionReferenceDocumentos.doc(username).collection(c(Colecciones.listas)).get();
+    for (var documento in queryDocumentos.docChanges) {
+      print('------------------${documento.doc}');
+      docs.add(documento.doc);
+    }
+    return docs;
+  }
+/**
+  Future<void> guardarListas(Lista lista) async{
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? username = prefs.getString(dU(DatosUsuario.username));
+
+    try{
+      final collection = FirebaseFirestore.instance.collection(c(Colecciones.userdata));
+
+      final datos = <String, dynamic>{
+        dR(DatosListas.titulo):lista.titulo,
+        dR(DatosListas.elementos):r.dificultad,
+        dR(DatosReceta.elaboracion):r.elaboracion,
+        dR(DatosReceta.foto):r.foto,
+        dR(DatosReceta.ingredientes):r.ingredientes,
+        dR(DatosReceta.npersonas):r.npersonas,
+        dR(DatosReceta.origen):r.origen,
+        dR(DatosReceta.tiempo):r.tiempo,
+        dR(DatosReceta.tipo):r.tipo,
+      };
+      collection.doc(username).collection(c(Colecciones.recetasFavs)).doc(r.nombre).set(datos);
+    } catch(_) {}
+  }
+**/
 }

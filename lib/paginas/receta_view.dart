@@ -37,7 +37,9 @@ class _Receta extends State<RecetaWidget>{
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
-                children: [ IconButton(onPressed: (){Navigator.pop(context);}, icon: const Icon(Icons.arrow_back_ios_new))
+                children: [ IconButton(onPressed: (){
+                  Navigator.pop(context);},
+                    icon: const Icon(Icons.arrow_back_ios_new))
                 ],
               ),
               Row(children: [Text(receta.nombre)],)

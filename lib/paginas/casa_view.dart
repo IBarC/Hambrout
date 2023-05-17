@@ -23,7 +23,7 @@ var random;
 
 var refreshKey = GlobalKey<RefreshIndicatorState>();
 
-class _Casa extends State<CasaWidget> with SingleTickerProviderStateMixin {
+class _Casa extends State<CasaWidget> {
 
   late List<ElevatedButton> _botones = [];
 
@@ -50,13 +50,13 @@ class _Casa extends State<CasaWidget> with SingleTickerProviderStateMixin {
     refreshList();
   }
 
-  Future<Null> refreshList() async {
+  Future<void> refreshList() async {
     refreshKey.currentState?.show();
     await Future.delayed(const Duration(seconds: 1));
     setState(() {
       list = List.generate(random.nextInt(10), (i) => "Item $i");
     });
-    return null;
+    //return null;
   }
 
   ///_inicializar() async{
@@ -84,6 +84,8 @@ class _Casa extends State<CasaWidget> with SingleTickerProviderStateMixin {
     }
     return false;
   }
+
+
 
   Future<List?>? cambiarRecetas()async {
     recetas = await conexionDatos.buscarRecetas();

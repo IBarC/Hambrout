@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hambrout/paginas/app_principal_view.dart';
 import 'package:hambrout/paginas/login_view.dart';
 
 void main() {
@@ -17,9 +18,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Hambrout',
       //home: const LogInWidget(),
-      initialRoute: '/',
+      initialRoute: '/login',
       routes: {
-        '/': (context) => const LogInWidget(),
+        '/login': (context) => const LogInWidget(),
+        '/principal' : (context) => const AppPrincipalWidget()
       },
     );
   }

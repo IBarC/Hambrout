@@ -20,33 +20,12 @@ class PaginaBaseWidget extends StatefulWidget{
     return _PaginaBase();
   }
 }
-
+//int _indiceSeleccionado = 0;
 class _PaginaBase extends State<PaginaBaseWidget>{
 
-  late PersistentTabController _controller;
-
+  PersistentTabController _controller = PersistentTabController(initialIndex: 0);
 
   FormatosDisenio formatosDisenio=FormatosDisenio();
-
-  int _indiceSeleccionado = 0;
-
-  void _cambiarPantalla(int indice){
-    setState(() {
-      _indiceSeleccionado = indice;
-    });
-  }
-
-  final List<Future<List>> _funciones = [
-    conexionDatos.buscarRecetas()
-  ];
-
-  static const List<Widget> _pages = <Widget>[
-    FueraWidget(),
-    CasaWidget(),
-    FavsWidget(),
-    ListasWidget(),
-    AyudaWidget()
-  ];
 
   static final List<PersistentBottomNavBarItem> _navBarsItems = <PersistentBottomNavBarItem>[
     PersistentBottomNavBarItem(
@@ -81,15 +60,40 @@ class _PaginaBase extends State<PaginaBaseWidget>{
     ),
   ];
 
+  static const List<Widget> _pages = <Widget>[
+    FueraWidget(),
+    CasaWidget(),
+    FavsWidget(),
+    ListasWidget(),
+    AyudaWidget()
+  ];
+
   @override
   Widget build(BuildContext context) {
 
     _controller = PersistentTabController(initialIndex: 0);
 
     Size media = MediaQuery.of(context).size;
-    double tamanioIcono = media.width/14;
+    ///double tamanioIcono = media.width/14;
 
     return PersistentTabView(
+    /**onItemSelected: (index){
+        _controller.index=index;
+        (_controller.index==2) ? setState((){_controller.index=index;}): null ;
+        print('----------------${_controller.index}');
+      },
+
+      (index){
+
+        //con que el documento no este vacio ya ha habido cambio y hace setstate
+        if(index==2) {
+          //manda que busque en favs
+          setState(() {
+            _controller.index = index;
+            print('---------Pulsa 2');
+          });
+        }
+      },**/
       context,
       controller: _controller,
       screens: _pages,
@@ -104,7 +108,7 @@ class _PaginaBase extends State<PaginaBaseWidget>{
         borderRadius: BorderRadius.circular(10.0),
         colorBehindNavBar: Colors.white,
       ),
-      popAllScreensOnTapOfSelectedTab: true,
+      popAllScreensOnTapOfSelectedTab: false,
       popActionScreens: PopActionScreensType.all,
       itemAnimationProperties: const ItemAnimationProperties( // Navigation Bar's items animation properties.
         duration: Duration(milliseconds: 200),

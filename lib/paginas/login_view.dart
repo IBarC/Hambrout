@@ -28,6 +28,17 @@ class _LogIn extends State<LogInWidget>{
   late TextEditingController userContr;
   late TextEditingController passwContr;
 
+  void cambiarPagina(){
+    ///MaterialPageRoute(builder: (context)=> LogInWidget()).isActive()
+    /**Navigator.of(context).pushNamed('/principal').then((value) => (
+        MaterialPageRoute(builder: (context)=> LogInWidget()).isActive) ?
+    Navigator.removeRoute(context, Route<dynamic> route));**/
+    Navigator.of(context).pushNamedAndRemoveUntil(
+      '/principal',
+        (route)=>false
+    );
+  }
+
   @override
   initState(){
     userContr = TextEditingController(text: "");
@@ -56,12 +67,13 @@ class _LogIn extends State<LogInWidget>{
         if(_formKey.currentState!.validate()){
           prefs.setString(dU(DatosUsuario.username), userContr.text);
           prefs.setBool(dU(DatosUsuario.sesionIniciada),true);
-          Navigator.push(
+          cambiarPagina();
+          /**Navigator.pushReplacement(
             context!,
             MaterialPageRoute(builder: (context) {
               return const AppPrincipalWidget();
             }),
-          );
+          );**/
         }
       },
       child: const Text('Iniciar sesión'),

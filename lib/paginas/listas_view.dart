@@ -16,6 +16,17 @@ class ListasWidget extends StatefulWidget{
 
 class _Listas extends State<ListasWidget>{
 
+  List creaElementos(var elementos){
+    List lista = [];
+    for(var elemento in elementos){
+      lista.add(Elemento(
+          nombre: elemento[l(DatosListas.nombre)],
+          tachado: elemento[l(DatosListas.tachado)],
+          controlador: TextEditingController(text: elemento[l(DatosListas.nombre)],)));
+    }
+    return lista;
+  }
+
     @override
     Widget build(BuildContext context) {
 
@@ -53,7 +64,7 @@ class _Listas extends State<ListasWidget>{
                                       return ListaWidget(
                                           lista: Lista(
                                               titulo: snapshot.data?[index][l(DatosListas.titulo)],
-                                              elementos: snapshot.data?[index][l(DatosListas.elementos)]
+                                              elementos: creaElementos(snapshot.data?[index][l(DatosListas.elementos)])
                                           ));
                                     }));
                                   },
