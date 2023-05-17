@@ -8,6 +8,7 @@ import 'package:hambrout/enum/enum_usuario.dart';
 import 'package:hambrout/firebase_options.dart';
 import 'package:hambrout/models/lista.dart';
 import 'package:hambrout/models/receta.dart';
+import 'package:hambrout/paginas/casa_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ConexionDatos {
@@ -171,7 +172,7 @@ class ConexionDatos {
     }
     return docs;
   }
-/**
+
   Future<void> guardarListas(Lista lista) async{
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp(
@@ -185,18 +186,25 @@ class ConexionDatos {
       final collection = FirebaseFirestore.instance.collection(c(Colecciones.userdata));
 
       final datos = <String, dynamic>{
-        dR(DatosListas.titulo):lista.titulo,
-        dR(DatosListas.elementos):r.dificultad,
-        dR(DatosReceta.elaboracion):r.elaboracion,
-        dR(DatosReceta.foto):r.foto,
-        dR(DatosReceta.ingredientes):r.ingredientes,
-        dR(DatosReceta.npersonas):r.npersonas,
-        dR(DatosReceta.origen):r.origen,
-        dR(DatosReceta.tiempo):r.tiempo,
-        dR(DatosReceta.tipo):r.tipo,
+        l(DatosListas.titulo):lista.titulo,
+        l(DatosListas.elementos):guardarElementos(lista.elementos)
       };
-      collection.doc(username).collection(c(Colecciones.recetasFavs)).doc(r.nombre).set(datos);
+      collection.doc(username).collection(c(Colecciones.listas)).doc(lista.titulo).set(datos);
     } catch(_) {}
   }
-**/
+
+  List<Map<String, dynamic>> guardarElementos(List elementos){
+    List<Map<String, dynamic>> lista = [];
+
+    for(var elem in elementos){
+      if(elem.controlador.text!=''){
+        lista.add({
+          l(DatosListas.nombre):elem.controlador.text,
+          l(DatosListas.tachado):elem.tachado
+        });
+      }
+    }
+
+    return lista;
+  }
 }

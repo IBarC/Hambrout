@@ -10,11 +10,11 @@ class ListasWidget extends StatefulWidget{
 
   @override
   State<StatefulWidget> createState() {
-    return _Listas();
+    return ListasState();
   }
 }
 
-class _Listas extends State<ListasWidget>{
+class ListasState extends State<ListasWidget>{
 
   List creaElementos(var elementos){
     List lista = [];
@@ -25,6 +25,10 @@ class _Listas extends State<ListasWidget>{
           controlador: TextEditingController(text: elemento[l(DatosListas.nombre)],)));
     }
     return lista;
+  }
+
+  refreshPage() {
+    setState(() {});
   }
 
     @override

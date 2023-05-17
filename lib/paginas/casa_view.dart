@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hambrout/enum/enum_receta.dart';
+import 'package:hambrout/main.dart';
 import 'package:hambrout/models/receta.dart';
+import 'package:hambrout/paginas/favs_view.dart';
 import 'package:hambrout/paginas/receta_view.dart';
 import 'dart:math';
 
@@ -12,22 +14,19 @@ class CasaWidget extends StatefulWidget{
 
   @override
   State<StatefulWidget> createState() {
-    return _Casa();
+    return CasaState();
   }
 }
-
-final ConexionDatos conexionDatos = ConexionDatos();
 
 var list;
 var random;
 
 var refreshKey = GlobalKey<RefreshIndicatorState>();
 
-class _Casa extends State<CasaWidget> {
+class CasaState extends State<CasaWidget> {
 
   late List<ElevatedButton> _botones = [];
 
-  final List<Widget> _widgets = [];
   late List recetas=[];
 
   late String btnPulsado='todo';
@@ -36,6 +35,7 @@ class _Casa extends State<CasaWidget> {
 
   @override
   void initState() {
+    super.initState();
     _botones = [
       ElevatedButton(onPressed: (){btnPulsado='todo';  setState((){});}, child: const Text('Todo')),
       ElevatedButton(onPressed: (){btnPulsado='España'; setState((){});}, child: const Text('España')),
@@ -44,7 +44,6 @@ class _Casa extends State<CasaWidget> {
       ElevatedButton(onPressed: (){btnPulsado='EE.UU'; setState((){});}, child: const Text('EE.UU')),
       ElevatedButton(onPressed: (){btnPulsado='Japón'; setState((){});}, child: const Text('Japón')),
     ];
-    ///_inicializar();
     _buscaRecetasFavs();
     random = Random();
     refreshList();
@@ -58,10 +57,6 @@ class _Casa extends State<CasaWidget> {
     });
     //return null;
   }
-
-  ///_inicializar() async{
-    ///SharedPreferences prefs = await SharedPreferences.getInstance();
-  ///}
 
   _buscaRecetasFavs() async{
     recetasFavs = await conexionDatos.buscarRecetasFavs();
@@ -85,8 +80,6 @@ class _Casa extends State<CasaWidget> {
     return false;
   }
 
-
-
   Future<List?>? cambiarRecetas()async {
     recetas = await conexionDatos.buscarRecetas();
     if(btnPulsado=='todo'){
@@ -99,6 +92,12 @@ class _Casa extends State<CasaWidget> {
       }
     }
     return recetasActuales;
+  }
+
+  refreshPage() {
+    setState(() {
+      _buscaRecetasFavs();
+    });
   }
 
   @override
@@ -209,6 +208,7 @@ class _Casa extends State<CasaWidget> {
                                                                 tiempo: snapshot
                                                                     .data?[index]['tiempo'],));
                                                         }
+                                                        keys[1].currentState!.refreshPage();
                                                         _buscaRecetasFavs();
                                                         setState(() {});
                                                       },

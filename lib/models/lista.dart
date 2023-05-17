@@ -14,4 +14,5 @@ class Elemento{
   TextEditingController controlador;
 
   Elemento({required this.nombre, required this.tachado, required this.controlador});
+
 }

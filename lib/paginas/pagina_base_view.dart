@@ -10,6 +10,8 @@ import '../firebase/conexion_firebase.dart';
 
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
+import '../main.dart';
+
 final ConexionDatos conexionDatos = ConexionDatos();
 
 class PaginaBaseWidget extends StatefulWidget{
@@ -60,13 +62,7 @@ class _PaginaBase extends State<PaginaBaseWidget>{
     ),
   ];
 
-  static const List<Widget> _pages = <Widget>[
-    FueraWidget(),
-    CasaWidget(),
-    FavsWidget(),
-    ListasWidget(),
-    AyudaWidget()
-  ];
+
 
   @override
   Widget build(BuildContext context) {
@@ -76,50 +72,52 @@ class _PaginaBase extends State<PaginaBaseWidget>{
     Size media = MediaQuery.of(context).size;
     ///double tamanioIcono = media.width/14;
 
-    return PersistentTabView(
-    /**onItemSelected: (index){
-        _controller.index=index;
-        (_controller.index==2) ? setState((){_controller.index=index;}): null ;
-        print('----------------${_controller.index}');
-      },
+    return Container(
+      child: PersistentTabView(
+        /**onItemSelected: (index){
+            _controller.index=index;
+            (_controller.index==2) ? setState((){_controller.index=index;}): null ;
+            print('----------------${_controller.index}');
+            },
 
-      (index){
+            (index){
 
-        //con que el documento no este vacio ya ha habido cambio y hace setstate
-        if(index==2) {
-          //manda que busque en favs
-          setState(() {
+            //con que el documento no este vacio ya ha habido cambio y hace setstate
+            if(index==2) {
+            //manda que busque en favs
+            setState(() {
             _controller.index = index;
             print('---------Pulsa 2');
-          });
-        }
-      },**/
-      context,
-      controller: _controller,
-      screens: _pages,
-      items: _navBarsItems,
-      confineInSafeArea: true,
-      backgroundColor: Colors.white, // Default is Colors.white.
-      handleAndroidBackButtonPress: true, // Default is true.
-      resizeToAvoidBottomInset: true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
-      stateManagement: true, // Default is true.
-      hideNavigationBarWhenKeyboardShows: true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
-      decoration: NavBarDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-        colorBehindNavBar: Colors.white,
+            });
+            }
+            },**/
+        context,
+        controller: _controller,
+        screens: pages,
+        items: _navBarsItems,
+        confineInSafeArea: true,
+        backgroundColor: Colors.white, // Default is Colors.white.
+        handleAndroidBackButtonPress: true, // Default is true.
+        resizeToAvoidBottomInset: true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
+        stateManagement: true, // Default is true.
+        hideNavigationBarWhenKeyboardShows: true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
+        decoration: NavBarDecoration(
+          borderRadius: BorderRadius.circular(10.0),
+          colorBehindNavBar: Colors.white,
+        ),
+        popAllScreensOnTapOfSelectedTab: false,
+        popActionScreens: PopActionScreensType.all,
+        itemAnimationProperties: const ItemAnimationProperties( // Navigation Bar's items animation properties.
+          duration: Duration(milliseconds: 200),
+          curve: Curves.ease,
+        ),
+        screenTransitionAnimation: const ScreenTransitionAnimation( // Screen transition animation on change of selected tab.
+          animateTabTransition: true,
+          curve: Curves.ease,
+          duration: Duration(milliseconds: 200),
+        ),
+        navBarStyle: NavBarStyle.style6, // Choose the nav bar style with this property.
       ),
-      popAllScreensOnTapOfSelectedTab: false,
-      popActionScreens: PopActionScreensType.all,
-      itemAnimationProperties: const ItemAnimationProperties( // Navigation Bar's items animation properties.
-        duration: Duration(milliseconds: 200),
-        curve: Curves.ease,
-      ),
-      screenTransitionAnimation: const ScreenTransitionAnimation( // Screen transition animation on change of selected tab.
-        animateTabTransition: true,
-        curve: Curves.ease,
-        duration: Duration(milliseconds: 200),
-      ),
-      navBarStyle: NavBarStyle.style6, // Choose the nav bar style with this property.
     );
   }
 }

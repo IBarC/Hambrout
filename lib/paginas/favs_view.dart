@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
 import 'package:hambrout/paginas/receta_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -8,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:math';
 
 import '../enum/enum_receta.dart';
+import '../main.dart';
 import '../models/receta.dart';
 import '../utils/formularios.dart';
 
@@ -16,7 +16,7 @@ class FavsWidget extends StatefulWidget{
 
   @override
   State<StatefulWidget> createState() {
-    return _Favs();
+    return FavsState();
   }
 }
 
@@ -25,7 +25,7 @@ var random;
 
 var refreshKey = GlobalKey<RefreshIndicatorState>();
 
-class _Favs extends State<FavsWidget>{
+class FavsState extends State<FavsWidget>{
 
   late List<ElevatedButton> _botones = [];
 
@@ -62,10 +62,6 @@ class _Favs extends State<FavsWidget>{
     //return null;
   }
 
-  ///_inicializar() async{
-    ///SharedPreferences prefs = await SharedPreferences.getInstance();
-  ///}**/
-
   _buscaRecetasFavs() async{
     recetasFavs = await conexionDatos.buscarRecetasFavs();
   }
@@ -84,6 +80,9 @@ class _Favs extends State<FavsWidget>{
     return recetasActuales;
   }
 
+  refreshPage() {
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -169,7 +168,7 @@ class _Favs extends State<FavsWidget>{
                                                   IconButton(
                                                       onPressed:()async{
                                                         await conexionDatos.borrarRecetaFav(snapshot.data?[index][dR(DatosReceta.nombre)]);
-                                                        //_buscaRecetasFavs();
+                                                        keys[0].currentState!.refreshPage();
                                                         setState(() {});
                                                       },
                                                       icon: const Icon(Icons.star, color: Colors.orange,)

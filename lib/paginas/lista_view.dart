@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hambrout/main.dart';
+import 'package:hambrout/paginas/casa_view.dart';
+import 'package:hambrout/paginas/pagina_base_view.dart';
 
 import '../enum/enum_listas.dart';
 import '../models/lista.dart';
@@ -39,13 +42,13 @@ class _Lista extends State<ListaWidget>{
     lista.elementos.add(Elemento(nombre: '', tachado: false, controlador: TextEditingController(text: '')));
   }
 
-  Widget crearElemento(Elemento elemento, double tam){
+  Widget crearElemento(var elemento, double tam){
     if(elemento.tachado){
       return Row(
         children: [
           Column(children: [IconButton(onPressed: (){}, icon: Icon(Icons.check_box_outlined))],),
           Column(children: [SizedBox(width: tam, child: TextFormField(
-              style: TextStyle(decoration: TextDecoration.lineThrough),
+              style: const TextStyle(decoration: TextDecoration.lineThrough),
               enabled: false,
               controller: elemento.controlador,
               onEditingComplete: (){terminaEdidion(elemento);}),)],)
@@ -61,10 +64,6 @@ class _Lista extends State<ListaWidget>{
       ],
     );
   }
-/**
-  void convertirLista(){
-    for()
-  }**/
 
   @override
   Widget build(BuildContext context) {
@@ -85,6 +84,11 @@ class _Lista extends State<ListaWidget>{
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [ IconButton(onPressed: (){
+                  if(lista.elementos.last.controlador.text==''){
+                    lista.elementos.removeLast();
+                  }
+                  conexionDatos.guardarListas(lista);
+                  keys[2].currentState!.refreshPage();
                   Navigator.pop(context);
                   }, icon: const Icon(Icons.arrow_back_ios_new))
                 ],
