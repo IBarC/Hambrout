@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hambrout/main.dart';
 import 'package:hambrout/paginas/casa_view.dart';
 import 'package:hambrout/paginas/pagina_base_view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../enum/enum_listas.dart';
 import '../models/lista.dart';
@@ -26,6 +27,9 @@ class _Lista extends State<ListaWidget>{
 
   late TextEditingController tituloController;
 
+  late int id;
+  late SharedPreferences prefs;
+
   void terminaEdidion(Elemento elemento){
     if(lista.elementos.last==elemento && elemento.controlador.text !=''){
       lista.elementos.add(elementoVacio);
@@ -41,9 +45,20 @@ class _Lista extends State<ListaWidget>{
     super.initState();
     lista.elementos.add(Elemento(nombre: '', tachado: false, controlador: TextEditingController(text: '')));
     tituloController = TextEditingController(text: lista.titulo);
+    inicializar();
+  }
+
+  void inicializar()async{
+    prefs = await SharedPreferences.getInstance();
+    id=prefs.getInt(l(DatosListas.id))??3;
+  }
+
+  void aumentarId(){
+
   }
 
   Widget crearElemento(var elemento, double tam){
+
     if(elemento.tachado){
       return Row(
         children: [
@@ -70,6 +85,17 @@ class _Lista extends State<ListaWidget>{
     );
   }
 
+  bool esListaVacia(){
+    if(lista.titulo==''){
+      for(var e in lista.elementos){
+        if(e.nombre!=''){
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     Size media = MediaQuery.of(context).size;
@@ -93,8 +119,12 @@ class _Lista extends State<ListaWidget>{
                     lista.elementos.removeLast();
                   }
                   lista.titulo=tituloController.text;
-                  conexionDatos.guardarListas(lista);
-                  keys[2].currentState!.refreshPage();
+                  if(!esListaVacia()) {
+                    prefs.setInt(l(DatosListas.id), id++);
+                    lista.id = prefs.getInt(l(DatosListas.id))!;
+                    conexionDatos.guardarListas(lista);
+                    keys[2].currentState!.refreshPage();
+                  }
                   Navigator.pop(context);
                   }, icon: const Icon(Icons.arrow_back_ios_new))
                 ],

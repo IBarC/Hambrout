@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hambrout/enum/enum_listas.dart';
 import 'package:hambrout/paginas/lista_view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/lista.dart';
 import '../utils/formularios.dart';
@@ -15,6 +16,19 @@ class ListasWidget extends StatefulWidget{
 }
 
 class ListasState extends State<ListasWidget>{
+
+  late int id;
+
+  @override
+  void initState() {
+    super.initState();
+    inicializar();
+  }
+
+  void inicializar()async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    id=prefs.getInt(l(DatosListas.id))??1;
+  }
 
   List creaElementos(var elementos){
     List lista = [];
@@ -99,7 +113,18 @@ class ListasState extends State<ListasWidget>{
             )
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: (){},
+          onPressed: (){
+            id++;
+
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return ListaWidget(
+                  lista: Lista(
+                      titulo: '',
+                      elementos: [Elemento(nombre: '', tachado: false, controlador: TextEditingController(text: ''))],
+                      id: id
+                  ));
+            }));
+          },
           tooltip: 'Crear una lista nueva',
           child: const Icon(Icons.add),
         ),

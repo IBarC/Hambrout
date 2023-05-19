@@ -207,20 +207,21 @@ class ConexionDatos {
 
       final datos = <String, dynamic>{
         l(DatosListas.titulo):lista.titulo,
-        l(DatosListas.elementos):guardarElementos(lista.elementos)
+        l(DatosListas.elementos):guardarElementos(lista.elementos),
+        l(DatosListas.id):lista.id
       };
-      collection.doc(username).collection(c(Colecciones.listas)).doc(lista.id).set(datos);
+      collection.doc(username).collection(c(Colecciones.listas)).doc(lista.id.toString()).set(datos);
     } catch(_) {}
   }
 
   List<Map<String, dynamic>> guardarElementos(List elementos){
     List<Map<String, dynamic>> lista = [];
-
     for(var elem in elementos){
       if(elem.controlador.text!=''){
         lista.add({
           l(DatosListas.nombre):elem.controlador.text,
-          l(DatosListas.tachado):elem.tachado
+          l(DatosListas.tachado):elem.tachado,
+
         });
       }
     }
