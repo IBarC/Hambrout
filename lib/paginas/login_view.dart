@@ -19,15 +19,6 @@ class LogInWidget extends StatefulWidget{
 class _LogIn extends State<LogInWidget>{
   FormatosDisenio formatosDisenio=FormatosDisenio();
 
-
-  final _formKey = GlobalKey<FormState>();
-  final List<TextEditingController> _textEditingControllers = [];
-  final List<Widget> _widgets = [];
-  late List usuarioRegistrado;
-
-  late TextEditingController userContr;
-  late TextEditingController passwContr;
-
   void cambiarPagina(){
     ///MaterialPageRoute(builder: (context)=> LogInWidget()).isActive()
     /**Navigator.of(context).pushNamed('/principal').then((value) => (
@@ -40,95 +31,10 @@ class _LogIn extends State<LogInWidget>{
   }
 
   @override
-  initState(){
-    userContr = TextEditingController(text: "");
-    passwContr = TextEditingController(text: "");
-
-    _textEditingControllers.add(userContr);
-    _widgets.add(Padding(
-      padding: const EdgeInsets.all(0),
-      child: _createTextFormField("Usuario", userContr),
-    ));
-    _widgets.add(const SizedBox(height: 7));
-
-    _textEditingControllers.add(passwContr);
-    _widgets.add(Padding(padding: const EdgeInsets.all(0),
-      child: _createTextFormField("Contraseña", passwContr),
-    ));
-    _widgets.add(const SizedBox(height: 7));
-
-    _widgets.add(ElevatedButton(
-      style: formatosDisenio.btnBurdeos(),
-      onPressed: () async{
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        usuarioRegistrado = await conexionDatos.existeUsuario(userContr.text, passwContr.text);
-        //existeUser=conexionDatos.existeUsu;
-        //_formKey.currentState!.validate();
-        if(_formKey.currentState!.validate()){
-          prefs.setString(dU(DatosUsuario.username), userContr.text);
-          prefs.setBool(dU(DatosUsuario.sesionIniciada),true);
-          cambiarPagina();
-          /**Navigator.pushReplacement(
-            context!,
-            MaterialPageRoute(builder: (context) {
-              return const AppPrincipalWidget();
-            }),
-          );**/
-        }
-      },
-      child: const Text('Iniciar sesión'),
-    ),
-    );
-  }
-
-  bool oscurecerTexto(String fieldName){
-    if(fieldName=="Contraseña"){
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  TextFormField _createTextFormField(
-      String fieldName, TextEditingController controller) {
-    return TextFormField(
-      validator: (value) {
-
-        if (value!.isEmpty) {
-          return 'El campo no puede estar vacio';
-        } else if (usuarioRegistrado.isEmpty){
-          //print("------------------------------------> VACIO --> $usuarioRegistrado");
-          return 'Usuario no valido';
-        }
-        bool exist = false;
-        for(int i = 0; i<usuarioRegistrado.length; i++){
-          // print(usuarioRegistrado[i]);
-          //print(usuarioRegistrado[i]['username']);
-          if(usuarioRegistrado[i]['username']==userContr.text && usuarioRegistrado[i]['password']==passwContr.text){
-            exist = true;
-          }
-        }
-        if(!exist){
-          return 'Usuario no valido';
-        }
-        return null;
-      },
-      decoration: InputDecoration(
-          hintText: fieldName,
-          labelText: fieldName),
-      controller: controller,
-      obscureText: oscurecerTexto(fieldName),
-    );
-  }
-
-  @override
   Widget build(BuildContext context) {
 
   Size media = MediaQuery.of(context).size;
   double tamanioLogo = media.width/12;
-
-
-
 
   return Scaffold(
       body: Container(

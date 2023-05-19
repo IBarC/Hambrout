@@ -34,7 +34,7 @@ class ConexionDatos {
     }
   }
 
-  Future<List> existeUsuario(String username, String password) async {
+  Future<List> buscarUsuarios(String username, String password) async {
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
@@ -49,6 +49,26 @@ class ConexionDatos {
       usuario.add(documento.data());
     }
     return usuario;
+  }
+
+  Future<bool> existeUsuario(String username) async {
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+
+    List usuario = [];
+    CollectionReference collectionReferenceUsuario = FirebaseFirestore.instance.collection(c(Colecciones.userdata));
+
+    QuerySnapshot queryUsuario = await collectionReferenceUsuario.get();
+
+    for (var documento in queryUsuario.docs) {
+      var dato = documento.data() as Map<String, dynamic>;
+      if(dato[dU(DatosUsuario.username)]==username){
+        return true;
+      }
+    }
+    return false;
   }
 
   Future<List> buscarRecetas() async{
@@ -189,7 +209,7 @@ class ConexionDatos {
         l(DatosListas.titulo):lista.titulo,
         l(DatosListas.elementos):guardarElementos(lista.elementos)
       };
-      collection.doc(username).collection(c(Colecciones.listas)).doc(lista.titulo).set(datos);
+      collection.doc(username).collection(c(Colecciones.listas)).doc(lista.id).set(datos);
     } catch(_) {}
   }
 

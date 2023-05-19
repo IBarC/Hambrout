@@ -1,4 +1,4 @@
-enum DatosListas{titulo, elementos, nombre, tachado}
+enum DatosListas{titulo, elementos, nombre, tachado, id}
 
 String l(var dato){
   switch(dato){
@@ -10,6 +10,8 @@ String l(var dato){
       return 'nombre';
     case DatosListas.tachado:
       return 'tachado';
+    case DatosListas.id:
+      return 'id';
     default:
       return '';
   }

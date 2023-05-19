@@ -68,7 +68,8 @@ class ListasState extends State<ListasWidget>{
                                       return ListaWidget(
                                           lista: Lista(
                                               titulo: snapshot.data?[index][l(DatosListas.titulo)],
-                                              elementos: creaElementos(snapshot.data?[index][l(DatosListas.elementos)])
+                                              elementos: creaElementos(snapshot.data?[index][l(DatosListas.elementos)]),
+                                              id: snapshot.data?[index][l(DatosListas.id)]
                                           ));
                                     }));
                                   },

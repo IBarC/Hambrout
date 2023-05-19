@@ -24,7 +24,7 @@ class _Lista extends State<ListaWidget>{
 
   final Elemento elementoVacio = Elemento(nombre: '', tachado: false, controlador: TextEditingController(text: ''));
 
-  //TextFormField texto = TextFormField(controller: TextEditingController(text: ""),);
+  late TextEditingController tituloController;
 
   void terminaEdidion(Elemento elemento){
     if(lista.elementos.last==elemento && elemento.controlador.text !=''){
@@ -40,6 +40,7 @@ class _Lista extends State<ListaWidget>{
   void initState() {
     super.initState();
     lista.elementos.add(Elemento(nombre: '', tachado: false, controlador: TextEditingController(text: '')));
+    tituloController = TextEditingController(text: lista.titulo);
   }
 
   Widget crearElemento(var elemento, double tam){
@@ -47,7 +48,7 @@ class _Lista extends State<ListaWidget>{
       return Row(
         children: [
           Column(children: [IconButton(onPressed: (){
-            if(elementoVacio!=elemento){elemento.tachado=false;}setState(() {});},
+            elemento.tachado=false;setState(() {});},
               icon: Icon(Icons.check_box_outlined))],),
           Column(children: [SizedBox(width: tam, child: TextFormField(
               style: const TextStyle(decoration: TextDecoration.lineThrough),
@@ -60,7 +61,7 @@ class _Lista extends State<ListaWidget>{
     return Row(
       children: [
         Column(children: [IconButton(onPressed: (){
-          if(elemento.controlador.text!=''){elemento.tachado=true;}setState(() {});},
+          elemento.tachado=true;setState(() {});},
             icon: Icon(Icons.crop_square))],),
         Column(children: [SizedBox(width: tam, child: TextFormField(
             controller: elemento.controlador,
@@ -91,13 +92,16 @@ class _Lista extends State<ListaWidget>{
                   if(lista.elementos.last.controlador.text==''){
                     lista.elementos.removeLast();
                   }
+                  lista.titulo=tituloController.text;
                   conexionDatos.guardarListas(lista);
                   keys[2].currentState!.refreshPage();
                   Navigator.pop(context);
                   }, icon: const Icon(Icons.arrow_back_ios_new))
                 ],
               ),
-              Row(children: [Text(lista.titulo)],),
+              Row(children: [SizedBox(width: tamanioTextField, child: TextFormField(
+                  controller: tituloController,
+                  ),)],),
               SizedBox(
                 height: (tamanioElemento)*lista.elementos.length,
                 child: ListView.builder(

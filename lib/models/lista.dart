@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 class Lista{
   String titulo;
   List elementos;
+  String id;
 
-  Lista({required this.titulo, required this.elementos});
+  Lista({required this.titulo, required this.elementos, required this.id});
 }
 
 class Elemento{
