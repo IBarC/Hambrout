@@ -29,10 +29,11 @@ class _Lista extends State<ListaWidget>{
 
   late int id;
   late SharedPreferences prefs;
+  late double tamanioListView;
 
   void terminaEdidion(Elemento elemento){
     if(lista.elementos.last==elemento && elemento.controlador.text !=''){
-      lista.elementos.add(elementoVacio);
+      lista.elementos.add(Elemento(nombre: '', tachado: false, controlador: TextEditingController(text: '')));
       setState(() {});
     } else {
       FocusScopeNode currentFocus = FocusScope.of(context);
@@ -51,10 +52,6 @@ class _Lista extends State<ListaWidget>{
   void inicializar()async{
     prefs = await SharedPreferences.getInstance();
     id=prefs.getInt(l(DatosListas.id))??3;
-  }
-
-  void aumentarId(){
-
   }
 
   Widget crearElemento(var elemento, double tam){
@@ -92,8 +89,10 @@ class _Lista extends State<ListaWidget>{
           return false;
         }
       }
+      return true;
+    } else {
+      return false;
     }
-    return true;
   }
 
   @override
@@ -101,7 +100,8 @@ class _Lista extends State<ListaWidget>{
     Size media = MediaQuery.of(context).size;
 
     double tamanioElemento = media.height/19;
-    double tamanioTextField = media.width/1.2;
+    double tamanioTextField = media.width/1.5;
+    tamanioListView = (tamanioElemento)*lista.elementos.length;
 
     return Scaffold(
       body: Container(
@@ -120,10 +120,12 @@ class _Lista extends State<ListaWidget>{
                   }
                   lista.titulo=tituloController.text;
                   if(!esListaVacia()) {
-                    prefs.setInt(l(DatosListas.id), id++);
-                    lista.id = prefs.getInt(l(DatosListas.id))!;
+                    //prefs.setInt(l(DatosListas.id), id);
+                    //lista.id = prefs.getInt(l(DatosListas.id))!;
                     conexionDatos.guardarListas(lista);
                     keys[2].currentState!.refreshPage();
+                  } else{
+                    //prefs.setInt(l(DatosListas.id), id--);
                   }
                   Navigator.pop(context);
                   }, icon: const Icon(Icons.arrow_back_ios_new))
@@ -133,7 +135,7 @@ class _Lista extends State<ListaWidget>{
                   controller: tituloController,
                   ),)],),
               SizedBox(
-                height: (tamanioElemento)*lista.elementos.length,
+                height: tamanioListView,
                 child: ListView.builder(
                     shrinkWrap: false,
                     itemCount: lista.elementos.length,

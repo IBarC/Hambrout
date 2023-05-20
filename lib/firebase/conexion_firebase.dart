@@ -11,6 +11,8 @@ import 'package:hambrout/models/receta.dart';
 import 'package:hambrout/paginas/casa_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../main.dart';
+
 class ConexionDatos {
 
   Future<void> crearUsuario(String nombre, String apellidos, String username, String password) async {
@@ -168,11 +170,13 @@ class ConexionDatos {
 
     QuerySnapshot queryListas = await collectionReferenceRecetas.doc(username).collection(c(Colecciones.listas)).get();
     for (var documento in queryListas.docs) {
-      listas.add(documento.data());
+      if(documento.id!='id'){
+        listas.add(documento.data());
+      }
     }
     return listas;
   }
-
+/**
   Future<List> documentosActualizados() async{
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp(
@@ -191,7 +195,7 @@ class ConexionDatos {
       docs.add(documento.doc);
     }
     return docs;
-  }
+  }**/
 
   Future<void> guardarListas(Lista lista) async{
     WidgetsFlutterBinding.ensureInitialized();
@@ -205,13 +209,30 @@ class ConexionDatos {
     try{
       final collection = FirebaseFirestore.instance.collection(c(Colecciones.userdata));
 
+      List id = [];
+      CollectionReference crId = FirebaseFirestore.instance.collection(c(Colecciones.userdata));
+
+      QuerySnapshot queryListas = await crId.doc(username).collection(c(Colecciones.listas)).get();
+      for (var documento in queryListas.docs) {
+        if(documento.id=='id'){
+          id.add(documento.data());
+          break;
+        }
+      }
+      id[0]['id']++;
+
+      lista.id=id[0]['id'];
+
       final datos = <String, dynamic>{
         l(DatosListas.titulo):lista.titulo,
         l(DatosListas.elementos):guardarElementos(lista.elementos),
         l(DatosListas.id):lista.id
       };
       collection.doc(username).collection(c(Colecciones.listas)).doc(lista.id.toString()).set(datos);
+      collection.doc(username).collection(c(Colecciones.listas)).doc(l(DatosListas.id)).set({'id':lista.id});
+
     } catch(_) {}
+    keys[2].currentState!.refreshPage();
   }
 
   List<Map<String, dynamic>> guardarElementos(List elementos){

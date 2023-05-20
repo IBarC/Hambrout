@@ -114,14 +114,12 @@ class ListasState extends State<ListasWidget>{
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: (){
-            id++;
-
             Navigator.push(context, MaterialPageRoute(builder: (context) {
               return ListaWidget(
                   lista: Lista(
                       titulo: '',
-                      elementos: [Elemento(nombre: '', tachado: false, controlador: TextEditingController(text: ''))],
-                      id: id
+                      elementos: [],
+                      id: 1
                   ));
             }));
           },
