@@ -55,49 +55,48 @@ class ListasState extends State<ListasWidget>{
         body: Padding(
             padding: EdgeInsets.all(media.height/30),
             child:
-                  FutureBuilder(
-                      future: conexionDatos.buscarListas(),//esta es la funcion que tiene que devolver la lista necesaria de datos
-                      builder: ((context, snapshot){
-                        if(snapshot.hasData){
-                          return ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: snapshot.data?.length,
-                              itemBuilder: (context, index){
-                                return GestureDetector(
-                                  onTap: (){
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                      return ListaWidget(
-                                          esNueva: false,
-                                          lista: Lista(
-                                              titulo: snapshot.data?[index][l(DatosListas.titulo)],
-                                              elementos: creaElementos(snapshot.data?[index][l(DatosListas.elementos)]),
-                                              id: snapshot.data?[index][l(DatosListas.id)]
-                                          ));
-                                    }));
-                                  },
-                                  child: Padding(
-                                      padding: EdgeInsets.only(bottom: media.height/30),
-                                      child: Container(
-                                        decoration: const BoxDecoration(color: Colors.cyanAccent),
-                                        child: Column(
-                                          children: [
-                                            Text(snapshot.data?[index][l(DatosListas.titulo)]),
-                                            Text(snapshot.data?[index][l(DatosListas.elementos)][0][l(DatosListas.nombre)])
-                                          ],
-                                        ),
-                                      )
+            FutureBuilder(
+                future: conexionDatos.buscarListas(),//esta es la funcion que tiene que devolver la lista necesaria de datos
+                builder: ((context, snapshot){
+                  if(snapshot.hasData){
+                    return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: snapshot.data?.length,
+                        itemBuilder: (context, index){
+                          return GestureDetector(
+                            onTap: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                return ListaWidget(
+                                    esNueva: false,
+                                    lista: Lista(
+                                        titulo: snapshot.data?[index][l(DatosListas.titulo)],
+                                        elementos: creaElementos(snapshot.data?[index][l(DatosListas.elementos)]),
+                                        id: snapshot.data?[index][l(DatosListas.id)]
+                                    ));
+                              }));
+                              },
+                            child: Padding(
+                                padding: EdgeInsets.only(bottom: media.height/30),
+                                child: Container(
+                                  decoration: const BoxDecoration(color: Colors.cyanAccent),
+                                  child: Column(
+                                    children: [
+                                      Text(snapshot.data?[index][l(DatosListas.titulo)]),
+                                      Text(snapshot.data?[index][l(DatosListas.elementos)][0][l(DatosListas.nombre)])
+                                    ],
                                   ),
-                                );
-                              });
-                        } else {
-                          return const Center(
-                            child: CircularProgressIndicator(),
+                                )
+                            ),
                           );
-                        }
-                      })
-
-                  )
-            ),
+                        });
+                  } else {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                })
+            )
+        ),
         floatingActionButton: FloatingActionButton(
           onPressed: (){
             Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -115,5 +114,4 @@ class ListasState extends State<ListasWidget>{
         ),
       );
     }
-
 }

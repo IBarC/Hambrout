@@ -31,7 +31,7 @@ class ConexionDatos {
         dU(DatosUsuario.password): password
       };
       collection.doc(username).set(datos);
-      collection.doc(username).collection(c(Colecciones.listas)).doc('id').set({'id':1});
+      collection.doc(username).collection(c(Colecciones.listas)).doc('id').set({'id':0});
     } catch(_){
 
     }
@@ -52,6 +52,26 @@ class ConexionDatos {
       usuario.add(documento.data());
     }
     return usuario;
+  }
+
+  Future<Map<String,dynamic>> getUsuario(String username) async {
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+
+    List usuario = [];
+    CollectionReference collectionReferenceUsuario = FirebaseFirestore.instance.collection(c(Colecciones.userdata));
+
+    QuerySnapshot queryUsuario = await collectionReferenceUsuario.get();
+
+    for (var documento in queryUsuario.docs) {
+      var dato = documento.data() as Map<String, dynamic>;
+      if(dato[dU(DatosUsuario.username)]==username){
+        return dato;
+      }
+    }
+    return {};
   }
 
   Future<bool> existeUsuario(String username) async {
