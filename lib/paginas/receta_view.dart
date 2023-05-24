@@ -1,3 +1,4 @@
+import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
 
 import '../models/receta.dart';
@@ -21,6 +22,23 @@ class _Receta extends State<RecetaWidget>{
   _Receta({
     required this.receta
   });
+
+  @override
+  void initState() {
+    super.initState();
+    BackButtonInterceptor.add(interceptor);
+  }
+
+  @override
+  void dispose() {
+    BackButtonInterceptor.remove(interceptor);
+    super.dispose();
+  }
+
+  bool interceptor(bool stopDefaultButtonEvent, RouteInfo info) {
+    Navigator.pop(context);
+    return true;
+  }
 
   @override
   Widget build(BuildContext context) {

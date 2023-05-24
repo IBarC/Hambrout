@@ -5,14 +5,16 @@ import 'package:hambrout/paginas/ayuda_view.dart';
 import 'package:hambrout/paginas/casa_view.dart';
 import 'package:hambrout/paginas/favs_view.dart';
 import 'package:hambrout/paginas/fuera_view.dart';
+import 'package:hambrout/paginas/lista_view.dart';
 import 'package:hambrout/paginas/listas_view.dart';
 import 'package:hambrout/paginas/login_view.dart';
 
 final GlobalKey<CasaState> casaKey = GlobalKey();
 final GlobalKey<FavsState> favKey = GlobalKey();
 final GlobalKey<ListasState> listKey = GlobalKey();
+final GlobalKey<ListaState> listaKey = GlobalKey();
 
-List<GlobalKey<dynamic>> keys =[casaKey,favKey,listKey];
+List<GlobalKey<dynamic>> keys =[casaKey,favKey,listKey, listaKey];
 
  List<Widget> pages = <Widget>[
   FueraWidget(),
@@ -21,8 +23,6 @@ List<GlobalKey<dynamic>> keys =[casaKey,favKey,listKey];
   ListasWidget(key: keys[2],),
   AyudaWidget()
 ];
-
-
 
 void main() {
   runApp( MyApp());

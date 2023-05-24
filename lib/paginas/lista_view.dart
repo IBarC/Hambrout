@@ -3,33 +3,60 @@ import 'package:hambrout/main.dart';
 import 'package:hambrout/paginas/casa_view.dart';
 import 'package:hambrout/paginas/pagina_base_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:back_button_interceptor/back_button_interceptor.dart';
 
 import '../enum/enum_listas.dart';
 import '../models/lista.dart';
 
 class ListaWidget extends StatefulWidget{
   final Lista lista;
+  final bool esNueva;
 
-  const ListaWidget({super.key, required this.lista});
+  const ListaWidget({super.key, required this.lista, required this.esNueva});
 
   @override
   State<StatefulWidget> createState() {
-    return _Lista(lista: lista);
+    return ListaState(lista: lista, esNueva: esNueva);
   }
 }
 
-class _Lista extends State<ListaWidget>{
+class ListaState extends State<ListaWidget>{
   Lista lista;
+  bool esNueva;
 
-  _Lista({required this.lista});
+  ListaState({required this.lista, required this.esNueva});
 
   final Elemento elementoVacio = Elemento(nombre: '', tachado: false, controlador: TextEditingController(text: ''));
 
   late TextEditingController tituloController;
+  final _formKey = GlobalKey<FormState>();
 
   late int id;
   late SharedPreferences prefs;
   late double tamanioListView;
+
+  @override
+  void initState() {
+    super.initState();
+    if(lista.elementos[0]!=elementoVacio){
+      lista.elementos.add(Elemento(nombre: '', tachado: false, controlador: TextEditingController(text: '')));
+    }
+    tituloController = TextEditingController(text: lista.titulo);
+    inicializar();
+    BackButtonInterceptor.add(interceptor);
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    BackButtonInterceptor.remove(interceptor);
+    super.dispose();
+  }
+
+  bool interceptor(bool stopDefaultButtonEvent, RouteInfo info) {
+    Navigator.pop(context);
+    return true;
+  }
 
   void terminaEdidion(Elemento elemento){
     if(lista.elementos.last==elemento && elemento.controlador.text !=''){
@@ -39,14 +66,6 @@ class _Lista extends State<ListaWidget>{
       FocusScopeNode currentFocus = FocusScope.of(context);
       currentFocus.unfocus();
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    lista.elementos.add(Elemento(nombre: '', tachado: false, controlador: TextEditingController(text: '')));
-    tituloController = TextEditingController(text: lista.titulo);
-    inicializar();
   }
 
   void inicializar()async{
@@ -83,16 +102,12 @@ class _Lista extends State<ListaWidget>{
   }
 
   bool esListaVacia(){
-    if(lista.titulo==''){
-      for(var e in lista.elementos){
-        if(e.nombre!=''){
-          return false;
-        }
+    for(var e in lista.elementos){
+      if(e.nombre!=''){
+        return false;
       }
-      return true;
-    } else {
-      return false;
     }
+    return true;
   }
 
   @override
@@ -120,10 +135,14 @@ class _Lista extends State<ListaWidget>{
                   }
                   lista.titulo=tituloController.text;
                   if(!esListaVacia()) {
-                    //prefs.setInt(l(DatosListas.id), id);
-                    //lista.id = prefs.getInt(l(DatosListas.id))!;
-                    conexionDatos.guardarListas(lista);
-                    keys[2].currentState!.refreshPage();
+                    if(_formKey.currentState!.validate()){
+                      if(esNueva){
+                        conexionDatos.guardarListaNueva(lista);
+                      } else {
+                        conexionDatos.guardarListas(lista);
+                      }
+                      keys[2].currentState!.refreshPage();
+                    }
                   } else{
                     //prefs.setInt(l(DatosListas.id), id--);
                   }
@@ -131,9 +150,16 @@ class _Lista extends State<ListaWidget>{
                   }, icon: const Icon(Icons.arrow_back_ios_new))
                 ],
               ),
-              Row(children: [SizedBox(width: tamanioTextField, child: TextFormField(
-                  controller: tituloController,
-                  ),)],),
+              Form(
+                key: _formKey,
+                child: Row(children: [SizedBox(width: tamanioTextField, child: TextFormField(
+                  controller: tituloController, validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'El titulo necesita un valor';
+                  }
+                  return null;},
+                ),)],),
+              ),
               SizedBox(
                 height: tamanioListView,
                 child: ListView.builder(

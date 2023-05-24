@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
 import 'package:hambrout/paginas/ayuda_view.dart';
 import 'package:hambrout/paginas/casa_view.dart';
@@ -62,35 +65,32 @@ class _PaginaBase extends State<PaginaBaseWidget>{
     ),
   ];
 
+  @override
+  void initState() {
+    super.initState();
+    BackButtonInterceptor.add(myInterceptor);
+  }
 
+  @override
+  void dispose() {
+    BackButtonInterceptor.remove(myInterceptor);
+    super.dispose();
+  }
+
+  bool myInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
+    if(_controller.index==0){
+      exit(0);
+    }
+    return true;
+  }
 
   @override
   Widget build(BuildContext context) {
-
-    _controller = PersistentTabController(initialIndex: 0);
-
     Size media = MediaQuery.of(context).size;
     ///double tamanioIcono = media.width/14;
 
     return Container(
       child: PersistentTabView(
-        /**onItemSelected: (index){
-            _controller.index=index;
-            (_controller.index==2) ? setState((){_controller.index=index;}): null ;
-            print('----------------${_controller.index}');
-            },
-
-            (index){
-
-            //con que el documento no este vacio ya ha habido cambio y hace setstate
-            if(index==2) {
-            //manda que busque en favs
-            setState(() {
-            _controller.index = index;
-            print('---------Pulsa 2');
-            });
-            }
-            },**/
         context,
         controller: _controller,
         screens: pages,

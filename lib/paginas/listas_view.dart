@@ -50,24 +50,11 @@ class ListasState extends State<ListasWidget>{
 
       Size media = MediaQuery.of(context).size;
       setState(() {});
-
+  
       return Scaffold(
         body: Padding(
-            padding: EdgeInsets.only(top: media.height/30),
-            child: ListView(
-              //shrinkWrap: true,
-                padding: const EdgeInsets.all(40),
-                scrollDirection: Axis.vertical,
-                children: [
-                  formatosDisenio.separacionNormal(context),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Text('buscador')
-                    ],
-                  ),
-                  formatosDisenio.separacionNormal(context),
-                  //const SizedBox(width: 10,),
+            padding: EdgeInsets.all(media.height/30),
+            child:
                   FutureBuilder(
                       future: conexionDatos.buscarListas(),//esta es la funcion que tiene que devolver la lista necesaria de datos
                       builder: ((context, snapshot){
@@ -80,6 +67,7 @@ class ListasState extends State<ListasWidget>{
                                   onTap: (){
                                     Navigator.push(context, MaterialPageRoute(builder: (context) {
                                       return ListaWidget(
+                                          esNueva: false,
                                           lista: Lista(
                                               titulo: snapshot.data?[index][l(DatosListas.titulo)],
                                               elementos: creaElementos(snapshot.data?[index][l(DatosListas.elementos)]),
@@ -109,16 +97,15 @@ class ListasState extends State<ListasWidget>{
                       })
 
                   )
-                ]
-            )
-        ),
+            ),
         floatingActionButton: FloatingActionButton(
           onPressed: (){
             Navigator.push(context, MaterialPageRoute(builder: (context) {
               return ListaWidget(
+                esNueva: true,
                   lista: Lista(
                       titulo: '',
-                      elementos: [],
+                      elementos: [Elemento(nombre: '', tachado: false, controlador: TextEditingController(text: ''))],
                       id: 1
                   ));
             }));

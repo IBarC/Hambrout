@@ -176,8 +176,8 @@ class ConexionDatos {
     }
     return listas;
   }
-/**
-  Future<List> documentosActualizados() async{
+
+  Future<void> guardarListas(Lista lista) async{
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
@@ -186,18 +186,22 @@ class ConexionDatos {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? username = prefs.getString(dU(DatosUsuario.username));
 
-    List docs = [];
-    CollectionReference collectionReferenceDocumentos = FirebaseFirestore.instance.collection(c(Colecciones.userdata));
+    try{
+      final collection = FirebaseFirestore.instance.collection(c(Colecciones.userdata));
 
-    QuerySnapshot queryDocumentos = await collectionReferenceDocumentos.doc(username).collection(c(Colecciones.listas)).get();
-    for (var documento in queryDocumentos.docChanges) {
-      print('------------------${documento.doc}');
-      docs.add(documento.doc);
-    }
-    return docs;
-  }**/
+      final datos = <String, dynamic>{
+        l(DatosListas.titulo):lista.titulo,
+        l(DatosListas.elementos):guardarElementos(lista.elementos),
+        l(DatosListas.id):lista.id
+      };
+      collection.doc(username).collection(c(Colecciones.listas)).doc(lista.id.toString()).set(datos);
+      collection.doc(username).collection(c(Colecciones.listas)).doc(l(DatosListas.id)).set({'id':lista.id});
 
-  Future<void> guardarListas(Lista lista) async{
+    } catch(_) {}
+    keys[2].currentState!.refreshPage();
+  }
+
+  Future<void> guardarListaNueva(Lista lista) async{
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
