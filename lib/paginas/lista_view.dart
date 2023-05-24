@@ -103,6 +103,7 @@ class ListaState extends State<ListaWidget>{
 
   bool esListaVacia(){
     for(var e in lista.elementos){
+      e.nombre=e.controlador.text;
       if(e.nombre!=''){
         return false;
       }
@@ -139,7 +140,7 @@ class ListaState extends State<ListaWidget>{
                       if(esNueva){
                         conexionDatos.guardarListaNueva(lista);
                       } else {
-                        conexionDatos.guardarListas(lista);
+                        conexionDatos.guardarLista(lista);
                       }
                       keys[2].currentState!.refreshPage();
                     }

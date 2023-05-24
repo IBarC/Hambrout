@@ -31,6 +31,7 @@ class ConexionDatos {
         dU(DatosUsuario.password): password
       };
       collection.doc(username).set(datos);
+      collection.doc(username).collection(c(Colecciones.listas)).doc('id').set({'id':1});
     } catch(_){
 
     }
@@ -177,7 +178,7 @@ class ConexionDatos {
     return listas;
   }
 
-  Future<void> guardarListas(Lista lista) async{
+  Future<void> guardarLista(Lista lista) async{
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
