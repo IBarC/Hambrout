@@ -27,6 +27,9 @@ class FormularioLogIn extends  State<FormularioLogInWidget>{
   late TextEditingController userContr;
   late TextEditingController passwContr;
 
+  String nombreUsuario='';
+  String apellidosUsuario='';
+
   @override
   initState(){
     super.initState();
@@ -56,6 +59,8 @@ class FormularioLogIn extends  State<FormularioLogInWidget>{
           if(_formKey.currentState!.validate()){
             prefs.setString(dU(DatosUsuario.username), userContr.text);
             prefs.setBool(dU(DatosUsuario.sesionIniciada),true);
+            prefs.setString(dU(DatosUsuario.nombre), nombreUsuario);
+            prefs.setString(dU(DatosUsuario.apellidos), apellidosUsuario);
             Navigator.push(
               context!,
               MaterialPageRoute(builder: (context) {
@@ -90,6 +95,8 @@ class FormularioLogIn extends  State<FormularioLogInWidget>{
         bool exist = false;
         for(int i = 0; i<usuarioRegistrado.length; i++){
           if(usuarioRegistrado[i]['username']==userContr.text && usuarioRegistrado[i]['password']==passwContr.text){
+            nombreUsuario=usuarioRegistrado[i][dU(DatosUsuario.nombre)];
+            apellidosUsuario = usuarioRegistrado[i][dU(DatosUsuario.apellidos)];
             exist = true;
           }
         }

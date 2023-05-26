@@ -60,7 +60,6 @@ class ConexionDatos {
       options: DefaultFirebaseOptions.currentPlatform,
     );
 
-    List usuario = [];
     CollectionReference collectionReferenceUsuario = FirebaseFirestore.instance.collection(c(Colecciones.userdata));
 
     QuerySnapshot queryUsuario = await collectionReferenceUsuario.get();
