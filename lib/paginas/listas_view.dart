@@ -60,6 +60,7 @@ class ListasState extends State<ListasWidget>{
                 builder: ((context, snapshot){
                   if(snapshot.hasData){
                     return ListView.builder(
+                      reverse: true,
                         shrinkWrap: true,
                         itemCount: snapshot.data?.length,
                         itemBuilder: (context, index){

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hambrout/enum/enum_usuario.dart';
 import 'package:hambrout/paginas/datos_cuenta_view.dart';
+import 'package:hambrout/paginas/login_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../utils/formularios.dart';
@@ -32,6 +33,52 @@ class AyudaState extends State<AyudaWidget>{
     nombre=prefs.getString(dU(DatosUsuario.nombre))??'';
     setState(() {});
   }
+
+  void accionCerrarOEliminar(){
+    prefs.setString(dU(DatosUsuario.username), '');
+    prefs.setBool(dU(DatosUsuario.sesionIniciada),false);
+    prefs.setString(dU(DatosUsuario.nombre), '');
+    prefs.setString(dU(DatosUsuario.apellidos), '');
+    Navigator.of(context, rootNavigator: true)
+        .pushAndRemoveUntil(
+      MaterialPageRoute(
+        builder: (BuildContext context) {
+          return const LogInWidget();
+        },),
+          (_) => false,);
+  }
+
+  void alertCerarSesion(){
+    showDialog(
+        context: context,
+        builder: (context){
+          return AlertDialog(
+            title: Text('Se cerrará sesión'),
+            content: Text('¿Quiere cerrar la sesión de la cuenta $username?'),
+            actions: <Widget>[
+              ElevatedButton(onPressed: accionCerrarOEliminar, child: Text('Si')),
+              ElevatedButton(onPressed: (){Navigator.pop(context);}, child: Text('No'))
+            ],
+          );
+        }
+    );
+  }
+
+  void alertEliminarCuenta(){
+    showDialog(
+        context: context,
+        builder: (context){
+          return AlertDialog(
+            title: Text('Se eliminará la cuenta'),
+            content: Text('¡Cuidado! La cuenta de $username está a punto de ser eliminada. ¿Está seguro de su decisión?'),
+            actions: <Widget>[
+              ElevatedButton(onPressed: (){conexionDatos.borrarUsuario(username);accionCerrarOEliminar();}, child: Text('Si')),
+              ElevatedButton(onPressed: (){Navigator.pop(context);}, child: Text('No'))
+            ],
+          );
+        }
+    );
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -52,7 +99,27 @@ class AyudaState extends State<AyudaWidget>{
               }));},
               child: Container(
                 decoration: const BoxDecoration(color: Colors.cyanAccent),
-                child: Text('Datos de la cuenta'),
+                child: const Text('Datos de la cuenta'),
+              ),
+            ),
+            formatosDisenio.separacionNormal(context),
+            GestureDetector(
+              onTap:(){
+                alertCerarSesion();
+              },
+              child: Container(
+                decoration: const BoxDecoration(color: Colors.cyanAccent),
+                child: const Text('Cerrar sesión'),
+              ),
+            ),
+            formatosDisenio.separacionNormal(context),
+            GestureDetector(
+              onTap:(){
+                alertEliminarCuenta();
+              },
+              child: Container(
+                decoration: const BoxDecoration(color: Colors.cyanAccent),
+                child: const Text('Eliminar cuenta'),
               ),
             ),
             formatosDisenio.separacionNormal(context),
@@ -60,23 +127,7 @@ class AyudaState extends State<AyudaWidget>{
               onTap:(){},
               child: Container(
                 decoration: const BoxDecoration(color: Colors.cyanAccent),
-                child: Text('Cerrar sesión'),
-              ),
-            ),
-            formatosDisenio.separacionNormal(context),
-            GestureDetector(
-              onTap:(){},
-              child: Container(
-                decoration: const BoxDecoration(color: Colors.cyanAccent),
-                child: Text('Eliminar cuenta'),
-              ),
-            ),
-            formatosDisenio.separacionNormal(context),
-            GestureDetector(
-              onTap:(){},
-              child: Container(
-                decoration: const BoxDecoration(color: Colors.cyanAccent),
-                child: Text('Creditos'),
+                child: const Text('Creditos'),
               ),),],
         )
       )

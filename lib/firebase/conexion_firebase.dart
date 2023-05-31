@@ -93,6 +93,21 @@ class ConexionDatos {
     return false;
   }
 
+
+  Future<void> borrarUsuario(String nombre) async {
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+
+    try{
+      final collection = FirebaseFirestore.instance.collection(c(Colecciones.userdata));
+      await collection.doc(nombre).delete();
+    } catch(_){
+
+    }
+  }
+
   Future<List> buscarRecetas() async{
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp(

@@ -32,34 +32,51 @@ class FavsState extends State<FavsWidget>{
   //final List<Widget> _widgets = [];
   late List recetas=[];
 
-  late String btnPulsado='todo';
-
   late List recetasFavs=[];
+
+  late String nombreBtnPulsado='Todo';
+  late ElevatedButton btnTodo = ElevatedButton(onPressed: (){cambiarBtnPulsado('Todo',btnTodoS,btnTodo);}, child: const Text('Todo'));
+  late ElevatedButton btnEsp =  ElevatedButton(onPressed: (){cambiarBtnPulsado('España', btnEspS, btnEsp);}, child: const Text('España'));
+  late ElevatedButton btnRum = ElevatedButton(onPressed: (){cambiarBtnPulsado('Rumanía', btnRumS, btnRum);}, child: const Text('Rumanía'));
+  late ElevatedButton btnMarr = ElevatedButton(onPressed: (){cambiarBtnPulsado('Marruecos', btnMarrS, btnMarr);}, child: const Text('Marruecos'));
+  late ElevatedButton btnEEUU = ElevatedButton(onPressed: (){cambiarBtnPulsado('EE.UU', btnEEUUS, btnEEUU);}, child: const Text('EE.UU'));
+  late ElevatedButton btnJap = ElevatedButton(onPressed: (){cambiarBtnPulsado('Japón', btnJapS, btnJap);}, child: const Text('Japón'));
+
+  late ElevatedButton btnTodoS=ElevatedButton(onPressed:(){}, child: const Text('Todo'), style:ElevatedButton.styleFrom(backgroundColor: Colors.purple),);
+  late ElevatedButton btnEspS = ElevatedButton(onPressed:(){}, child: const Text('España'), style:ElevatedButton.styleFrom(backgroundColor: Colors.purple),);
+  late ElevatedButton btnRumS= ElevatedButton(onPressed:(){}, child: const Text('Rumanía'), style:ElevatedButton.styleFrom(backgroundColor: Colors.purple),);
+  late ElevatedButton btnMarrS = ElevatedButton(onPressed:(){}, child: const Text('Marruecos'), style:ElevatedButton.styleFrom(backgroundColor: Colors.purple),);
+  late ElevatedButton btnEEUUS = ElevatedButton(onPressed:(){}, child: const Text('EE.UU'), style:ElevatedButton.styleFrom(backgroundColor: Colors.purple),);
+  late ElevatedButton btnJapS = ElevatedButton(onPressed:(){}, child: const Text('Japón'), style:ElevatedButton.styleFrom(backgroundColor: Colors.purple),);
+
+
+  late ElevatedButton btnActual=btnTodo;
+  late ElevatedButton btnActualS=btnTodoS;
 
   @override
   void initState() {
     super.initState();
     _botones = [
-      ElevatedButton(onPressed: (){btnPulsado='todo';  setState((){});}, child: const Text('Todo')),
-      ElevatedButton(onPressed: (){btnPulsado='España'; setState((){});}, child: const Text('España')),
-      ElevatedButton(onPressed: (){btnPulsado='Rumanía'; setState((){});}, child: const Text('Rumanía')),
-      ElevatedButton(onPressed: (){btnPulsado='Marruecos'; setState((){});}, child: const Text('Marruecos')),
-      ElevatedButton(onPressed: (){btnPulsado='EE.UU'; setState((){});}, child: const Text('EE.UU')),
-      ElevatedButton(onPressed: (){btnPulsado='Japón'; setState((){});}, child: const Text('Japón')),
+      btnTodoS,btnEsp,btnRum,btnMarr,btnEEUU,btnJap
     ];
     //_inicializar();
     _buscaRecetasFavs();
     random = Random();
-    refreshList();
   }
 
-  Future<void> refreshList() async {
-    refreshKey.currentState?.show();
-    await Future.delayed(const Duration(seconds: 1));
-    setState(() {
-      list = List.generate(random.nextInt(10), (i) => "Item $i");
-    });
-    //return null;
+  void cambiarBtnPulsado(String nombre,ElevatedButton btnPulsadoS, ElevatedButton btnPulsado){
+    if(btnPulsadoS!=btnActualS){
+      nombreBtnPulsado = nombre;
+      int indiceBtn = _botones.indexOf(btnActualS); //Coge el indice del btn señalado en este momento
+      _botones.remove(btnActualS); // lo quita de la lista
+      _botones.insert(indiceBtn, btnActual); //mete el btn sin señalar
+      int indiceBtnPulsado = _botones.indexOf(btnPulsado);
+      _botones.remove(btnPulsado);
+      _botones.insert(indiceBtnPulsado, btnPulsadoS);
+      btnActual=btnPulsado;
+      btnActualS=btnPulsadoS;
+      setState(() {});
+    }
   }
 
   _buscaRecetasFavs() async{
@@ -68,15 +85,20 @@ class FavsState extends State<FavsWidget>{
 
   Future<List?>? cambiarRecetas()async {
     recetas = await conexionDatos.buscarRecetasFavs();
-    if(btnPulsado=='todo'){
+    if(nombreBtnPulsado=='Todo'){
       return recetas;
     }
     List recetasActuales = [];
     for(var receta in recetas){
-      if(receta[dR(DatosReceta.origen)]==btnPulsado){
+      if(receta[dR(DatosReceta.origen)]==nombreBtnPulsado){
         recetasActuales.add(receta);
       }
     }
+
+    if(recetasActuales.isEmpty){
+      return ['Ups! No hemos encontrado datos aquí'];
+    }
+
     return recetasActuales;
   }
 
@@ -91,59 +113,47 @@ class FavsState extends State<FavsWidget>{
     setState(() {});
 
     return Padding(
-      padding: EdgeInsets.only(top: media.height/30),
-      child: list != null
-        ? RefreshIndicator(
-          key: refreshKey,
-          onRefresh: refreshList,
-          child: ListView(
-            //shrinkWrap: true,
-              padding: const EdgeInsets.all(40),
-              scrollDirection: Axis.vertical,
-              children: [
-                formatosDisenio.separacionNormal(context),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Text('buscador')
-                  ],
-                ),
-                formatosDisenio.separacionNormal(context),
-                Container(
-                  height: media.height/20,
-                  child: ListView.builder(
-                    itemCount: _botones.length,
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index){
-                      return Row(
-                        children: [
-                          Container(
-                            child: _botones[index],
-                          ),
-                          const SizedBox(width: 10,)
-                        ],
-                      );
-                    },
-                  ),
-                ),
-                //const SizedBox(width: 10,),
-                FutureBuilder(
-                    future: cambiarRecetas(),//esta es la funcion que tiene que devolver la lista necesaria de datos
-                    builder: ((context, snapshot){
-                      if(snapshot.hasData){
-                        return ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: snapshot.data?.length,
-                            itemBuilder: (context, index){
-                              return GestureDetector(
-                                onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                    return RecetaWidget(receta: Receta(dificultad: snapshot.data?[index]['dificultad'], tipo: snapshot.data?[index]['tipo'],
-                                      elaboracion: snapshot.data?[index]['elaboracion'], foto: snapshot.data?[index]['foto'], ingredientes: snapshot.data?[index]['ingredientes'],
-                                      nombre: snapshot.data?[index]['nombre'], npersonas: snapshot.data?[index]['npersonas'], origen: snapshot.data?[index]['origen'],
-                                      tiempo: snapshot.data?[index]['tiempo'],));
-                                  }));
+        padding: EdgeInsets.only(top: 40, left: 20, right: 20),
+        child: Wrap(
+            children: [
+              formatosDisenio.separacionNormal(context),
+              Container(
+                height: media.height/20,
+                child: ListView.builder(
+                  itemCount: _botones.length,
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index){
+                    return Row(
+                      children: [
+                        Container(
+                          child: _botones[index],
+                        ),
+                        const SizedBox(width: 10,)
+                      ],
+                    );
+                  },
+              ),
+            ),
+            FutureBuilder(
+                future: cambiarRecetas(),//esta es la funcion que tiene que devolver la lista necesaria de datos
+                builder: ((context, snapshot){
+                  if(snapshot.hasData){
+                    return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: snapshot.data?.length,
+                        itemBuilder: (context, index){
+                          if(snapshot.data?[0] == 'Ups! No hemos encontrado datos aquí'){
+                            return Text('Ups! No hemos encontrado datos aquí');
+                          } else {
+                            return GestureDetector(
+                              onTap: (){
+                                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                  return RecetaWidget(receta: Receta(dificultad: snapshot.data?[index]['dificultad'], tipo: snapshot.data?[index]['tipo'],
+                                    elaboracion: snapshot.data?[index]['elaboracion'], foto: snapshot.data?[index]['foto'], ingredientes: snapshot.data?[index]['ingredientes'],
+                                    nombre: snapshot.data?[index]['nombre'], npersonas: snapshot.data?[index]['npersonas'], origen: snapshot.data?[index]['origen'],
+                                    tiempo: snapshot.data?[index]['tiempo'],));
+                                    }));
                                 },
                                 child: Padding(
                                   padding: EdgeInsets.only(bottom: media.height/30),
@@ -181,7 +191,7 @@ class FavsState extends State<FavsWidget>{
                                       )
                                   ),
                                 ),
-                              );
+                              );}
                             });
                       } else {
                         return const Center(
@@ -193,7 +203,6 @@ class FavsState extends State<FavsWidget>{
                 )
               ]
           )
-      ) : const Center(child: CircularProgressIndicator(),)
     );
   }
 

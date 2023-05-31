@@ -61,11 +61,9 @@ class FormularioLogIn extends  State<FormularioLogInWidget>{
             prefs.setBool(dU(DatosUsuario.sesionIniciada),true);
             prefs.setString(dU(DatosUsuario.nombre), nombreUsuario);
             prefs.setString(dU(DatosUsuario.apellidos), apellidosUsuario);
-            Navigator.push(
+            Navigator.pushNamed(
               context!,
-              MaterialPageRoute(builder: (context) {
-                return const AppPrincipalWidget();
-              }),
+              '/principal',
             );
           }
         },

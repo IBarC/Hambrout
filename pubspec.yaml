@@ -41,6 +41,11 @@ dependencies:
   cloud_firestore: ^4.5.2
   back_button_interceptor: ^6.0.2
 
+  dio: ^4.0.0
+  flutter_polyline_points: ^0.2.6
+  google_maps_flutter: ^2.0.2
+  geolocator: ^8.2.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
