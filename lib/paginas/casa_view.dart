@@ -31,21 +31,22 @@ class CasaState extends State<CasaWidget> {
 
   late List recetasFavs=[];
 
+  final TextStyle estiloTxt=const TextStyle(fontSize: 20);
+
   late String nombreBtnPulsado='Todo';
-  late ElevatedButton btnTodo = ElevatedButton(onPressed: (){cambiarBtnPulsado('Todo',btnTodoS,btnTodo);}, child: const Text('Todo'));
-  late ElevatedButton btnEsp =  ElevatedButton(onPressed: (){cambiarBtnPulsado('España', btnEspS, btnEsp);}, child: const Text('España'));
-  late ElevatedButton btnRum = ElevatedButton(onPressed: (){cambiarBtnPulsado('Rumanía', btnRumS, btnRum);}, child: const Text('Rumanía'));
-  late ElevatedButton btnMarr = ElevatedButton(onPressed: (){cambiarBtnPulsado('Marruecos', btnMarrS, btnMarr);}, child: const Text('Marruecos'));
-  late ElevatedButton btnEEUU = ElevatedButton(onPressed: (){cambiarBtnPulsado('EE.UU', btnEEUUS, btnEEUU);}, child: const Text('EE.UU'));
-  late ElevatedButton btnJap = ElevatedButton(onPressed: (){cambiarBtnPulsado('Japón', btnJapS, btnJap);}, child: const Text('Japón'));
+  late ElevatedButton btnTodo = ElevatedButton(onPressed: (){cambiarBtnPulsado('Todo',btnTodoS,btnTodo);},style: formatosDisenio.btnCatNoSel(), child: Text('Todo',style: estiloTxt));
+  late ElevatedButton btnEsp =  ElevatedButton(onPressed: (){cambiarBtnPulsado('España', btnEspS, btnEsp);},style: formatosDisenio.btnCatNoSel(), child: Text('España',style: estiloTxt));
+  late ElevatedButton btnRum = ElevatedButton(onPressed: (){cambiarBtnPulsado('Rumanía', btnRumS, btnRum);},style: formatosDisenio.btnCatNoSel(), child: Text('Rumanía',style: estiloTxt));
+  late ElevatedButton btnMarr = ElevatedButton(onPressed: (){cambiarBtnPulsado('Marruecos', btnMarrS, btnMarr);},style: formatosDisenio.btnCatNoSel(), child: Text('Marruecos',style: estiloTxt));
+  late ElevatedButton btnEEUU = ElevatedButton(onPressed: (){cambiarBtnPulsado('EE.UU', btnEEUUS, btnEEUU);},style: formatosDisenio.btnCatNoSel(), child: Text('EE.UU',style: estiloTxt));
+  late ElevatedButton btnJap = ElevatedButton(onPressed: (){cambiarBtnPulsado('Japón', btnJapS, btnJap);},style: formatosDisenio.btnCatNoSel(), child: Text('Japón',style: estiloTxt));
 
-  late ElevatedButton btnTodoS=ElevatedButton(onPressed:(){}, child: const Text('Todo'), style:ElevatedButton.styleFrom(backgroundColor: Colors.purple),);
-  late ElevatedButton btnEspS = ElevatedButton(onPressed:(){}, child: const Text('España'), style:ElevatedButton.styleFrom(backgroundColor: Colors.purple),);
-  late ElevatedButton btnRumS= ElevatedButton(onPressed:(){}, child: const Text('Rumanía'), style:ElevatedButton.styleFrom(backgroundColor: Colors.purple),);
-  late ElevatedButton btnMarrS = ElevatedButton(onPressed:(){}, child: const Text('Marruecos'), style:ElevatedButton.styleFrom(backgroundColor: Colors.purple),);
-  late ElevatedButton btnEEUUS = ElevatedButton(onPressed:(){}, child: const Text('EE.UU'), style:ElevatedButton.styleFrom(backgroundColor: Colors.purple),);
-  late ElevatedButton btnJapS = ElevatedButton(onPressed:(){}, child: const Text('Japón'), style:ElevatedButton.styleFrom(backgroundColor: Colors.purple),);
-
+  late ElevatedButton btnTodoS=ElevatedButton(onPressed:(){}, style: formatosDisenio.btnCatSel(), child: Text('Todo',style: estiloTxt));
+  late ElevatedButton btnEspS = ElevatedButton(onPressed:(){}, style: formatosDisenio.btnCatSel(), child: Text('España',style: estiloTxt));
+  late ElevatedButton btnRumS= ElevatedButton(onPressed:(){}, style: formatosDisenio.btnCatSel(), child: Text('Rumanía',style: estiloTxt));
+  late ElevatedButton btnMarrS = ElevatedButton(onPressed:(){}, style: formatosDisenio.btnCatSel(), child: Text('Marruecos',style: estiloTxt));
+  late ElevatedButton btnEEUUS = ElevatedButton(onPressed:(){}, style: formatosDisenio.btnCatSel(), child: Text('EE.UU',style: estiloTxt));
+  late ElevatedButton btnJapS = ElevatedButton(onPressed:(){}, style: formatosDisenio.btnCatSel(), child: Text('Japón',style: estiloTxt));
 
   late ElevatedButton btnActual=btnTodo;
   late ElevatedButton btnActualS=btnTodoS;
@@ -80,13 +81,17 @@ class CasaState extends State<CasaWidget> {
     recetasFavs = await conexionDatos.buscarRecetasFavs();
   }
 
-  Icon establecerFavs(var receta){
+  Stack establecerFavs(var receta){
     for(var rf in recetasFavs){
       if(receta[dR(DatosReceta.nombre)]==rf[dR(DatosReceta.nombre)]){
-        return const Icon(Icons.star, color: Colors.orange,);
+        //Icon(Icons.star, color: Colors.orange,)
+        return Stack(children: const [
+          Icon(Icons.star, color: Colors.orange,),
+          Icon(Icons.star_border, color: Color.fromRGBO(255, 122, 0, 100),)
+        ],);
       }
     }
-    return const Icon(Icons.star_border);
+    return Stack(children: const [Icon(Icons.star_border)],);
   }
 
   bool esFav(String nombre){
@@ -116,54 +121,53 @@ class CasaState extends State<CasaWidget> {
     return recetasActuales;
   }
 
-  refreshPage() {
-    setState(() {
-      _buscaRecetasFavs();
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
 
     Size media = MediaQuery.of(context).size;
     setState(() {});
 
-    return Padding(
-        padding: EdgeInsets.only(top: 60, left: 20, right: 20),
+    return Scaffold(
+      appBar: AppBar(elevation: 1,title: Text('En casa', style: formatosDisenio.txtTituloPag(context),),backgroundColor: Colors.white,),
+      body: Padding(
+        padding: const EdgeInsets.only(left: 20, right: 20),
         child: Wrap(
-              children: [
-                formatosDisenio.separacionNormal(context),
-                Container(
-                  alignment: Alignment.center,
-                  height: media.height/20,
-                  margin: EdgeInsets.only(bottom: 25),
-                  child: ListView.builder(
-                    itemCount: _botones.length,
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index){
-                      return Row(
-                        children: [
-                          Container(
-                            child: _botones[index],
-                          ),
-                          const SizedBox(width: 10,)
-                        ],
-                      );
-                    },
-                  ),
+            children: [
+              //formatosDisenio.separacionNormal(context),
+              Container(
+                alignment: Alignment.center,
+                height: media.height/20,
+                margin: const EdgeInsets.only(top: 25, bottom: 25),
+                child: ListView.builder(
+                  itemCount: _botones.length,
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index){
+                    return Row(
+                      children: [
+                        Container(
+                          child: _botones[index],
+                        ),
+                        const SizedBox(width: 10,)
+                      ],
+                    );
+                  },
                 ),
-                Text(nombreBtnPulsado),
-                FutureBuilder(
+              ),
+              //Text(nombreBtnPulsado, style: formatosDisenio.txtTituloCat(context),),
+              SizedBox(
+                height: media.height-200,
+                child: FutureBuilder(
                     future: cambiarRecetas(),//esta es la funcion que tiene que devolver la lista necesaria de datos
                     builder: ((context, snapshot){
                       if(snapshot.hasData){
                         return ListView.builder(
                             shrinkWrap: true,
+                            scrollDirection: Axis.vertical,
                             itemCount: snapshot.data?.length,
                             itemBuilder: (context, index){
                               if(snapshot.data?[0] == 'Ups! No hemos encontrado datos aquí'){
-                                return Text('Ups! No hemos encontrado datos aquí');
+                                return Center(child: Text('Ups! No hemos encontrado datos aquí'),);
                               } else {
                                 return GestureDetector(
                                   onTap: (){
@@ -177,60 +181,74 @@ class CasaState extends State<CasaWidget> {
                                   child: Padding(
                                     padding: EdgeInsets.only(bottom: media.height/30),
                                     child: Container(
-                                        decoration: const BoxDecoration(color: Colors.cyanAccent),
+                                        decoration: formatosDisenio.cajaRecetas(),
                                         child: Column(
                                           children: [
-                                            Row(children: const [Text('Imagen')],),
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                Column(
-                                                  children: [
-                                                    Row(children: [Text(snapshot.data?[index][dR(DatosReceta.nombre)])],),
-                                                    Row(children: [Text(snapshot.data?[index]['origen'] +" · "+ snapshot.data?[index]['tipo'])],),
-                                                    Row(children: [Text("${snapshot.data?[index]['npersonas'].toString()} personas · ${snapshot.data?[index]['dificultad']}")],),
-                                                  ],
-                                                ),
-                                                Column(
-                                                  children: [
-                                                    //ESTRELLA QUE INDICA SI ES FAV
-                                                    IconButton(
-                                                        onPressed:()async{
-                                                          if(esFav(snapshot.data?[index][dR(DatosReceta.nombre)])){
-                                                            await conexionDatos.borrarRecetaFav(snapshot.data?[index][dR(DatosReceta.nombre)]);
-                                                          } else {
-                                                            await conexionDatos
-                                                                .crearRecetaFav(
-                                                                Receta(
-                                                                  dificultad: snapshot
-                                                                      .data?[index]['dificultad'],
-                                                                  tipo: snapshot
-                                                                      .data?[index]['tipo'],
-                                                                  elaboracion: snapshot
-                                                                      .data?[index]['elaboracion'],
-                                                                  foto: snapshot
-                                                                      .data?[index]['foto'],
-                                                                  ingredientes: snapshot
-                                                                      .data?[index]['ingredientes'],
-                                                                  nombre: snapshot
-                                                                      .data?[index]['nombre'],
-                                                                  npersonas: snapshot
-                                                                      .data?[index]['npersonas'],
-                                                                  origen: snapshot
-                                                                      .data?[index]['origen'],
-                                                                  tiempo: snapshot
-                                                                      .data?[index]['tiempo'],));
-                                                          }
-                                                          keys[1].currentState!.refreshPage();
-                                                          _buscaRecetasFavs();
-                                                          setState(() {});
-                                                        },
-                                                        icon: establecerFavs(snapshot.data?[index])
-                                                    )
-                                                  ],
-                                                )
-                                              ],
+                                            SizedBox(
+                                              height: 80,
+                                              width: media.width,
+                                              child: FittedBox(
+                                                fit: BoxFit.fitWidth,
+                                                alignment: Alignment.center,
+                                                clipBehavior: Clip.hardEdge,
+                                                child: Image(image: AssetImage(snapshot.data?[index][dR(DatosReceta.foto)]),),
+                                              ),
                                             ),
+                                            Padding(
+                                              padding: const EdgeInsets.all(7),
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Row(children: [Text(snapshot.data?[index][dR(DatosReceta.nombre)], style: formatosDisenio.txtTituloRecPrev(context),)],),
+                                                      Row(children: [Text(snapshot.data?[index][dR(DatosReceta.origen)] +"  ·  "+ snapshot.data?[index][dR(DatosReceta.tipo)],style: formatosDisenio.txtDatoRecPrev(context),)],),
+                                                      Row(children: [Text("${snapshot.data?[index][dR(DatosReceta.npersonas)].toString()} personas  ·  ${snapshot.data?[index][dR(DatosReceta.dificultad)]}",style: formatosDisenio.txtDatoRecPrev(context)),],),
+                                                    ],
+                                                  ),
+                                                  Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                                    children: [
+                                                      IconButton(
+                                                          onPressed:()async{
+                                                            if(esFav(snapshot.data?[index][dR(DatosReceta.nombre)])){
+                                                              await conexionDatos.borrarRecetaFav(snapshot.data?[index][dR(DatosReceta.nombre)]);
+                                                            } else {
+                                                              await conexionDatos
+                                                                  .crearRecetaFav(
+                                                                  Receta(
+                                                                    dificultad: snapshot
+                                                                        .data?[index]['dificultad'],
+                                                                    tipo: snapshot
+                                                                        .data?[index]['tipo'],
+                                                                    elaboracion: snapshot
+                                                                        .data?[index]['elaboracion'],
+                                                                    foto: snapshot
+                                                                        .data?[index]['foto'],
+                                                                    ingredientes: snapshot
+                                                                        .data?[index]['ingredientes'],
+                                                                    nombre: snapshot
+                                                                        .data?[index]['nombre'],
+                                                                    npersonas: snapshot
+                                                                        .data?[index]['npersonas'],
+                                                                    origen: snapshot
+                                                                        .data?[index]['origen'],
+                                                                    tiempo: snapshot
+                                                                        .data?[index]['tiempo'],));
+                                                            }
+                                                            _buscaRecetasFavs();
+                                                            setState(() {});
+                                                            keys[1].currentState!.refreshPage();
+                                                          },
+                                                          iconSize: formatosDisenio.tamBtnEstrella(context),
+                                                          icon: establecerFavs(snapshot.data?[index])
+                                                      )
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                            )
                                           ],
                                         )
                                     ),
@@ -245,9 +263,11 @@ class CasaState extends State<CasaWidget> {
                       }
                     })
 
-                )
-              ]
-          ),
+                ),
+              )
+            ]
+        ),
+      ),
     );
   }
 

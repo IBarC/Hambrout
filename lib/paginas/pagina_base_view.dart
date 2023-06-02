@@ -35,31 +35,31 @@ class _PaginaBase extends State<PaginaBaseWidget>{
   static final List<PersistentBottomNavBarItem> _navBarsItems = <PersistentBottomNavBarItem>[
     PersistentBottomNavBarItem(
       icon: Icon(Icons.location_on_outlined,),
-      title: ("Fuera"),
+      //title: ("Fuera"),
       activeColorPrimary: Colors.orange,
       inactiveColorPrimary: Colors.black12,
     ),
     PersistentBottomNavBarItem(
       icon: Icon(Icons.house_outlined),
-      title: ("Casa"),
+      //title: ("Casa"),
       activeColorPrimary: Colors.orange,
       inactiveColorPrimary: Colors.black12,
     ),
     PersistentBottomNavBarItem(
       icon: Icon(Icons.star_purple500_rounded,),
-      title: ("Favs"),
+      //title: ("Favs"),
       activeColorPrimary: Colors.orange,
       inactiveColorPrimary: Colors.black12,
     ),
     PersistentBottomNavBarItem(
       icon: Icon(Icons.event_note,),
-      title: ("Listas"),
+      //title: ("Listas"),
       activeColorPrimary: Colors.orange,
       inactiveColorPrimary: Colors.black12,
     ),
     PersistentBottomNavBarItem(
       icon: Icon(Icons.settings),
-      title: ("Ayuda"),
+      //title: ("Ayuda"),
       activeColorPrimary: Colors.orange,
       inactiveColorPrimary: Colors.black12,
     ),
@@ -102,8 +102,8 @@ class _PaginaBase extends State<PaginaBaseWidget>{
         stateManagement: true, // Default is true.
         hideNavigationBarWhenKeyboardShows: true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
         decoration: NavBarDecoration(
-          borderRadius: BorderRadius.circular(10.0),
           colorBehindNavBar: Colors.white,
+          border: Border.all(color: Colors.black12,width: 1,style: BorderStyle.solid)
         ),
         popAllScreensOnTapOfSelectedTab: false,
         popActionScreens: PopActionScreensType.all,
