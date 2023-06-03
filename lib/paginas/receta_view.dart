@@ -41,10 +41,14 @@ class _Receta extends State<RecetaWidget>{
     return true;
   }
 
-  List<Widget> listaIngredientes(BuildContext context){
+  List<Widget> listaIngredientes(BuildContext context, Size media){
     List<Widget> listaIngredientes=[];
     for(var ingrediente in receta.ingredientes){
-      listaIngredientes.add(Row(children: [Text('   · ${ingrediente}', style: formatosDisenio.txtRecetas3(context))],));
+      listaIngredientes.add(Row(children: [Container(
+        width: media.width-(media.height/50)*3,
+        margin: EdgeInsets.only(left: media.height/50),
+        child: Text('· ${ingrediente}', style: formatosDisenio.txtRecetas3(context)),
+      )],));
       if(ingrediente!=receta.ingredientes.last){
         listaIngredientes.add(formatosDisenio.separacionMasPequenia(context));
       }
@@ -133,7 +137,7 @@ class _Receta extends State<RecetaWidget>{
               formatosDisenio.separacionNormal(context),
               Row(children: [Text('Ingredientes', style: formatosDisenio.txtRecetas1(context))],),
               formatosDisenio.separacionPequenia(context),
-              Column(children: listaIngredientes(context),),
+              Column(children: listaIngredientes(context,media),),
               formatosDisenio.separacionNormal(context),
               Row(children: [Text('Modo de preparación', style: formatosDisenio.txtRecetas1(context))],),
               formatosDisenio.separacionPequenia(context),

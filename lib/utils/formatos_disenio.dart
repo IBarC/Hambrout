@@ -166,7 +166,6 @@ class FormatosDisenio{
     return TextStyle(
         overflow: TextOverflow.visible,
         fontWeight: FontWeight.w800,
-        //color: Color.fromRGBO(233, 134, 34, 100),
         color: Colors.orange,
         letterSpacing: 1,
         fontSize: tam
@@ -213,6 +212,23 @@ class FormatosDisenio{
     }
     return TextStyle(
         overflow: TextOverflow.visible,
+        fontSize: tam
+    );
+  }
+
+  TextStyle txtTituloLista(BuildContext context){
+    double base = MediaQuery.of(context).size.width;
+    double tam=base/14;
+    if(base<350){
+      tam=20;
+    }else if(base>700){
+      tam=34;
+    }
+    return TextStyle(
+        overflow: TextOverflow.visible,
+        fontWeight: FontWeight.w500,
+        color: Colors.black,
+        letterSpacing: 1,
         fontSize: tam
     );
   }
