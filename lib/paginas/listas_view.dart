@@ -52,6 +52,7 @@ class ListasState extends State<ListasWidget>{
       setState(() {});
   
       return Scaffold(
+        appBar: AppBar(elevation: 1,title: Text('Listas', style: formatosDisenio.txtTituloPag(context),),backgroundColor: Colors.white,),
         body: Padding(
             padding: EdgeInsets.all(media.height/30),
             child:
@@ -79,11 +80,14 @@ class ListasState extends State<ListasWidget>{
                             child: Padding(
                                 padding: EdgeInsets.only(bottom: media.height/30),
                                 child: Container(
-                                  decoration: const BoxDecoration(color: Colors.cyanAccent),
+                                  padding: EdgeInsets.all(10),
+                                  decoration: formatosDisenio.cajaRecetas(),
                                   child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text(snapshot.data?[index][l(DatosListas.titulo)]),
-                                      Text(snapshot.data?[index][l(DatosListas.elementos)][0][l(DatosListas.nombre)])
+                                      Text(snapshot.data?[index][l(DatosListas.titulo)],style: formatosDisenio.txtTituloRecPrev(context),),
+                                      formatosDisenio.separacionPequenia(context),
+                                      Text(snapshot.data?[index][l(DatosListas.elementos)][0][l(DatosListas.nombre)], style: formatosDisenio.txtDatoRecPrev(context),)
                                     ],
                                   ),
                                 )
@@ -99,6 +103,7 @@ class ListasState extends State<ListasWidget>{
             )
         ),
         floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.orange,
           onPressed: (){
             Navigator.push(context, MaterialPageRoute(builder: (context) {
               return ListaWidget(

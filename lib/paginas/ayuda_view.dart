@@ -18,6 +18,7 @@ class AyudaWidget extends StatefulWidget{
 class AyudaState extends State<AyudaWidget>{
   String username='';
   String nombre ='';
+  String apellidos='';
   late SharedPreferences prefs;
 
   @override
@@ -31,6 +32,7 @@ class AyudaState extends State<AyudaWidget>{
     prefs = await SharedPreferences.getInstance();
     username=prefs.getString(dU(DatosUsuario.username))??'';
     nombre=prefs.getString(dU(DatosUsuario.nombre))??'';
+    apellidos=prefs.getString(dU(DatosUsuario.apellidos))??'';
     setState(() {});
   }
 
@@ -86,51 +88,66 @@ class AyudaState extends State<AyudaWidget>{
     Size media = MediaQuery.of(context).size;
     
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.all(media.height/30),
-        child: ListView(
-          children: [
-            Text(nombre, textAlign: TextAlign.center,),
-            Text(username, textAlign: TextAlign.center,),
-            formatosDisenio.separacionNormal(context),
-            GestureDetector(
-              onTap:(){Navigator.push(context, MaterialPageRoute(builder: (context){
-                return DatosCuentaWidget();
-              }));},
-              child: Container(
-                decoration: const BoxDecoration(color: Colors.cyanAccent),
-                child: const Text('Datos de la cuenta'),
-              ),
-            ),
-            formatosDisenio.separacionNormal(context),
-            GestureDetector(
-              onTap:(){
-                alertCerarSesion();
-              },
-              child: Container(
-                decoration: const BoxDecoration(color: Colors.cyanAccent),
-                child: const Text('Cerrar sesión'),
-              ),
-            ),
-            formatosDisenio.separacionNormal(context),
-            GestureDetector(
-              onTap:(){
-                alertEliminarCuenta();
-              },
-              child: Container(
-                decoration: const BoxDecoration(color: Colors.cyanAccent),
-                child: const Text('Eliminar cuenta'),
-              ),
-            ),
-            formatosDisenio.separacionNormal(context),
-            GestureDetector(
-              onTap:(){},
-              child: Container(
-                decoration: const BoxDecoration(color: Colors.cyanAccent),
-                child: const Text('Creditos'),
-              ),),],
+        appBar: AppBar(elevation: 1,title: Text('Ajustes', style: formatosDisenio.txtTituloPag(context),),backgroundColor: Colors.white,),
+        body: Padding(
+            padding: EdgeInsets.all(media.height/30),
+            child: ListView(
+              children: [
+                Container(
+                  padding: EdgeInsets.only(top: 10, bottom: 10,left: 13),
+                  decoration: formatosDisenio.cajaAjustes(),
+                  child: Column(
+                    children: [
+                      Text('$nombre $apellidos', textAlign: TextAlign.center, style: formatosDisenio.txtTituloRecPrev(context),),
+                      SizedBox(height: 7,),
+                      Text(username, textAlign: TextAlign.center, style: formatosDisenio.txtAjustes(context),),
+                    ],
+                  ),
+                ),
+                formatosDisenio.separacionNormal(context),
+                formatosDisenio.separacionPequenia(context),
+                GestureDetector(
+                  onTap:(){Navigator.push(context, MaterialPageRoute(builder: (context){
+                    return DatosCuentaWidget();
+                  }));},
+                  child: Container(
+                    padding: EdgeInsets.only(top: 10, bottom: 10,left: 13, right: 13),
+                    decoration: formatosDisenio.cajaAjustes(),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Datos de la cuenta', style: formatosDisenio.txtAjustes(context),),
+                        Icon(Icons.arrow_forward_ios)
+                      ],
+                    ),
+                  ),
+                ),
+                formatosDisenio.separacionNormal(context),
+                GestureDetector(
+                onTap:(){
+                  alertCerarSesion();
+                },
+                child: Container(
+                  padding: EdgeInsets.only(top: 10, bottom: 10,left: 13),
+                  decoration: formatosDisenio.cajaAjustes(),
+                  child: Text('Cerrar sesión', style: formatosDisenio.txtAjustes(context),),
+                  ),
+                ),
+                formatosDisenio.separacionNormal(context),
+                GestureDetector(
+                  onTap:(){
+                    alertEliminarCuenta();
+                  },
+                  child: Container(
+                    padding: EdgeInsets.only(top: 10, bottom: 10,left: 13),
+                    decoration: formatosDisenio.cajaAjustes(),
+                    child: Text('Eliminar cuenta', style: formatosDisenio.txtAjustes(context),),
+                  ),
+                ),
+                formatosDisenio.separacionNormal(context),
+                ],
+            )
         )
-      )
     );
   }
 
