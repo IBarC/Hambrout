@@ -94,6 +94,8 @@ class ListaState extends State<ListaWidget>{
             icon: const Icon(Icons.crop_square, color: Colors.orange,))],),
         Column(children: [SizedBox(width: tam, child: TextFormField(
             controller: elemento.controlador,
+            scrollPadding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom),
             onEditingComplete: (){terminaEdidion(elemento);}),)],)
       ],
     );
@@ -121,10 +123,11 @@ class ListaState extends State<ListaWidget>{
   Widget build(BuildContext context) {
     Size media = MediaQuery.of(context).size;
 
-    double tamanioTextField = media.width/1.5;
+    double tamanioTextField = media.width-7*(media.height/50);
     tamanioListView = lista.elementos.length;
 
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         leading: GestureDetector(
           child: const Icon(Icons.arrow_back_ios, color: Colors.black,),
@@ -153,7 +156,7 @@ class ListaState extends State<ListaWidget>{
         title: Form(
           key: _formKey,
           child: TextFormField(
-            decoration: InputDecoration(hintText: 'Titulo'),
+            decoration: const InputDecoration(hintText: 'Titulo'),
             style: formatosDisenio.txtTituloLista(context),
             controller: tituloController, validator: (value) {
             if (value!.isEmpty) {
@@ -163,24 +166,29 @@ class ListaState extends State<ListaWidget>{
           ),
         ),
       ),
-      body: AnimatedContainer(
-        //height: media.height,
-        width: media.width-(media.height/50)*2,
-        padding: EdgeInsets.all(media.height/50),
-          duration: Duration(seconds: 1),
-          child: Scaffold(
-            resizeToAvoidBottomInset: true,
-            body: ListView(
+      body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
+        padding: EdgeInsets.only(top: media.height/50,left: media.height/50,right: media.height/50,bottom: MediaQuery.of(context).viewInsets.bottom),
+        child: Column(
+          children: crearElementos(tamanioTextField),
+        ),
+      )
+      /**Container(
+          //height: media.height,
+          width: media.width-(media.height/50)*2,
+          padding: EdgeInsets.all(media.height/50),
+          //duration: Duration(seconds: 1),
+          margin: MediaQuery.of(context).viewInsets,
+          child: ListView(
               scrollDirection: Axis.vertical,
               //itemCount: tamanioListView,
-              shrinkWrap: false,
+              //shrinkWrap: false,
               //itemBuilder: (contexy,index){
                 //return crearElemento(lista.elementos[index],tamanioTextField);
               //},
               children: crearElementos(tamanioTextField),
             ),
-          )
-      ) ,
+      ) ,**/
     );
   }
 
