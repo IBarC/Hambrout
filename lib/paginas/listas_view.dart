@@ -54,7 +54,7 @@ class ListasState extends State<ListasWidget>{
       return Scaffold(
         appBar: AppBar(elevation: 1,title: Text('Listas', style: formatosDisenio.txtTituloPag(context),),backgroundColor: Colors.white,),
         body: Padding(
-            padding: EdgeInsets.all(media.height/30),
+            padding: EdgeInsets.only(top: media.height/30,left: media.height/30,right: media.height/30),
             child:
             FutureBuilder(
                 future: conexionDatos.buscarListas(),//esta es la funcion que tiene que devolver la lista necesaria de datos

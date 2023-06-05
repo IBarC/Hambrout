@@ -196,11 +196,12 @@ class ListaState extends State<ListaWidget>{
               //itemBuilder: (contexy,index){
               //return crearElemento(lista.elementos[index],tamanioTextField);
               //},
-              children: [
-                SizedBox(child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: crearElementos(tamanioTextField),),)
-              ],
+              children: //[
+                //SizedBox(child: Column(
+                  //crossAxisAlignment: CrossAxisAlignment.stretch,
+                  //children:
+                  crearElementos(tamanioTextField)//,),)
+              //],
           )
       ) ,
     );

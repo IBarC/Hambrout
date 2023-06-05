@@ -89,35 +89,33 @@ class _PaginaBase extends State<PaginaBaseWidget>{
     Size media = MediaQuery.of(context).size;
     ///double tamanioIcono = media.width/14;
 
-    return Container(
-      child: PersistentTabView(
-        context,
-        controller: _controller,
-        screens: pages,
-        items: _navBarsItems,
-        confineInSafeArea: true,
-        backgroundColor: Colors.white,
-        handleAndroidBackButtonPress: true,
-        resizeToAvoidBottomInset: true,
-        stateManagement: true, // Default is true.
-        hideNavigationBarWhenKeyboardShows: true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
-        decoration: NavBarDecoration(
-          colorBehindNavBar: Colors.white,
-          border: Border.all(color: Colors.black12,width: 1,style: BorderStyle.solid)
-        ),
-        popAllScreensOnTapOfSelectedTab: false,
-        popActionScreens: PopActionScreensType.all,
-        itemAnimationProperties: const ItemAnimationProperties( // Navigation Bar's items animation properties.
-          duration: Duration(milliseconds: 200),
-          curve: Curves.ease,
-        ),
-        screenTransitionAnimation: const ScreenTransitionAnimation( // Screen transition animation on change of selected tab.
-          animateTabTransition: true,
-          curve: Curves.ease,
-          duration: Duration(milliseconds: 200),
-        ),
-        navBarStyle: NavBarStyle.style6, // Choose the nav bar style with this property.
+    return PersistentTabView(
+      context,
+      controller: _controller,
+      screens: pages,
+      items: _navBarsItems,
+      confineInSafeArea: true,
+      backgroundColor: Colors.white,
+      handleAndroidBackButtonPress: true,
+      resizeToAvoidBottomInset: true,
+      stateManagement: true, // Default is true.
+      hideNavigationBarWhenKeyboardShows: true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
+      decoration: NavBarDecoration(
+        colorBehindNavBar: Colors.white,
+        border: Border.all(color: Colors.black12,width: 1,style: BorderStyle.solid)
       ),
+      popAllScreensOnTapOfSelectedTab: false,
+      popActionScreens: PopActionScreensType.all,
+      itemAnimationProperties: const ItemAnimationProperties( // Navigation Bar's items animation properties.
+        duration: Duration(milliseconds: 200),
+        curve: Curves.ease,
+      ),
+      screenTransitionAnimation: const ScreenTransitionAnimation( // Screen transition animation on change of selected tab.
+        animateTabTransition: true,
+        curve: Curves.ease,
+        duration: Duration(milliseconds: 200),
+      ),
+      navBarStyle: NavBarStyle.style6, // Choose the nav bar style with this property.
     );
   }
 }
