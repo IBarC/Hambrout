@@ -209,6 +209,7 @@ class ConexionDatos {
         listas.add(documento.data());
       }
     }
+    listas.sort((a, b)=>DateTime.parse(b['modificacion']).compareTo(DateTime.parse(a['modificacion'])));
     return listas;
   }
 
@@ -227,13 +228,13 @@ class ConexionDatos {
       final datos = <String, dynamic>{
         l(DatosListas.titulo):lista.titulo,
         l(DatosListas.elementos):guardarElementos(lista.elementos),
-        l(DatosListas.id):lista.id
+        l(DatosListas.id):lista.id,
+        'modificacion':DateTime.now().toUtc().toString()
       };
       collection.doc(username).collection(c(Colecciones.listas)).doc(lista.id.toString()).set(datos);
-      collection.doc(username).collection(c(Colecciones.listas)).doc(l(DatosListas.id)).set({'id':lista.id});
 
     } catch(_) {}
-    keys[2].currentState!.refreshPage();
+    //keys[2].currentState!.refreshPage();
   }
 
   Future<void> guardarListaNueva(Lista lista) async{
@@ -265,7 +266,8 @@ class ConexionDatos {
       final datos = <String, dynamic>{
         l(DatosListas.titulo):lista.titulo,
         l(DatosListas.elementos):guardarElementos(lista.elementos),
-        l(DatosListas.id):lista.id
+        l(DatosListas.id):lista.id,
+        'modificacion':DateTime.now().toUtc().toString()
       };
       collection.doc(username).collection(c(Colecciones.listas)).doc(lista.id.toString()).set(datos);
       collection.doc(username).collection(c(Colecciones.listas)).doc(l(DatosListas.id)).set({'id':lista.id});

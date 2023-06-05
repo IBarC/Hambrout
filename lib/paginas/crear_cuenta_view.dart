@@ -44,7 +44,7 @@ class _CrearCuenta extends State<CrearCuentaWidget>{
               shrinkWrap: true,
               padding: const EdgeInsets.all(40.0),
               scrollDirection: Axis.vertical,
-              children: [
+              children: const [
                 SizedBox(
                   child: FormularioCrearCuentaWidget(),
                 )

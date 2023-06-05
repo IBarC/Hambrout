@@ -63,18 +63,19 @@ class ListaState extends State<ListaWidget>{
       setState(() {});
     } else {
       FocusScopeNode currentFocus = FocusScope.of(context);
+      elemento.nombre==elemento.controlador.text;
       currentFocus.unfocus();
     }
   }
 
   void inicializar()async{
     prefs = await SharedPreferences.getInstance();
-    id=prefs.getInt(l(DatosListas.id))??3;
+    id=prefs.getInt(l(DatosListas.id))??1;
   }
 
   Widget crearElemento(var elemento, double tam){
     if(elemento.tachado){
-      return Row(
+      return /**Row(
         children: [
           Column(children: [IconButton(onPressed: (){
             elemento.tachado=false;setState(() {});},
@@ -85,20 +86,29 @@ class ListaState extends State<ListaWidget>{
               controller: elemento.controlador,
               onEditingComplete: (){terminaEdidion(elemento);}),)],)
         ],
-      );
+      );**/TextFormField(
+          decoration: InputDecoration(
+              icon: IconButton(onPressed: () {elemento.tachado=false;setState(() {});}, icon: Icon(Icons.check_box_outlined), color: Colors.orange,)
+          ),
+          style: const TextStyle(decoration: TextDecoration.lineThrough),
+          //enabled: false,
+          controller: elemento.controlador,
+          onEditingComplete: (){terminaEdidion(elemento);});
     }
-    return Row(
-      children: [
-        Column(children: [IconButton(onPressed: (){
+    return //Row(
+      //children: [
+        /**Column(children: [IconButton(onPressed: (){
           elemento.tachado=true;setState(() {});},
-            icon: const Icon(Icons.crop_square, color: Colors.orange,))],),
-        Column(children: [SizedBox(width: tam, child: TextFormField(
+            icon: const Icon(Icons.crop_square, color: Colors.orange,))],),**/
+        //Column(children: [
+          TextFormField(
+          decoration: InputDecoration(
+              icon: IconButton(onPressed: () {elemento.tachado=true;setState(() {});}, icon: Icon(Icons.crop_square), color: Colors.orange,)
+          ),
             controller: elemento.controlador,
-            scrollPadding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom),
-            onEditingComplete: (){terminaEdidion(elemento);}),)],)
-      ],
-    );
+            onEditingComplete: (){terminaEdidion(elemento);});//,],)
+      //],
+    //);
   }
 
   List<Widget> crearElementos(double tam){
@@ -123,11 +133,11 @@ class ListaState extends State<ListaWidget>{
   Widget build(BuildContext context) {
     Size media = MediaQuery.of(context).size;
 
-    double tamanioTextField = media.width-7*(media.height/50);
+    double tamanioTextField = media.width/1.5;
     tamanioListView = lista.elementos.length;
 
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      //resizeToAvoidBottomInset: true,
       appBar: AppBar(
         leading: GestureDetector(
           child: const Icon(Icons.arrow_back_ios, color: Colors.black,),
@@ -166,29 +176,33 @@ class ListaState extends State<ListaWidget>{
           ),
         ),
       ),
-      body: SingleChildScrollView(
+      body: /**SingleChildScrollView(
         physics: BouncingScrollPhysics(),
         padding: EdgeInsets.only(top: media.height/50,left: media.height/50,right: media.height/50,bottom: MediaQuery.of(context).viewInsets.bottom),
         child: Column(
           children: crearElementos(tamanioTextField),
         ),
-      )
-      /**Container(
-          //height: media.height,
-          width: media.width-(media.height/50)*2,
-          padding: EdgeInsets.all(media.height/50),
+      )**/
+      Container(
+          height: media.height,
+          width: media.width-media.height/50,
           //duration: Duration(seconds: 1),
           margin: MediaQuery.of(context).viewInsets,
           child: ListView(
+              padding: EdgeInsets.only(top: media.height/50,left: media.height/50,right: media.height/50,bottom: MediaQuery.of(context).viewInsets.bottom),
               scrollDirection: Axis.vertical,
               //itemCount: tamanioListView,
-              //shrinkWrap: false,
+              shrinkWrap: true,
               //itemBuilder: (contexy,index){
-                //return crearElemento(lista.elementos[index],tamanioTextField);
+              //return crearElemento(lista.elementos[index],tamanioTextField);
               //},
-              children: crearElementos(tamanioTextField),
-            ),
-      ) ,**/
+              children: [
+                SizedBox(child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: crearElementos(tamanioTextField),),)
+              ],
+          )
+      ) ,
     );
   }
 
