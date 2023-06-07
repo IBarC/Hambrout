@@ -75,18 +75,7 @@ class ListaState extends State<ListaWidget>{
 
   Widget crearElemento(var elemento, double tam){
     if(elemento.tachado){
-      return /**Row(
-        children: [
-          Column(children: [IconButton(onPressed: (){
-            elemento.tachado=false;setState(() {});},
-              icon: const Icon(Icons.check_box_outlined, color: Colors.orange,))],),
-          Column(children: [SizedBox(width: tam, child: TextFormField(
-              style: const TextStyle(decoration: TextDecoration.lineThrough),
-              enabled: false,
-              controller: elemento.controlador,
-              onEditingComplete: (){terminaEdidion(elemento);}),)],)
-        ],
-      );**/TextFormField(
+      return TextFormField(
           decoration: InputDecoration(
               icon: IconButton(onPressed: () {elemento.tachado=false;setState(() {});}, icon: Icon(Icons.check_box_outlined), color: Colors.orange,)
           ),
@@ -95,20 +84,12 @@ class ListaState extends State<ListaWidget>{
           controller: elemento.controlador,
           onEditingComplete: (){terminaEdidion(elemento);});
     }
-    return //Row(
-      //children: [
-        /**Column(children: [IconButton(onPressed: (){
-          elemento.tachado=true;setState(() {});},
-            icon: const Icon(Icons.crop_square, color: Colors.orange,))],),**/
-        //Column(children: [
-          TextFormField(
-          decoration: InputDecoration(
-              icon: IconButton(onPressed: () {elemento.tachado=true;setState(() {});}, icon: Icon(Icons.crop_square), color: Colors.orange,)
-          ),
-            controller: elemento.controlador,
-            onEditingComplete: (){terminaEdidion(elemento);});//,],)
-      //],
-    //);
+    return TextFormField(
+        decoration: InputDecoration(
+            icon: IconButton(onPressed: () {elemento.tachado=true;setState(() {});}, icon: Icon(Icons.crop_square), color: Colors.orange,)
+        ),
+        controller: elemento.controlador,
+        onEditingComplete: (){terminaEdidion(elemento);});//,],)
   }
 
   List<Widget> crearElementos(double tam){

@@ -29,6 +29,7 @@ class FormularioLogIn extends  State<FormularioLogInWidget>{
 
   String nombreUsuario='';
   String apellidosUsuario='';
+  String telefono='';
 
   @override
   initState(){
@@ -61,6 +62,7 @@ class FormularioLogIn extends  State<FormularioLogInWidget>{
             prefs.setBool(dU(DatosUsuario.sesionIniciada),true);
             prefs.setString(dU(DatosUsuario.nombre), nombreUsuario);
             prefs.setString(dU(DatosUsuario.apellidos), apellidosUsuario);
+            prefs.setString(dU(DatosUsuario.telefono), telefono);
             Navigator.pushNamed(
               context!,
               '/principal',
@@ -95,6 +97,7 @@ class FormularioLogIn extends  State<FormularioLogInWidget>{
           if(usuarioRegistrado[i]['username']==userContr.text && usuarioRegistrado[i]['password']==passwContr.text){
             nombreUsuario=usuarioRegistrado[i][dU(DatosUsuario.nombre)];
             apellidosUsuario = usuarioRegistrado[i][dU(DatosUsuario.apellidos)];
+            telefono = usuarioRegistrado[i][dU(DatosUsuario.telefono)];
             exist = true;
           }
         }
@@ -125,6 +128,7 @@ class FormularioLogIn extends  State<FormularioLogInWidget>{
 
 }
 
+/// Clase que crea la vista del formulario para crear usuarios
 class FormularioCrearCuentaWidget extends StatefulWidget{
   const FormularioCrearCuentaWidget({super.key});
 
@@ -147,6 +151,7 @@ class FormularioCrearCuenta extends State<FormularioCrearCuentaWidget>{
   TextEditingController correoContr = TextEditingController(text: "");
   TextEditingController passwContr = TextEditingController(text: "");
   TextEditingController repePasswContr = TextEditingController(text: "");
+  TextEditingController telContr = TextEditingController(text: "");
 
   @override
   initState() {
@@ -173,6 +178,13 @@ class FormularioCrearCuenta extends State<FormularioCrearCuentaWidget>{
     ));
     _widgets.add(const SizedBox(height: 7));
 
+    _textEditingControllers.add(telContr);
+    _widgets.add(Padding(
+      padding: const EdgeInsets.all(0),
+      child: _createPasswFormField("Teléfono", telContr),
+    ));
+    _widgets.add(const SizedBox(height: 7));
+
     _textEditingControllers.add(passwContr);
     _widgets.add(Padding(padding: const EdgeInsets.all(0),
       child: _createPasswFormField("Contraseña", passwContr),
@@ -192,7 +204,7 @@ class FormularioCrearCuenta extends State<FormularioCrearCuentaWidget>{
         usuarioRegistrado = await conexionDatos.buscarUsuarios(correoContr.text, passwContr.text);
         existeUser = await conexionDatos.existeUsuario(correoContr.text);
         if(_formKey.currentState!.validate()){
-          conexionDatos.crearUsuario(nombreContr.text, apellidosContr.text, correoContr.text, passwContr.text);
+          conexionDatos.crearUsuario(nombreContr.text, apellidosContr.text, correoContr.text, passwContr.text, telContr.text);
           Navigator.popAndPushNamed(context!, '/login').then((value) => setState((){}));
         }
       },
@@ -285,6 +297,23 @@ class FormularioCrearCuenta extends State<FormularioCrearCuentaWidget>{
           labelText: fieldName),
       controller: controller,
       obscureText: true,
+    );
+  }
+
+  TextFormField _createNumeroFormField(
+      String fieldName, TextEditingController controller) {
+    return TextFormField(
+      keyboardType: TextInputType.numberWithOptions(),
+      validator: (value) {
+        if (value!.isEmpty) {
+          return 'El campo no puede estar vacio';
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+          hintText: hintText(fieldName),
+          labelText: fieldName),
+      controller: controller,
     );
   }
 

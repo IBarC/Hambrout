@@ -15,7 +15,7 @@ import '../main.dart';
 
 class ConexionDatos {
 
-  Future<void> crearUsuario(String nombre, String apellidos, String username, String password) async {
+  Future<void> crearUsuario(String nombre, String apellidos, String username, String password, String tel) async {
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
@@ -28,7 +28,8 @@ class ConexionDatos {
         dU(DatosUsuario.nombre): nombre,
         dU(DatosUsuario.apellidos): apellidos,
         dU(DatosUsuario.username): username,
-        dU(DatosUsuario.password): password
+        dU(DatosUsuario.password): password,
+        dU(DatosUsuario.telefono):tel
       };
       collection.doc(username).set(datos);
       collection.doc(username).collection(c(Colecciones.listas)).doc('id').set({'id':0});

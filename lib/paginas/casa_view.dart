@@ -191,7 +191,7 @@ class CasaState extends State<CasaWidget> {
                                                 fit: BoxFit.fitWidth,
                                                 alignment: Alignment.center,
                                                 clipBehavior: Clip.hardEdge,
-                                                child: Image(image: AssetImage(snapshot.data?[index][dR(DatosReceta.foto)]),),
+                                                child: Image(image: NetworkImage(snapshot.data?[index][dR(DatosReceta.foto)]),),
                                               ),
                                             ),
                                             Padding(

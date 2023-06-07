@@ -43,7 +43,13 @@ class FormatosDisenio{
   }
 
   SizedBox separacionPequenia(BuildContext context){
-    return SizedBox(height: MediaQuery.of(context).size.width/35);
+    double base = MediaQuery.of(context).size.width;
+    if(base<350){
+      return SizedBox(height: base/33,);
+    } else if(base>700){
+      return SizedBox(height: base/40,);
+    }
+    return SizedBox(height: base/35);
   }
 
   SizedBox separacionMasPequenia(BuildContext context){
@@ -146,7 +152,7 @@ class FormatosDisenio{
     if(base<350){
       tam=13;
     }else if(base>700){
-      tam=25;
+      tam=23;
     }
     return TextStyle(
         overflow: TextOverflow.ellipsis,
@@ -229,6 +235,37 @@ class FormatosDisenio{
         fontWeight: FontWeight.w500,
         color: Colors.black,
         letterSpacing: 1,
+        fontSize: tam
+    );
+  }
+
+  TextStyle txtLabelDatosUsu(BuildContext context){
+    double base = MediaQuery.of(context).size.width;
+    double tam=base/28;
+    if(base<350){
+      tam=14;
+    }else if(base>700){
+      tam=25;
+    }
+    return TextStyle(
+        overflow: TextOverflow.visible,
+        fontWeight: FontWeight.bold,
+        color: Colors.black,
+        fontSize: tam
+    );
+  }
+
+  TextStyle txtInfoDatosUsu(BuildContext context){
+    double base = MediaQuery.of(context).size.width;
+    double tam=base/27;
+    if(base<350){
+      tam=15;
+    }else if(base>700){
+      tam=25;
+    }
+    return TextStyle(
+        overflow: TextOverflow.visible,
+        fontWeight: FontWeight.w300,
         fontSize: tam
     );
   }

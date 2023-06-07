@@ -88,7 +88,7 @@ class AyudaState extends State<AyudaWidget>{
     Size media = MediaQuery.of(context).size;
     
     return Scaffold(
-        appBar: AppBar(elevation: 1,title: Text('Ajustes', style: formatosDisenio.txtTituloPag(context),),backgroundColor: Colors.white,),
+        appBar: AppBar(elevation: 1,title: Text('Ayuda', style: formatosDisenio.txtTituloPag(context),),backgroundColor: Colors.white,),
         body: Padding(
             padding: EdgeInsets.all(media.height/30),
             child: ListView(
@@ -98,14 +98,13 @@ class AyudaState extends State<AyudaWidget>{
                   decoration: formatosDisenio.cajaAjustes(),
                   child: Column(
                     children: [
-                      Text('$nombre $apellidos', textAlign: TextAlign.center, style: formatosDisenio.txtTituloRecPrev(context),),
-                      SizedBox(height: 7,),
+                      Text(nombre, textAlign: TextAlign.center, style: formatosDisenio.txtTituloRecPrev(context),),
+                      const SizedBox(height: 7,),
                       Text(username, textAlign: TextAlign.center, style: formatosDisenio.txtAjustes(context),),
                     ],
                   ),
                 ),
                 formatosDisenio.separacionNormal(context),
-                formatosDisenio.separacionPequenia(context),
                 GestureDetector(
                   onTap:(){Navigator.push(context, MaterialPageRoute(builder: (context){
                     return DatosCuentaWidget();
@@ -128,7 +127,7 @@ class AyudaState extends State<AyudaWidget>{
                   alertCerarSesion();
                 },
                 child: Container(
-                  padding: EdgeInsets.only(top: 10, bottom: 10,left: 13),
+                  padding: const EdgeInsets.only(top: 10, bottom: 10,left: 13),
                   decoration: formatosDisenio.cajaAjustes(),
                   child: Text('Cerrar sesión', style: formatosDisenio.txtAjustes(context),),
                   ),

@@ -88,7 +88,7 @@ class FueraState extends State<FueraWidget>{
           });
         },
         markers: _markers.values.toSet(),
-        //onTap: addDestinoMarker('Donde quieres ir', ), ///Añade el destino
+        onTap: (latLong) {addDestinoMarker('Destino', latLong);}, ///Añade el destino
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: ()  {

@@ -1,4 +1,4 @@
-enum DatosUsuario {nombre, apellidos, password, username, sesionIniciada}
+enum DatosUsuario {nombre, apellidos, password, username, sesionIniciada, telefono}
 
 String dU(var dato){
   switch(dato){
@@ -12,6 +12,8 @@ String dU(var dato){
       return 'username';
     case DatosUsuario.sesionIniciada:
       return 'sesionIniciada';
+    case DatosUsuario.telefono:
+      return 'telefono';
     default:
       return '';
   }

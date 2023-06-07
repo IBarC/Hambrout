@@ -104,7 +104,7 @@ class _Receta extends State<RecetaWidget>{
                   fit: BoxFit.fitWidth,
                   alignment: Alignment.center,
                   clipBehavior: Clip.hardEdge,
-                  child: Image(image: AssetImage(receta.foto),),
+                  child: Image(image: NetworkImage(receta.foto),),
                 ),
               ),
               formatosDisenio.separacionNormal(context),

@@ -20,10 +20,6 @@ class _LogIn extends State<LogInWidget>{
   FormatosDisenio formatosDisenio=FormatosDisenio();
 
   void cambiarPagina(){
-    ///MaterialPageRoute(builder: (context)=> LogInWidget()).isActive()
-    /**Navigator.of(context).pushNamed('/principal').then((value) => (
-        MaterialPageRoute(builder: (context)=> LogInWidget()).isActive) ?
-    Navigator.removeRoute(context, Route<dynamic> route));**/
     Navigator.of(context).pushNamedAndRemoveUntil(
       '/principal',
         (route)=>false
@@ -34,7 +30,7 @@ class _LogIn extends State<LogInWidget>{
   Widget build(BuildContext context) {
 
   Size media = MediaQuery.of(context).size;
-  double tamanioLogo = media.width/12;
+  double tamanioLogo = media.width/5;
 
   return Scaffold(
       body: Container(
@@ -57,7 +53,7 @@ class _LogIn extends State<LogInWidget>{
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image(image: const AssetImage("images/icons/write.png"), width: tamanioLogo,),
+                  Image(image: const AssetImage("images/icons/logo-blanco.png"), width: tamanioLogo,),
                   SizedBox(width: media.width/13,),
                   const Text("Hambrout")
                 ],

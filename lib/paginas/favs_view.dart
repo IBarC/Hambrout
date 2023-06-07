@@ -88,6 +88,9 @@ class FavsState extends State<FavsWidget>{
   Future<List?>? cambiarRecetas()async {
     recetas = await conexionDatos.buscarRecetasFavs();
     if(nombreBtnPulsado=='Todo'){
+      if(recetas.isEmpty){
+        return ['Ups! No hemos encontrado datos aquí'];
+      }
       return recetas;
     }
     List recetasActuales = [];
@@ -176,7 +179,7 @@ class FavsState extends State<FavsWidget>{
                                                   fit: BoxFit.fitWidth,
                                                   alignment: Alignment.center,
                                                   clipBehavior: Clip.hardEdge,
-                                                  child: Image(image: AssetImage(snapshot.data?[index][dR(DatosReceta.foto)]),),
+                                                  child: Image(image: NetworkImage(snapshot.data?[index][dR(DatosReceta.foto)]),),
                                                 ),
                                               ),
                                               Padding(
