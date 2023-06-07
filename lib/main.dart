@@ -8,6 +8,7 @@ import 'package:hambrout/paginas/fuera_view.dart';
 import 'package:hambrout/paginas/lista_view.dart';
 import 'package:hambrout/paginas/listas_view.dart';
 import 'package:hambrout/paginas/login_view.dart';
+import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'enum/enum_usuario.dart';
@@ -98,12 +99,12 @@ class PaginaCargaState extends State<PaginaCarga>{
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
         child: SizedBox(
-          width: 200,
-          height: 200,
-          child: CircularProgressIndicator(),
+          width: 400,
+          height: 400,
+          child: LottieBuilder.asset('images/animacion/42318-food.json'),
         ),
       ),
     );

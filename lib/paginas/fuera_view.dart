@@ -98,7 +98,7 @@ class FueraState extends State<FueraWidget>{
                   CameraPosition(target: _localizacionEnVivo(), zoom:17))
               );
           },
-        child: Icon(Icons.center_focus_strong),
+        child: const Icon(Icons.center_focus_strong),
       ),
     );
   }

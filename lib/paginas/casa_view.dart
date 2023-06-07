@@ -4,6 +4,7 @@ import 'package:hambrout/main.dart';
 import 'package:hambrout/models/receta.dart';
 import 'package:hambrout/paginas/favs_view.dart';
 import 'package:hambrout/paginas/receta_view.dart';
+import 'package:lottie/lottie.dart';
 import 'dart:math';
 
 import '../firebase/conexion_firebase.dart';
@@ -257,8 +258,12 @@ class CasaState extends State<CasaWidget> {
                               }
                             });
                       } else {
-                        return const Center(
-                          child: CircularProgressIndicator(),
+                        return Center(
+                          child: SizedBox(
+                            width: 400,
+                            height: 400,
+                            child: LottieBuilder.asset('images/animacion/106177-food-loading.json'),
+                          ),
                         );
                       }
                     })

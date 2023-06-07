@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:hambrout/paginas/receta_view.dart';
+import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'dart:math';
@@ -223,8 +224,12 @@ class FavsState extends State<FavsWidget>{
                                   );}
                               });
                         } else {
-                          return const Center(
-                            child: CircularProgressIndicator(),
+                          return Center(
+                            child: SizedBox(
+                              width: 400,
+                              height: 400,
+                              child: LottieBuilder.asset('images/animacion/106177-food-loading.json'),
+                            ),
                           );
                         }
                       })
