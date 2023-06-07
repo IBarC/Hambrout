@@ -20,47 +20,26 @@ final GlobalKey<ListaState> listaKey = GlobalKey();
 List<GlobalKey<dynamic>> keys =[casaKey,favKey,listKey, listaKey];
 
  List<Widget> pages = <Widget>[
-  FueraWidget(),
+  const FueraWidget(),
   CasaWidget(key: keys[0],),
   FavsWidget(key: keys[1],),
   ListasWidget(key: keys[2],),
-  AyudaWidget()
+  const AyudaWidget()
 ];
 
 void main() {
-  runApp( MyApp());
+  runApp( const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({super.key});
-
-  //funcion que decida si abre al inicio la pagina principal o el login
-  //dependiendo de si el token ya existe
-
-  //bool sesionIniciada=false;
-  late SharedPreferences prefs;
-/**
-  void inicializar()async{
-    prefs = await SharedPreferences.getInstance();
-    sesionIniciada=prefs.getBool(dU(DatosUsuario.sesionIniciada))??false;
-    print('---------EN EL METODO $sesionIniciada');
-  }
-
-  Widget haySesion(){
-    inicializar();
-    if(sesionIniciada){
-      return AppPrincipalWidget();
-    } else {
-      return LogInWidget();
-    }
-  }**/
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Hambrout',
-      home: FutureBuilder(
+      home: /**FutureBuilder(
         future: SharedPreferences.getInstance(),
         builder: ((context, snapshot){
           if(snapshot.hasData){
@@ -76,7 +55,7 @@ class MyApp extends StatelessWidget {
             );
           }
         }),
-      ),
+      ),**/const PaginaCarga(),
       //initialRoute: '/login',
       routes: {
         '/login': (context) => const LogInWidget(),
@@ -84,4 +63,50 @@ class MyApp extends StatelessWidget {
       },
     );
   }
+}
+
+class PaginaCarga extends StatefulWidget{
+  const PaginaCarga({super.key});
+
+  @override
+  State<StatefulWidget> createState() => PaginaCargaState();
+
+}
+
+class PaginaCargaState extends State<PaginaCarga>{
+  bool sesionIniciada=false;
+
+  @override
+  void initState() {
+    super.initState();
+    inicializar();
+    Future.delayed(const Duration(seconds: 2)).then((value) => Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>pagina())));
+  }
+
+  void inicializar()async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    sesionIniciada=prefs.getBool(dU(DatosUsuario.sesionIniciada))??false;
+  }
+
+  Widget pagina(){
+    if(sesionIniciada){
+      return const AppPrincipalWidget();
+    } else {
+      return const LogInWidget();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: Center(
+        child: SizedBox(
+          width: 200,
+          height: 200,
+          child: CircularProgressIndicator(),
+        ),
+      ),
+    );
+  }
+
 }
