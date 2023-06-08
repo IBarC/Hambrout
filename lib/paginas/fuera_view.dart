@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -14,6 +16,8 @@ class FueraWidget extends StatefulWidget{
 }
 
 class FueraState extends State<FueraWidget>{
+  Completer<GoogleMapController> controler = Completer();
+
   static const _localizacionInicial = LatLng(40.4165000, -3.7025600);
 
   late GoogleMapController _googleMapController;
@@ -21,6 +25,10 @@ class FueraState extends State<FueraWidget>{
 
   double lat=0;
   double long=0;
+
+  Set<Circle> circulo = Set<Circle>();
+  var radioCirculo = 500.0;
+  bool cambiarRadio=true;
 
   @override
   void dispose() {
@@ -67,28 +75,56 @@ class FueraState extends State<FueraWidget>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GoogleMap(
-        myLocationButtonEnabled: false,
-        zoomControlsEnabled: false,
-        compassEnabled: true,
-        initialCameraPosition: const CameraPosition(
-            target: _localizacionInicial,
-            zoom: 7
+      body: Stack(
+        children: [Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child: GoogleMap(
+            mapType: MapType.normal,
+            myLocationButtonEnabled: false,
+            zoomControlsEnabled: false,
+            compassEnabled: false,
+            circles: circulo,
+            initialCameraPosition: const CameraPosition(
+                target: _localizacionInicial,
+                zoom: 7
+            ),
+            onMapCreated: (controller) {
+              _googleMapController = controller;
+              _getLocalizacionActual().then((value) {
+                lat=value.latitude.toDouble();
+                long=value.longitude.toDouble();
+                _googleMapController.animateCamera(
+                    CameraUpdate.newCameraPosition(
+                        CameraPosition(target: LatLng(lat, long), zoom:17))
+                );
+                addMarker('Tu ubicación', LatLng(lat, long));
+              });
+              },
+            markers: _markers.values.toSet(),
+            onTap: (latLong) {addDestinoMarker('Destino', latLong);}, ///Añade el destino
+          ),
         ),
-        onMapCreated: (controller) {
-          _googleMapController = controller;
-          _getLocalizacionActual().then((value) {
-            lat=value.latitude.toDouble();
-            long=value.longitude.toDouble();
-            _googleMapController.animateCamera(
-                CameraUpdate.newCameraPosition(
-                    CameraPosition(target: LatLng(lat, long), zoom:17))
-            );
-            addMarker('Tu ubicación', LatLng(lat, long));
-          });
-        },
-        markers: _markers.values.toSet(),
-        onTap: (latLong) {addDestinoMarker('Destino', latLong);}, ///Añade el destino
+          Padding(padding: EdgeInsets.all(30),
+            child: Container(
+              height: 50,
+              color: Colors.black.withOpacity(0.3),
+              child: Row(
+                children: [
+                  Expanded(child: Slider(
+                    max: 5000,
+                    min: 300,
+                    value: radioCirculo,
+                    onChanged: (nuevoValor){
+                      radioCirculo=nuevoValor;
+                      addMarker('Tu ubicación', LatLng(lat, long));
+                      setState(() {});
+                      },
+                  ))
+                ],
+              ),
+            ),
+          )],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: ()  {
@@ -110,9 +146,20 @@ class FueraState extends State<FueraWidget>{
       icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
       infoWindow:  InfoWindow(title: markerId)
     );
+    crearCirculo(pos);
+    cambiarRadio=true;
 
     _markers[markerId] = marker;
     setState(() {});
+  }
+  
+  void crearCirculo(LatLng pos){
+    circulo.add(Circle(circleId: CircleId('Persona'),
+        center: pos,
+        fillColor: Colors.orange.withOpacity(0.1),
+        radius: radioCirculo,
+        strokeColor: Colors.orange,
+        strokeWidth: 1));
   }
 
   void addDestinoMarker(String markerId, LatLng pos){
