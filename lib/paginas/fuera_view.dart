@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:hambrout/services/map_services.dart';
 
 import '../main.dart';
 
@@ -16,19 +18,26 @@ class FueraWidget extends StatefulWidget{
 }
 
 class FueraState extends State<FueraWidget>{
-  Completer<GoogleMapController> controler = Completer();
+  //Completer<GoogleMapController> controler = Completer();
+
+  Timer? _temporizador;
 
   static const _localizacionInicial = LatLng(40.4165000, -3.7025600);
 
   late GoogleMapController _googleMapController;
-  final Map<String, Marker> _markers = {};
+  final Set<Marker> _markers = Set<Marker>();
 
   double lat=0;
   double long=0;
 
   Set<Circle> circulo = Set<Circle>();
-  var radioCirculo = 500.0;
+  var radioCirculo = 700.0;
   bool cambiarRadio=true;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -72,6 +81,26 @@ class FueraState extends State<FueraWidget>{
     return LatLng(lat, long);
   }
 
+  void setLugaresMarker(LatLng pos, String label, List tipos, String estado) async{
+    var counter=1;
+
+    final Marker marker;
+
+    if(tipos.contains('restaurants')||tipos.contains('food')||tipos.contains('bar')||tipos.contains('bakery')
+        ||tipos.contains('cafe')){
+      marker = Marker(
+        markerId: MarkerId('marcador_$counter'),
+        position: pos,
+        onTap: (){},
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+      );
+      setState(() {
+        _markers.add(marker);
+      });
+    }
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,13 +125,13 @@ class FueraState extends State<FueraWidget>{
                 long=value.longitude.toDouble();
                 _googleMapController.animateCamera(
                     CameraUpdate.newCameraPosition(
-                        CameraPosition(target: LatLng(lat, long), zoom:17))
+                        CameraPosition(target: LatLng(lat, long), zoom:15))
                 );
                 addMarker('Tu ubicación', LatLng(lat, long));
               });
               },
-            markers: _markers.values.toSet(),
-            onTap: (latLong) {addDestinoMarker('Destino', latLong);}, ///Añade el destino
+            markers: _markers,
+            //onTap: (latLong) {addDestinoMarker('Destino', latLong);}, ///Añade el destino
           ),
         ),
           Padding(padding: EdgeInsets.all(30),
@@ -112,6 +141,7 @@ class FueraState extends State<FueraWidget>{
               child: Row(
                 children: [
                   Expanded(child: Slider(
+                    activeColor: Colors.white,
                     max: 5000,
                     min: 300,
                     value: radioCirculo,
@@ -120,7 +150,28 @@ class FueraState extends State<FueraWidget>{
                       addMarker('Tu ubicación', LatLng(lat, long));
                       setState(() {});
                       },
-                  ))
+                  )),
+                  IconButton(
+                      onPressed: (){
+                        if(_temporizador?.isActive ?? false){
+                          _temporizador?.cancel();
+                          _temporizador= Timer(
+                              Duration(seconds: 2), () async{
+                                var lugares =
+                                    await MapServices().getDetallesLugar(_localizacionEnVivo(), radioCirculo.toInt());
+                                List<dynamic> lugaresCercanos = lugares['results'] as List;
+                                lugaresCercanos.forEach((element) {
+                                  setLugaresMarker(
+                                    LatLng(element['geometry']['location']['lat'], element['geometry']['location']['lng']),
+                                    element['name'],
+                                    element['types'],
+                                    element['business_status'] ?? 'No disponible'
+                                  );
+                                });
+                          });
+                        }
+                        },
+                      icon: Icon(Icons.near_me))
                 ],
               ),
             ),
@@ -131,7 +182,7 @@ class FueraState extends State<FueraWidget>{
           _markers.clear();
           _googleMapController.animateCamera(
               CameraUpdate.newCameraPosition(
-                  CameraPosition(target: _localizacionEnVivo(), zoom:17))
+                  CameraPosition(target: _localizacionEnVivo(), zoom:15))
               );
           },
         child: const Icon(Icons.center_focus_strong),
@@ -149,7 +200,7 @@ class FueraState extends State<FueraWidget>{
     crearCirculo(pos);
     cambiarRadio=true;
 
-    _markers[markerId] = marker;
+    _markers.add(marker);
     setState(() {});
   }
   
@@ -162,7 +213,7 @@ class FueraState extends State<FueraWidget>{
         strokeWidth: 1));
   }
 
-  void addDestinoMarker(String markerId, LatLng pos){
+  /**void addDestinoMarker(String markerId, LatLng pos){
     var marker = Marker(
         markerId: MarkerId(markerId),
         position: pos,
@@ -172,6 +223,6 @@ class FueraState extends State<FueraWidget>{
 
     _markers[markerId] = marker;
     setState(() {});
-  }
+  }**/
 
 }
