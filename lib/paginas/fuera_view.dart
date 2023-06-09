@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -15,10 +13,13 @@ class FueraWidget extends StatefulWidget{
 }
 
 class FueraState extends State<FueraWidget>{
+<<<<<<< HEAD
   //Completer<GoogleMapController> controler = Completer();
 
   Timer? _temporizador;
 
+=======
+>>>>>>> parent of 51c56b5 (El mapa muestra un circulo con radio configurable)
   static const _localizacionInicial = LatLng(40.4165000, -3.7025600);
 
   late GoogleMapController _googleMapController;
@@ -27,10 +28,13 @@ class FueraState extends State<FueraWidget>{
   double lat=0;
   double long=0;
 
+<<<<<<< HEAD
   Set<Circle> circulo = Set<Circle>();
   var radioCirculo = 700.0;
   bool cambiarRadio=true;
 
+=======
+>>>>>>> parent of 51c56b5 (El mapa muestra un circulo con radio configurable)
   @override
   void initState() {
     super.initState();
@@ -101,6 +105,7 @@ class FueraState extends State<FueraWidget>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+<<<<<<< HEAD
       body: Stack(
         children: [Container(
           height: MediaQuery.of(context).size.height,
@@ -173,6 +178,30 @@ class FueraState extends State<FueraWidget>{
               ),
             ),
           )],
+=======
+      body: GoogleMap(
+        myLocationButtonEnabled: false,
+        zoomControlsEnabled: false,
+        compassEnabled: true,
+        initialCameraPosition: const CameraPosition(
+            target: _localizacionInicial,
+            zoom: 7
+        ),
+        onMapCreated: (controller) {
+          _googleMapController = controller;
+          _getLocalizacionActual().then((value) {
+            lat=value.latitude.toDouble();
+            long=value.longitude.toDouble();
+            _googleMapController.animateCamera(
+                CameraUpdate.newCameraPosition(
+                    CameraPosition(target: LatLng(lat, long), zoom:17))
+            );
+            addMarker('Tu ubicación', LatLng(lat, long));
+          });
+        },
+        markers: _markers.values.toSet(),
+        onTap: (latLong) {addDestinoMarker('Destino', latLong);}, ///Añade el destino
+>>>>>>> parent of 51c56b5 (El mapa muestra un circulo con radio configurable)
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: ()  {
@@ -194,20 +223,9 @@ class FueraState extends State<FueraWidget>{
       icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
       infoWindow:  InfoWindow(title: markerId)
     );
-    crearCirculo(pos);
-    cambiarRadio=true;
 
     _markers.add(marker);
     setState(() {});
-  }
-  
-  void crearCirculo(LatLng pos){
-    circulo.add(Circle(circleId: CircleId('Persona'),
-        center: pos,
-        fillColor: Colors.orange.withOpacity(0.1),
-        radius: radioCirculo,
-        strokeColor: Colors.orange,
-        strokeWidth: 1));
   }
 
   /**void addDestinoMarker(String markerId, LatLng pos){
