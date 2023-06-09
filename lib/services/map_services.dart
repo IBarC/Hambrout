@@ -1,19 +1,29 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-//import 'package:http/http.dart' as http;
+import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 class MapServices{
-/**
-  Future<dynamic> getDetallesLugar(LatLng coord, int radio) async{
-    var key='AIzaSyC5YstKsWGxE_29dDccBbRe17VkpxtYymw';
+  var key='AIzaSyC5YstKsWGxE_29dDccBbRe17VkpxtYymw';
+
+  Future<dynamic> getDetallesLugar(LatLng coord, int radio, String tipo) async{
     var lat = coord.latitude;
     var long = coord.longitude;
 
-    final String url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json&location=$lat,$long&radius=$radio&key=$key';
+    final String url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?&location=$lat,$long&radius=$radio&type=$tipo&key=$key';
 
     var respuesta = await http.get(Uri.parse(url));
     var json = convert.jsonDecode(respuesta.body);
 
     return json;
-  }**/
+  }
+
+  Future<dynamic> getMorePlaceDetails(String token) async{
+
+    final String url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?&pagetoken=$token&key=$key';
+
+    var respuesta = await http.get(Uri.parse(url));
+    var json = convert.jsonDecode(respuesta.body);
+
+    return json;
+  }
 }

@@ -3,12 +3,8 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-<<<<<<< HEAD
-    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL"/>
-    <application
-=======
+
    <application
->>>>>>> parent of 3cd4cfd (Intento de muestra de restaurantes solo)
         android:label="Hambrout"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
@@ -32,12 +28,9 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-<<<<<<< HEAD
             <meta-data
             android:name="com.google.android.gms.games.APP_ID"
             android:value="app_id" />
-=======
->>>>>>> parent of 3cd4cfd (Intento de muestra de restaurantes solo)
         </activity>
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->

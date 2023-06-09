@@ -42,15 +42,12 @@ dependencies:
   back_button_interceptor: ^6.0.2
 
   dio: ^4.0.0
-  flutter_polyline_points: ^0.2.6
   google_maps_flutter: ^2.0.2
   geolocator: ^8.2.1
 
   lottie:
-<<<<<<< HEAD
-  #http: 1.0.0
-=======
->>>>>>> parent of 3cd4cfd (Intento de muestra de restaurantes solo)
+
+  http: 1.0.0
 
 dev_dependencies:
   flutter_test:

@@ -14,13 +14,13 @@
       },
       "oauth_client": [
         {
-          "client_id": "583598744130-g6dbu1n8u963upsjd302c49acft6cm4e.apps.googleusercontent.com",
-          "client_type": 3
+          "client_id":"1090493261404-n1j0amcfmsinj8an81cfe74nrs4hh4kh.apps.googleusercontent.com",
+          "project_id": "verdant-axiom-388316"
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDmontLNrLIwq2SuHUU_WhlHnEX969AF-I"
+          "current_key": "AIzaSyC5YstKsWGxE_29dDccBbRe17VkpxtYymw"
         }
       ],
       "services": {
@@ -29,6 +29,13 @@
             {
               "client_id": "583598744130-g6dbu1n8u963upsjd302c49acft6cm4e.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "583598744130-ghse0ftppnma6b41kf5nvu5tn89s96kp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.hambrout"
+              }
             }
           ]
         }
