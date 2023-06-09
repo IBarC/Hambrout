@@ -13,13 +13,6 @@ class FueraWidget extends StatefulWidget{
 }
 
 class FueraState extends State<FueraWidget>{
-<<<<<<< HEAD
-  //Completer<GoogleMapController> controler = Completer();
-
-  Timer? _temporizador;
-
-=======
->>>>>>> parent of 51c56b5 (El mapa muestra un circulo con radio configurable)
   static const _localizacionInicial = LatLng(40.4165000, -3.7025600);
 
   late GoogleMapController _googleMapController;
@@ -28,13 +21,6 @@ class FueraState extends State<FueraWidget>{
   double lat=0;
   double long=0;
 
-<<<<<<< HEAD
-  Set<Circle> circulo = Set<Circle>();
-  var radioCirculo = 700.0;
-  bool cambiarRadio=true;
-
-=======
->>>>>>> parent of 51c56b5 (El mapa muestra un circulo con radio configurable)
   @override
   void initState() {
     super.initState();
@@ -105,80 +91,6 @@ class FueraState extends State<FueraWidget>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-<<<<<<< HEAD
-      body: Stack(
-        children: [Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          child: GoogleMap(
-            mapType: MapType.normal,
-            myLocationButtonEnabled: false,
-            zoomControlsEnabled: false,
-            compassEnabled: false,
-            circles: circulo,
-            initialCameraPosition: const CameraPosition(
-                target: _localizacionInicial,
-                zoom: 7
-            ),
-            onMapCreated: (controller) {
-              _googleMapController = controller;
-              _getLocalizacionActual().then((value) {
-                lat=value.latitude.toDouble();
-                long=value.longitude.toDouble();
-                _googleMapController.animateCamera(
-                    CameraUpdate.newCameraPosition(
-                        CameraPosition(target: LatLng(lat, long), zoom:15))
-                );
-                addMarker('Tu ubicación', LatLng(lat, long));
-              });
-              },
-            markers: _markers,
-            //onTap: (latLong) {addDestinoMarker('Destino', latLong);}, ///Añade el destino
-          ),
-        ),
-          Padding(padding: EdgeInsets.all(30),
-            child: Container(
-              height: 50,
-              color: Colors.black.withOpacity(0.3),
-              child: Row(
-                children: [
-                  Expanded(child: Slider(
-                    activeColor: Colors.white,
-                    max: 5000,
-                    min: 300,
-                    value: radioCirculo,
-                    onChanged: (nuevoValor){
-                      radioCirculo=nuevoValor;
-                      addMarker('Tu ubicación', LatLng(lat, long));
-                      setState(() {});
-                      },
-                  )),
-                  /**IconButton(
-                      onPressed: (){
-                        if(_temporizador?.isActive ?? false){
-                          _temporizador?.cancel();
-                          _temporizador= Timer(
-                              Duration(seconds: 2), () async{
-                                var lugares =
-                                    await MapServices().getDetallesLugar(_localizacionEnVivo(), radioCirculo.toInt());
-                                List<dynamic> lugaresCercanos = lugares['results'] as List;
-                                lugaresCercanos.forEach((element) {
-                                  setLugaresMarker(
-                                    LatLng(element['geometry']['location']['lat'], element['geometry']['location']['lng']),
-                                    element['name'],
-                                    element['types'],
-                                    element['business_status'] ?? 'No disponible'
-                                  );
-                                });
-                          });
-                        }
-                        },
-                      icon: Icon(Icons.near_me))**/
-                ],
-              ),
-            ),
-          )],
-=======
       body: GoogleMap(
         myLocationButtonEnabled: false,
         zoomControlsEnabled: false,
@@ -199,9 +111,8 @@ class FueraState extends State<FueraWidget>{
             addMarker('Tu ubicación', LatLng(lat, long));
           });
         },
-        markers: _markers.values.toSet(),
-        onTap: (latLong) {addDestinoMarker('Destino', latLong);}, ///Añade el destino
->>>>>>> parent of 51c56b5 (El mapa muestra un circulo con radio configurable)
+        markers: _markers,
+        //onTap: (latLong) {addDestinoMarker('Destino', latLong);}, ///Añade el destino
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: ()  {
