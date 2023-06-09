@@ -1,7 +1,11 @@
+<<<<<<< HEAD
+=======
+import 'dart:async';
+
+>>>>>>> parent of 3cd4cfd (Intento de muestra de restaurantes solo)
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:hambrout/services/map_services.dart';
 
 class FueraWidget extends StatefulWidget{
   const FueraWidget({super.key});
@@ -13,19 +17,26 @@ class FueraWidget extends StatefulWidget{
 }
 
 class FueraState extends State<FueraWidget>{
+<<<<<<< HEAD
+=======
+  Completer<GoogleMapController> controler = Completer();
+
+>>>>>>> parent of 3cd4cfd (Intento de muestra de restaurantes solo)
   static const _localizacionInicial = LatLng(40.4165000, -3.7025600);
 
   late GoogleMapController _googleMapController;
-  final Set<Marker> _markers = Set<Marker>();
+  final Map<String, Marker> _markers = {};
 
   double lat=0;
   double long=0;
 
-  @override
-  void initState() {
-    super.initState();
-  }
+<<<<<<< HEAD
+=======
+  Set<Circle> circulo = Set<Circle>();
+  var radioCirculo = 500.0;
+  bool cambiarRadio=true;
 
+>>>>>>> parent of 3cd4cfd (Intento de muestra de restaurantes solo)
   @override
   void dispose() {
     super.dispose();
@@ -68,29 +79,10 @@ class FueraState extends State<FueraWidget>{
     return LatLng(lat, long);
   }
 
-  void setLugaresMarker(LatLng pos, String label, List tipos, String estado) async{
-    var counter=1;
-
-    final Marker marker;
-
-    if(tipos.contains('restaurants')||tipos.contains('food')||tipos.contains('bar')||tipos.contains('bakery')
-        ||tipos.contains('cafe')){
-      marker = Marker(
-        markerId: MarkerId('marcador_$counter'),
-        position: pos,
-        onTap: (){},
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
-      );
-      setState(() {
-        _markers.add(marker);
-      });
-    }
-
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+<<<<<<< HEAD
       body: GoogleMap(
         myLocationButtonEnabled: false,
         zoomControlsEnabled: false,
@@ -113,13 +105,65 @@ class FueraState extends State<FueraWidget>{
         },
         markers: _markers,
         //onTap: (latLong) {addDestinoMarker('Destino', latLong);}, ///Añade el destino
+=======
+      body: Stack(
+        children: [Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child: GoogleMap(
+            mapType: MapType.normal,
+            myLocationButtonEnabled: false,
+            zoomControlsEnabled: false,
+            compassEnabled: false,
+            circles: circulo,
+            initialCameraPosition: const CameraPosition(
+                target: _localizacionInicial,
+                zoom: 7
+            ),
+            onMapCreated: (controller) {
+              _googleMapController = controller;
+              _getLocalizacionActual().then((value) {
+                lat=value.latitude.toDouble();
+                long=value.longitude.toDouble();
+                _googleMapController.animateCamera(
+                    CameraUpdate.newCameraPosition(
+                        CameraPosition(target: LatLng(lat, long), zoom:17))
+                );
+                addMarker('Tu ubicación', LatLng(lat, long));
+              });
+              },
+            markers: _markers.values.toSet(),
+            onTap: (latLong) {addDestinoMarker('Destino', latLong);}, ///Añade el destino
+          ),
+        ),
+          Padding(padding: EdgeInsets.all(30),
+            child: Container(
+              height: 50,
+              color: Colors.black.withOpacity(0.3),
+              child: Row(
+                children: [
+                  Expanded(child: Slider(
+                    max: 5000,
+                    min: 300,
+                    value: radioCirculo,
+                    onChanged: (nuevoValor){
+                      radioCirculo=nuevoValor;
+                      addMarker('Tu ubicación', LatLng(lat, long));
+                      setState(() {});
+                      },
+                  ))
+                ],
+              ),
+            ),
+          )],
+>>>>>>> parent of 3cd4cfd (Intento de muestra de restaurantes solo)
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: ()  {
           _markers.clear();
           _googleMapController.animateCamera(
               CameraUpdate.newCameraPosition(
-                  CameraPosition(target: _localizacionEnVivo(), zoom:15))
+                  CameraPosition(target: _localizacionEnVivo(), zoom:17))
               );
           },
         child: const Icon(Icons.center_focus_strong),
@@ -135,11 +179,11 @@ class FueraState extends State<FueraWidget>{
       infoWindow:  InfoWindow(title: markerId)
     );
 
-    _markers.add(marker);
+    _markers[markerId] = marker;
     setState(() {});
   }
 
-  /**void addDestinoMarker(String markerId, LatLng pos){
+  void addDestinoMarker(String markerId, LatLng pos){
     var marker = Marker(
         markerId: MarkerId(markerId),
         position: pos,
@@ -149,6 +193,6 @@ class FueraState extends State<FueraWidget>{
 
     _markers[markerId] = marker;
     setState(() {});
-  }**/
+  }
 
 }
