@@ -1,12 +1,9 @@
 import 'dart:async';
-import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hambrout/services/map_services.dart';
-
-import '../main.dart';
 
 class FueraWidget extends StatefulWidget{
   const FueraWidget({super.key});
@@ -151,7 +148,7 @@ class FueraState extends State<FueraWidget>{
                       setState(() {});
                       },
                   )),
-                  IconButton(
+                  /**IconButton(
                       onPressed: (){
                         if(_temporizador?.isActive ?? false){
                           _temporizador?.cancel();
@@ -171,7 +168,7 @@ class FueraState extends State<FueraWidget>{
                           });
                         }
                         },
-                      icon: Icon(Icons.near_me))
+                      icon: Icon(Icons.near_me))**/
                 ],
               ),
             ),

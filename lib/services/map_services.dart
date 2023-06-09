@@ -1,9 +1,9 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:http/http.dart' as http;
+//import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 class MapServices{
-
+/**
   Future<dynamic> getDetallesLugar(LatLng coord, int radio) async{
     var key='AIzaSyC5YstKsWGxE_29dDccBbRe17VkpxtYymw';
     var lat = coord.latitude;
@@ -15,5 +15,5 @@ class MapServices{
     var json = convert.jsonDecode(respuesta.body);
 
     return json;
-  }
+  }**/
 }
