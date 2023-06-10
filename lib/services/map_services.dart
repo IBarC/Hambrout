@@ -27,9 +27,9 @@ class MapServices{
     return json;
   }
 
-  Future<Map<String, dynamic>> getPlace(String? input) async {
+  Future<Map<String, dynamic>> getPlace(String? palceId) async {
     final String url =
-        'https://maps.googleapis.com/maps/api/place/details/json?place_id=$input&key=$key';
+        'https://maps.googleapis.com/maps/api/place/details/json?place_id=$palceId&key=$key';
 
     var response = await http.get(Uri.parse(url));
 
@@ -38,6 +38,30 @@ class MapServices{
     var results = json['result'] as Map<String, dynamic>;
 
     return results;
+  }
+
+  Future<dynamic> getDireccionAndando(double latOrigen, double longOrigen, double latDestino, double longDestino) async {
+    final String url =
+        "https://maps.googleapis.com/maps/api/directions/json?origin=$latOrigen,$longOrigen&destination=$latDestino,$longDestino"
+        "&mode=walking&key=$key";
+
+    var response = await http.get(Uri.parse(url));
+
+    var json = convert.jsonDecode(response.body);
+
+    return json;
+  }
+
+  Future<dynamic> getDireccionCoche(double latOrigen, double longOrigen, double latDestino, double longDestino) async {
+    final String url =
+        "https://maps.googleapis.com/maps/api/directions/json?origin=$latOrigen,$longOrigen&destination=$latDestino,$longDestino"
+        "&mode=driving&key=$key";
+
+    var response = await http.get(Uri.parse(url));
+
+    var json = convert.jsonDecode(response.body);
+
+    return json;
   }
 
 }

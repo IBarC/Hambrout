@@ -269,4 +269,20 @@ class FormatosDisenio{
         fontSize: tam
     );
   }
+
+  TextStyle txtTituloLugar(BuildContext context){
+    return const TextStyle(
+        //overflow: TextOverflow.visible,
+        fontSize: 23,
+        fontWeight: FontWeight.bold
+    );
+  }
+
+  TextStyle txtDatosLugar(BuildContext context){
+    return const TextStyle(
+        //overflow: TextOverflow.visible,
+        fontSize: 20,
+        fontWeight: FontWeight.bold
+    );
+  }
 }
