@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:hambrout/enum/enum_listas.dart';
 import 'package:hambrout/paginas/lista_view.dart';
+import 'package:hambrout/utils/formatos_disenio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/lista.dart';
 import '../utils/formularios.dart';
 
-class ListasWidget extends StatefulWidget{
+class ListasWidget extends StatefulWidget {
   const ListasWidget({super.key});
 
   @override
@@ -15,8 +16,7 @@ class ListasWidget extends StatefulWidget{
   }
 }
 
-class ListasState extends State<ListasWidget>{
-
+class ListasState extends State<ListasWidget> {
   late int id;
 
   @override
@@ -25,18 +25,20 @@ class ListasState extends State<ListasWidget>{
     inicializar();
   }
 
-  void inicializar()async{
+  void inicializar() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    id=prefs.getInt(l(DatosListas.id))??1;
+    id = prefs.getInt(l(DatosListas.id)) ?? 1;
   }
 
-  List creaElementos(var elementos){
+  List creaElementos(var elementos) {
     List lista = [];
-    for(var elemento in elementos){
+    for (var elemento in elementos) {
       lista.add(Elemento(
           nombre: elemento[l(DatosListas.nombre)],
           tachado: elemento[l(DatosListas.tachado)],
-          controlador: TextEditingController(text: elemento[l(DatosListas.nombre)],)));
+          controlador: TextEditingController(
+            text: elemento[l(DatosListas.nombre)],
+          )));
     }
     return lista;
   }
@@ -45,78 +47,121 @@ class ListasState extends State<ListasWidget>{
     setState(() {});
   }
 
-    @override
-    Widget build(BuildContext context) {
+  Future<List?>? comprobarListas()async {
+    List listas = await conexionDatos.buscarListas();
+      if(listas.isEmpty){
+        return ['VACIO'];
+      }
+    return listas;
+    }
 
-      Size media = MediaQuery.of(context).size;
-      setState(() {});
-  
-      return Scaffold(
-        appBar: AppBar(elevation: 1,title: Text('Listas', style: formatosDisenio.txtTituloPag(context),),backgroundColor: Colors.white,),
-        body: Padding(
-            padding: EdgeInsets.only(top: media.height/30,left: media.height/30,right: media.height/30),
-            child:
-            FutureBuilder(
-                future: conexionDatos.buscarListas(),//esta es la funcion que tiene que devolver la lista necesaria de datos
-                builder: ((context, snapshot){
-                  if(snapshot.hasData){
-                    return ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: snapshot.data?.length,
-                        itemBuilder: (context, index){
-                          return GestureDetector(
-                            onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                return ListaWidget(
-                                    esNueva: false,
-                                    lista: Lista(
-                                        titulo: snapshot.data?[index][l(DatosListas.titulo)],
-                                        elementos: creaElementos(snapshot.data?[index][l(DatosListas.elementos)]),
-                                        id: snapshot.data?[index][l(DatosListas.id)]
-                                    ));
-                              }));
-                              },
-                            child: Padding(
-                                padding: EdgeInsets.only(bottom: media.height/30),
-                                child: Container(
-                                  padding: EdgeInsets.all(10),
-                                  decoration: formatosDisenio.cajaRecetas(),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(snapshot.data?[index][l(DatosListas.titulo)],style: formatosDisenio.txtTituloRecPrev(context),),
-                                      formatosDisenio.separacionPequenia(context),
-                                      Text(snapshot.data?[index][l(DatosListas.elementos)][0][l(DatosListas.nombre)], style: formatosDisenio.txtDatoRecPrev(context),)
-                                    ],
-                                  ),
-                                )
+  @override
+  Widget build(BuildContext context) {
+    Size media = MediaQuery.of(context).size;
+    setState(() {});
+
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 1,
+        title: Text(
+          'Listas',
+          style: formatosDisenio.txtTituloPag(context),
+        ),
+        backgroundColor: Colors.white,
+      ),
+      body: Padding(
+          padding: EdgeInsets.only(
+              top: media.height / 30,
+              left: media.height / 30,
+              right: media.height / 30),
+          child: FutureBuilder(
+              future: comprobarListas(),
+              //esta es la funcion que tiene que devolver la lista necesaria de datos
+              builder: ((context, snapshot) {
+                if (snapshot.hasData) {
+                  return ListView.builder(
+                      //shrinkWrap: true,
+                      itemCount: snapshot.data?.length,
+                      itemBuilder: (context, index) {
+                        if (snapshot.data?[0] == 'VACIO') {
+                          return Center(
+                            child: Text(
+                              'Crea tu primera lista pulsando en el botón + abajo :)',
+                              style:
+                                  FormatosDisenio().txtLabelDatosUsu(context),
                             ),
                           );
-                        });
-                  } else {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                })
-            )
-        ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.orange,
-          onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return ListaWidget(
+                        }
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return ListaWidget(
+                                  esNueva: false,
+                                  lista: Lista(
+                                      titulo: snapshot.data?[index]
+                                          [l(DatosListas.titulo)],
+                                      elementos: creaElementos(
+                                          snapshot.data?[index]
+                                              [l(DatosListas.elementos)]),
+                                      id: snapshot.data?[index]
+                                          [l(DatosListas.id)]));
+                            }));
+                          },
+                          child: Padding(
+                              padding:
+                                  EdgeInsets.only(bottom: media.height / 30),
+                              child: Container(
+                                padding: EdgeInsets.all(10),
+                                decoration: formatosDisenio.cajaRecetas(),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      snapshot.data?[index]
+                                          [l(DatosListas.titulo)],
+                                      style: formatosDisenio
+                                          .txtTituloRecPrev(context),
+                                    ),
+                                    formatosDisenio.separacionPequenia(context),
+                                    Text(
+                                      snapshot.data?[index]
+                                              [l(DatosListas.elementos)][0]
+                                          [l(DatosListas.nombre)],
+                                      style: formatosDisenio
+                                          .txtDatoRecPrev(context),
+                                    )
+                                  ],
+                                ),
+                              )),
+                        );
+                      });
+                } else {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              }))),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.orange,
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return ListaWidget(
                 esNueva: true,
-                  lista: Lista(
-                      titulo: '',
-                      elementos: [Elemento(nombre: '', tachado: false, controlador: TextEditingController(text: ''))],
-                      id: 1
-                  ));
-            }));
-          },
-          tooltip: 'Crear una lista nueva',
-          child: const Icon(Icons.add),
-        ),
-      );
-    }
+                lista: Lista(
+                    titulo: '',
+                    elementos: [
+                      Elemento(
+                          nombre: '',
+                          tachado: false,
+                          controlador: TextEditingController(text: ''))
+                    ],
+                    id: 1));
+          }));
+        },
+        tooltip: 'Crear una lista nueva',
+        child: const Icon(Icons.add),
+      ),
+    );
+  }
 }

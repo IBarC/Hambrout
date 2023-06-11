@@ -29,6 +29,17 @@ class FormatosDisenio{
         elevation: 0,
         foregroundColor: Colors.black,
         backgroundColor: Colors.white,
+
+        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5))),
+        side: const BorderSide(color: Colors.orange,width: 1.2)
+    );
+  }
+
+  ButtonStyle btnSeleccionAlert(){
+    return ElevatedButton.styleFrom(
+        elevation: 0,
+        foregroundColor: Colors.orange,
+        backgroundColor: Colors.white,
         shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5))),
         side: const BorderSide(color: Colors.orange,width: 1.2)
     );
@@ -115,6 +126,62 @@ class FormatosDisenio{
       return 35;
     }
     return tam/13;
+  }
+
+
+  TextStyle txtInfoLogin1(bool texto){
+    if(texto){
+      return const TextStyle(
+          overflow: TextOverflow.visible,
+          fontSize: 20,
+      );
+    }
+    return const TextStyle(
+        overflow: TextOverflow.visible,
+        fontSize: 20,
+        color: Colors.white
+    );
+  }
+
+  TextStyle txtInfoLogin2(BuildContext context, bool boton){
+    double base = MediaQuery.of(context).size.width;
+    double tam=base/20;
+    print(base);
+    if(base<350){
+      tam=13;
+    }else if(base>700){
+      tam=17;
+    }
+    if(boton){
+      return TextStyle(
+          overflow: TextOverflow.visible,
+          fontSize: tam,
+          color: Colors.white,
+          decoration: TextDecoration.underline
+      );
+    }
+    return TextStyle(
+        overflow: TextOverflow.visible,
+        fontSize: tam,
+        color: Colors.white
+    );
+  }
+
+  TextStyle txtTituloCrearCuetna(BuildContext context){
+    double base = MediaQuery.of(context).size.width;
+    double tam=base/13;
+    print(base);
+    if(base<350){
+      tam=20;
+    }else if(base>700){
+      tam=25;
+    }
+    return TextStyle(
+        overflow: TextOverflow.visible,
+        fontSize: tam,
+        color: Colors.white,
+        fontWeight: FontWeight.w600
+    );
   }
 
   TextStyle txtTituloRecPrev(BuildContext context){
@@ -241,7 +308,7 @@ class FormatosDisenio{
 
   TextStyle txtLabelDatosUsu(BuildContext context){
     double base = MediaQuery.of(context).size.width;
-    double tam=base/28;
+    double tam=base/26;
     if(base<350){
       tam=14;
     }else if(base>700){
@@ -257,7 +324,7 @@ class FormatosDisenio{
 
   TextStyle txtInfoDatosUsu(BuildContext context){
     double base = MediaQuery.of(context).size.width;
-    double tam=base/27;
+    double tam=base/23;
     if(base<350){
       tam=15;
     }else if(base>700){
@@ -265,7 +332,7 @@ class FormatosDisenio{
     }
     return TextStyle(
         overflow: TextOverflow.visible,
-        fontWeight: FontWeight.w300,
+        fontWeight: FontWeight.w600,
         fontSize: tam
     );
   }
@@ -283,6 +350,22 @@ class FormatosDisenio{
         //overflow: TextOverflow.visible,
         fontSize: 20,
         fontWeight: FontWeight.bold
+    );
+  }
+
+  TextStyle txtInfoAlert(BuildContext context){
+    return const TextStyle(
+      //overflow: TextOverflow.visible,
+        fontSize: 17,
+    );
+  }
+
+  InputDecoration decoracionInputLogIn(String label, String hint){
+    return InputDecoration(
+        border: OutlineInputBorder(borderSide: BorderSide(color: Colors.black54, width: 1),borderRadius: BorderRadius.all(Radius.circular(7))),
+        hintText: hint,
+        labelText: label,
+
     );
   }
 }

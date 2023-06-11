@@ -41,15 +41,15 @@ class FormularioLogIn extends  State<FormularioLogInWidget>{
     _textEditingControllers.add(userContr);
     _widgets.add(Padding(
       padding: const EdgeInsets.all(0),
-      child: _createTextFormField("Correo electrónico", userContr),
+      child: _createTextFormField("Correo electrónico", userContr, false),
     ));
-    _widgets.add(const SizedBox(height: 7));
+    _widgets.add(const SizedBox(height: 10));
 
     _textEditingControllers.add(passwContr);
     _widgets.add(Padding(padding: const EdgeInsets.all(0),
-      child: _createTextFormField("Contraseña", passwContr),
+      child: _createTextFormField("Contraseña", passwContr, true),
     ));
-    _widgets.add(const SizedBox(height: 7));
+    _widgets.add(const SizedBox(height: 20));
 
     _widgets.add(ElevatedButton(
         style: formatosDisenio.btnBurdeos(),
@@ -69,7 +69,7 @@ class FormularioLogIn extends  State<FormularioLogInWidget>{
             );
           }
         },
-        child: const Text('Iniciar sesión'),
+        child: Text('Iniciar sesión', style: FormatosDisenio().txtInfoLogin1(false),),
       ),
     );
   }
@@ -83,7 +83,7 @@ class FormularioLogIn extends  State<FormularioLogInWidget>{
   }
 
   TextFormField _createTextFormField(
-      String fieldName, TextEditingController controller) {
+      String fieldName, TextEditingController controller, bool password) {
     return TextFormField(
       validator: (value) {
 
@@ -106,9 +106,10 @@ class FormularioLogIn extends  State<FormularioLogInWidget>{
         }
         return null;
       },
-      decoration: InputDecoration(
-          hintText: fieldName,
-          labelText: fieldName),
+      
+      style: FormatosDisenio().txtInfoLogin1(true),
+      keyboardType: password ? TextInputType.text : TextInputType.emailAddress,
+      decoration: FormatosDisenio().decoracionInputLogIn(fieldName, fieldName),
       controller: controller,
       obscureText: oscurecerTexto(fieldName),
     );
@@ -162,41 +163,41 @@ class FormularioCrearCuenta extends State<FormularioCrearCuentaWidget>{
       padding: const EdgeInsets.all(0),
       child: _createTextFormField("Nombre", nombreContr),
     ));
-    _widgets.add(const SizedBox(height: 7));
+    _widgets.add(const SizedBox(height: 10));
 
     _textEditingControllers.add(apellidosContr);
     _widgets.add(Padding(
       padding: const EdgeInsets.all(0),
       child: _createTextFormField("Apellidos", apellidosContr),
     ));
-    _widgets.add(const SizedBox(height: 7));
+    _widgets.add(const SizedBox(height: 10));
 
     _textEditingControllers.add(correoContr);
     _widgets.add(Padding(
       padding: const EdgeInsets.all(0),
       child: _createCorreoFormField("Correo electrónico", correoContr),
     ));
-    _widgets.add(const SizedBox(height: 7));
+    _widgets.add(const SizedBox(height: 10));
 
     _textEditingControllers.add(telContr);
     _widgets.add(Padding(
       padding: const EdgeInsets.all(0),
-      child: _createPasswFormField("Teléfono", telContr),
+      child: _createNumeroFormField("Número de telefono", telContr),
     ));
-    _widgets.add(const SizedBox(height: 7));
+    _widgets.add(const SizedBox(height: 10));
 
     _textEditingControllers.add(passwContr);
     _widgets.add(Padding(padding: const EdgeInsets.all(0),
       child: _createPasswFormField("Contraseña", passwContr),
     ));
-    _widgets.add(const SizedBox(height: 7));
+    _widgets.add(const SizedBox(height: 10));
 
     _textEditingControllers.add(repePasswContr);
     _widgets.add(Padding(
       padding: const EdgeInsets.all(0),
       child: _createPasswFormField("Repite la contraseña", repePasswContr),
     ));
-    _widgets.add(const SizedBox(height: 7));
+    _widgets.add(const SizedBox(height: 20));
 
     _widgets.add(ElevatedButton(
       style: formatosDisenio.btnBurdeos(),
@@ -208,7 +209,7 @@ class FormularioCrearCuenta extends State<FormularioCrearCuentaWidget>{
           Navigator.popAndPushNamed(context!, '/login').then((value) => setState((){}));
         }
       },
-      child: const Text('Crear cuenta'),
+      child: Text('Crear cuenta', style: FormatosDisenio().txtInfoLogin1(false)),
     ),
     );
   }
@@ -236,9 +237,8 @@ class FormularioCrearCuenta extends State<FormularioCrearCuentaWidget>{
         }
         return null;
       },
-      decoration: InputDecoration(
-          hintText: hintText(fieldName),
-          labelText: fieldName),
+      style: FormatosDisenio().txtInfoLogin1(true),
+      decoration: FormatosDisenio().decoracionInputLogIn(fieldName, hintText(fieldName)),
       controller: controller,
     );
   }
@@ -258,9 +258,9 @@ class FormularioCrearCuenta extends State<FormularioCrearCuentaWidget>{
 
         return null;
       },
-      decoration: InputDecoration(
-          hintText: 'Ej: maria@ejemplo.com',
-          labelText: fieldName),
+      style: FormatosDisenio().txtInfoLogin1(true),
+      keyboardType: TextInputType.emailAddress,
+      decoration: FormatosDisenio().decoracionInputLogIn(fieldName, 'Ej: maria@ejemplo.com'),
       controller: controller,
     );
   }
@@ -292,9 +292,8 @@ class FormularioCrearCuenta extends State<FormularioCrearCuentaWidget>{
         }
         return null;
       },
-      decoration: InputDecoration(
-          hintText: hintPass(fieldName),
-          labelText: fieldName),
+      style: FormatosDisenio().txtInfoLogin1(true),
+      decoration: FormatosDisenio().decoracionInputLogIn(fieldName, hintPass(fieldName)),
       controller: controller,
       obscureText: true,
     );
@@ -303,16 +302,15 @@ class FormularioCrearCuenta extends State<FormularioCrearCuentaWidget>{
   TextFormField _createNumeroFormField(
       String fieldName, TextEditingController controller) {
     return TextFormField(
-      keyboardType: TextInputType.numberWithOptions(),
       validator: (value) {
         if (value!.isEmpty) {
           return 'El campo no puede estar vacio';
         }
         return null;
       },
-      decoration: InputDecoration(
-          hintText: hintText(fieldName),
-          labelText: fieldName),
+      style: FormatosDisenio().txtInfoLogin1(true),
+      keyboardType: TextInputType.numberWithOptions(),
+      decoration: FormatosDisenio().decoracionInputLogIn(fieldName, hintText(fieldName)),
       controller: controller,
     );
   }

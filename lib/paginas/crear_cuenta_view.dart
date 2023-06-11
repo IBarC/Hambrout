@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hambrout/paginas/login_view.dart';
+import 'package:hambrout/utils/formatos_disenio.dart';
 import 'package:hambrout/utils/formularios.dart';
 
 class CrearCuentaWidget extends StatefulWidget{
@@ -44,7 +45,10 @@ class _CrearCuenta extends State<CrearCuentaWidget>{
               shrinkWrap: true,
               padding: const EdgeInsets.all(40.0),
               scrollDirection: Axis.vertical,
-              children: const [
+              children: [
+                Container(alignment: Alignment.center,
+                child: Text('Crea una cuenta', style: FormatosDisenio().txtTituloCrearCuetna(context),),),
+                FormatosDisenio().separacionNormal(context),
                 SizedBox(
                   child: FormularioCrearCuentaWidget(),
                 )

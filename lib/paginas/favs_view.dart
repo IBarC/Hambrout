@@ -10,6 +10,7 @@ import 'dart:math';
 import '../enum/enum_receta.dart';
 import '../main.dart';
 import '../models/receta.dart';
+import '../utils/formatos_disenio.dart';
 import '../utils/formularios.dart';
 
 class FavsWidget extends StatefulWidget{
@@ -156,7 +157,8 @@ class FavsState extends State<FavsWidget>{
                               itemCount: snapshot.data?.length,
                               itemBuilder: (context, index){
                                 if(snapshot.data?[0] == 'Ups! No hemos encontrado datos aquí'){
-                                  return Text('Ups! No hemos encontrado datos aquí');
+                                  return Center(child: Text('¡Ups! No hemos encontrado datos aquí',
+                                    style: FormatosDisenio().txtLabelDatosUsu(context),),);
                                 } else {
                                   return GestureDetector(
                                     onTap: (){

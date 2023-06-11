@@ -66,6 +66,11 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+  fonts:
+    - family: AlumniSans
+      fonts:
+        - asset: fonts/AlumniSans-Regular.ttf
+
   assets:
     - images/
     - images/icons/

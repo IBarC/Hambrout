@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hambrout/enum/enum_usuario.dart';
 import 'package:hambrout/paginas/datos_cuenta_view.dart';
 import 'package:hambrout/paginas/login_view.dart';
+import 'package:hambrout/utils/formatos_disenio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../utils/formularios.dart';
@@ -55,11 +56,13 @@ class AyudaState extends State<AyudaWidget>{
         context: context,
         builder: (context){
           return AlertDialog(
+            buttonPadding: EdgeInsets.only(left: 30, right: 30),
             title: Text('Se cerrará sesión'),
-            content: Text('¿Quiere cerrar la sesión de la cuenta $username?'),
+            content: Text('¿Quiere cerrar la sesión de la cuenta $username?',
+              style: FormatosDisenio().txtInfoAlert(context),),
             actions: <Widget>[
-              ElevatedButton(onPressed: accionCerrarOEliminar, child: Text('Si')),
-              ElevatedButton(onPressed: (){Navigator.pop(context);}, child: Text('No'))
+              ElevatedButton(onPressed: (){Navigator.pop(context);}, child: Text('CANCELAR'), style: FormatosDisenio().btnSeleccionAlert(),),
+              ElevatedButton(onPressed: accionCerrarOEliminar, child: Text('SI, CERRAR'), style: FormatosDisenio().btnSeleccionAlert(),),
             ],
           );
         }
@@ -71,11 +74,13 @@ class AyudaState extends State<AyudaWidget>{
         context: context,
         builder: (context){
           return AlertDialog(
+            buttonPadding: EdgeInsets.only(left: 30, right: 30),
             title: Text('Se eliminará la cuenta'),
-            content: Text('¡Cuidado! La cuenta de $username está a punto de ser eliminada. ¿Está seguro de su decisión?'),
+            content: Text('¡Cuidado! La cuenta de $username está a punto de ser eliminada. ¿Está seguro de su decisión?',
+            style: FormatosDisenio().txtInfoAlert(context),),
             actions: <Widget>[
-              ElevatedButton(onPressed: (){conexionDatos.borrarUsuario(username);accionCerrarOEliminar();}, child: Text('Si')),
-              ElevatedButton(onPressed: (){Navigator.pop(context);}, child: Text('No'))
+              ElevatedButton(onPressed: (){Navigator.pop(context);}, child: Text('CANCELAR'), style: FormatosDisenio().btnSeleccionAlert(),),
+              ElevatedButton(onPressed: (){conexionDatos.borrarUsuario(username);accionCerrarOEliminar();}, child: Text('SI, ELIMINAR'), style: FormatosDisenio().btnSeleccionAlert(),),
             ],
           );
         }

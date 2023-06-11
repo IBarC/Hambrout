@@ -4,6 +4,7 @@ import 'package:hambrout/main.dart';
 import 'package:hambrout/models/receta.dart';
 import 'package:hambrout/paginas/favs_view.dart';
 import 'package:hambrout/paginas/receta_view.dart';
+import 'package:hambrout/utils/formatos_disenio.dart';
 import 'package:lottie/lottie.dart';
 import 'dart:math';
 
@@ -163,12 +164,13 @@ class CasaState extends State<CasaWidget> {
                     builder: ((context, snapshot){
                       if(snapshot.hasData){
                         return ListView.builder(
-                            shrinkWrap: true,
+                            //shrinkWrap: true,
                             scrollDirection: Axis.vertical,
                             itemCount: snapshot.data?.length,
                             itemBuilder: (context, index){
                               if(snapshot.data?[0] == 'Ups! No hemos encontrado datos aquí'){
-                                return Center(child: Text('Ups! No hemos encontrado datos aquí'),);
+                                return Center(child: Text('¡Ups! No hemos encontrado datos aquí',
+                                style: FormatosDisenio().txtLabelDatosUsu(context),),);
                               } else {
                                 return GestureDetector(
                                   onTap: (){

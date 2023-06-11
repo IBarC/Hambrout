@@ -30,10 +30,18 @@ class _LogIn extends State<LogInWidget>{
   Widget build(BuildContext context) {
 
   Size media = MediaQuery.of(context).size;
-  double tamanioLogo = media.width/5;
+  double tamanioLogo=media.width-400;
+
+  if(tamanioLogo<350) {
+    tamanioLogo=250;
+  } if (tamanioLogo>700){
+    tamanioLogo=500;
+  }
 
   return Scaffold(
       body: Container(
+        alignment: Alignment.center,
+        padding: EdgeInsets.all(40),
         width: media.width,
         height: media.height,
         ///Fondo degradado
@@ -44,43 +52,53 @@ class _LogIn extends State<LogInWidget>{
               colors: <Color>[
                 Color(0xFFF5B067),Color(0xFFAE7575),
               ])),
-        child: Center(
-          child: ListView(
-            shrinkWrap: true,
-            padding: const EdgeInsets.all(40.0),
-            scrollDirection: Axis.vertical,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image(image: const AssetImage("images/icons/logo-blanco.png"), width: tamanioLogo,),
-                  SizedBox(width: media.width/13,),
-                  const Text("Hambrout")
+                  Image(image: const AssetImage("images/icons/logo-caramelo.png"), width: tamanioLogo,),
+                  //SizedBox(width: 10,),
+                  //Text("Hambrout", style: TextStyle(color: Colors.white, fontSize: 65, fontFamily: 'AlumniSans', fontWeight: FontWeight.w400, letterSpacing: -3),)
                 ],
               ),
               formatosDisenio.separacionNormal(context),
               FormularioLogInWidget(),
-              formatosDisenio.separacionNormal(context),
+              //formatosDisenio.separacionNormal(context),
               /**TextButton(
                   onPressed: (){},
                   child: const Text("He olvidado la contraseña",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        decoration: TextDecoration.underline,
-                      ))),**/
-              formatosDisenio.separacionNormal(context),
-              ElevatedButton(
-                  onPressed: (){
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) {
-                        return const CrearCuentaWidget();
-                        })
-                    );
-                  },
-                  style: formatosDisenio.btnBurdeos(),
-                  child: const Text('No tengo cuenta'))
+                  style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  decoration: TextDecoration.underline,
+                  ))),**/
+              formatosDisenio.separacionGrande(context),
+              Container(
+                height: 100,
+                decoration: const BoxDecoration(
+                  border: Border(top: BorderSide(color: Colors.black38, width: 1))
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('¿No tienes una cuenta?', style: FormatosDisenio().txtInfoLogin2(context, false),),
+                    TextButton(
+                        onPressed: (){
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) {
+                                return const CrearCuentaWidget();
+                              })
+                          );
+                        },
+                        child: Text('¡Registrate aquí!', style: FormatosDisenio().txtInfoLogin2(context, true),))
+                  ],
+                ),
+              )
             ],
           ),
         )
