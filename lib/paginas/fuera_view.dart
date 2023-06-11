@@ -163,12 +163,11 @@ class FueraState extends State<FueraWidget>{
       abierto='Cerrado';
       estiloAbierto=TextStyle(color: Colors.red, fontSize: 17);
     } else {
-      abierto='Horario de apertura no disponible';
+      abierto='Apertura no disponible';
       estiloAbierto=TextStyle(color: Colors.black54, fontSize: 17);
     }
     widgetAbierto=Text(abierto, style: estiloAbierto,);
 
-    Widget widgetValoracion;
     TextStyle estiloValoracion;
     if(valoracion=='No disponible'){
       estiloValoracion=TextStyle(color: Colors.black54, fontSize: 17);
@@ -190,7 +189,7 @@ class FueraState extends State<FueraWidget>{
             _customInfoWindowController.addInfoWindow!(
               Container(
                 width: 320,
-                height: 250,
+                //height: 250,
                 decoration: formatosDisenio.cajaRecetas(),
                 child: Column(
                   children: [
@@ -204,63 +203,63 @@ class FueraState extends State<FueraWidget>{
                         child: Image(image: NetworkImage(imagenSitio != ''
                             ? 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=$imagenSitio&key=$key'
                             : 'https://cdn-icons-png.flaticon.com/512/813/813789.png?w=826&t=st=1686398815~exp=1686399415~hmac=b23e01bdd231369d0b79b2094ebacbe4427d6746ab481b46a5740e98da1868a0'),),),
-                      ),
+                    ),
                     Padding(
                       padding: const EdgeInsets.all(7),
                       child:
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Row(
+                            children: [SizedBox(
+                              width: 306,
+                              child: Text(nombre, style: formatosDisenio.txtTituloLugar(context)),
+                            ),
+                            ],
+                          ),
+                          Row(
                             children: [
-                              Row(
-                                children: [SizedBox(
-                                  width: 306,
-                                  child: Text(nombre, style: formatosDisenio.txtTituloLugar(context)),
-                                ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  SizedBox(
-                                    width: 306,
-                                    child: Wrap(
-                                      spacing: 10,
+                              SizedBox(
+                                width: 306,
+                                child: Wrap(
+                                  spacing: 10,
+                                  children: [
+                                    Text(valoracion, style: estiloValoracion,),
+                                    Text('·', style: TextStyle(fontSize: 17)),
+                                    Wrap(
                                       children: [
-                                        Text(valoracion, style: estiloValoracion,),
-                                        Text('·', style: TextStyle(fontSize: 17)),
-                                        Wrap(
-                                          children: [
-                                            Image(image: AssetImage('images/icons/relaxing-walk.png'),width: 20,),
-                                            Text(tiempoAndando['routes'][0]['legs'][0]['duration']['text'], style: TextStyle(fontSize: 17),),
-                                          ],
-                                        ),
-                                        Text('·', style: TextStyle(fontSize: 17)),
-                                        Wrap(
-                                          spacing: 7,
-                                          children: [
-                                            Image(image: AssetImage('images/icons/car.png'),width: 20,),
-                                            Text(tiempoCoche['routes'][0]['legs'][0]['duration']['text'], style: TextStyle(fontSize: 17),)
-                                          ],
-                                        ),
+                                        Image(image: AssetImage('images/icons/relaxing-walk.png'),width: 20,),
+                                        Text(tiempoAndando['routes'][0]['legs'][0]['duration']['text'], style: TextStyle(fontSize: 17),),
                                       ],
                                     ),
-                                  )
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  SizedBox(
-                                      width: 306,
-                                      child: Text(info['formatted_address'], style: TextStyle(fontSize: 17),)
-                                  )
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  SizedBox(
-                                    width: 306,
-                                    child: widgetAbierto,
-                                  )
-                                ],
+                                    Text('·', style: TextStyle(fontSize: 17)),
+                                    Wrap(
+                                      spacing: 7,
+                                      children: [
+                                        Image(image: AssetImage('images/icons/car.png'),width: 20,),
+                                        Text(tiempoCoche['routes'][0]['legs'][0]['duration']['text'], style: TextStyle(fontSize: 17),)
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              SizedBox(
+                                  width: 306,
+                                  child: Text(info['formatted_address'], style: TextStyle(fontSize: 17),)
+                              )
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: 306,
+                                child: widgetAbierto,
+                              )
+                            ],
                           )
                         ],
                       ),
@@ -332,6 +331,7 @@ class FueraState extends State<FueraWidget>{
                     min: 300,
                     value: radioCirculo,
                     onChanged: (nuevoValor){
+                      tokenKey='';
                       radioCirculo=nuevoValor;
                       crearCirculo(LatLng(lat, long));
                       addMarker('Tu ubicación', LatLng(lat, long));
@@ -395,6 +395,7 @@ class FueraState extends State<FueraWidget>{
       if(_temporizador?.isActive ?? false){
         _temporizador?.cancel();
       }
+      markerIdCounter=0;
       _temporizador= Timer(Duration(seconds: 2), () async{
         print('dentro de la funcion asincrona');
         var lugares =
@@ -440,10 +441,10 @@ class FueraState extends State<FueraWidget>{
               LatLng(element['geometry']['location']['lat'], element['geometry']['location']['lng']),
               element['name'],
               element['types'],
-              element['opening_hours']['open_now'],
-              element['price_level'],
-              element['address_component']['long_name'],
-              element['rating']);
+              element['opening_hours']!=null?element['opening_hours']['open_now'].toString()??'No disponible':'No disponible',
+              element['price_level'].toString()??'No disponible',
+              element['rating']!=null?element['rating'].toString():'No disponible',
+              element['place_id']);
         });
       }
       );
