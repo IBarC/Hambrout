@@ -337,9 +337,8 @@ class FormatosDisenio{
     );
   }
 
-  TextStyle txtTituloLugar(BuildContext context){
+  TextStyle txtTituloLugar(){
     return const TextStyle(
-        //overflow: TextOverflow.visible,
         fontSize: 23,
         fontWeight: FontWeight.bold
     );
@@ -367,5 +366,13 @@ class FormatosDisenio{
         labelText: label,
 
     );
+  }
+
+  InputDecoration decoracionFormDatos(BuildContext context, String label){
+    return InputDecoration(
+        disabledBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.orange, width: 1),borderRadius: BorderRadius.all(Radius.circular(7))),
+        labelStyle: txtLabelDatosUsu(context),
+        hintText: label,
+        labelText: label);
   }
 }

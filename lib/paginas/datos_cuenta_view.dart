@@ -1,30 +1,34 @@
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
+import 'package:hambrout/utils/formatos_disenio.dart';
 import 'package:hambrout/utils/formularios.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../enum/enum_usuario.dart';
 
-class DatosCuentaWidget extends StatefulWidget{
+/// Clase que genera la vista de Datos de la cuenta
+class DatosCuentaWidget extends StatefulWidget {
+  const DatosCuentaWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return DatosCuentaState();
   }
-
 }
 
-class DatosCuentaState extends State<DatosCuentaWidget>{
-
+class DatosCuentaState extends State<DatosCuentaWidget> {
   late SharedPreferences prefs;
-  String username='';
-  String nombre='';
-  String apellidos='';
-  String telefono='';
+  String username = '';
+  String nombre = '';
+  String apellidos = '';
+  String telefono = '';
 
   @override
   void initState() {
     super.initState();
     inicializar();
+
+    ///Añade un interceptor que permite controlar el listener del botón atrás del dispositivo
     BackButtonInterceptor.add(interceptor);
   }
 
@@ -34,26 +38,18 @@ class DatosCuentaState extends State<DatosCuentaWidget>{
     super.dispose();
   }
 
-  void inicializar()async{
+  void inicializar() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    username=prefs.getString(dU(DatosUsuario.username))??'no user';
-    nombre = prefs.getString(dU(DatosUsuario.nombre))??'no nombre';
-    apellidos = prefs.getString(dU(DatosUsuario.apellidos))??'no apellidos';
-    telefono=prefs.getString(dU(DatosUsuario.telefono))??'no telefono';
+    username = prefs.getString(dU(DatosUsuario.username)) ?? 'no user';
+    nombre = prefs.getString(dU(DatosUsuario.nombre)) ?? 'no nombre';
+    apellidos = prefs.getString(dU(DatosUsuario.apellidos)) ?? 'no apellidos';
+    telefono = prefs.getString(dU(DatosUsuario.telefono)) ?? 'no telefono';
     setState(() {});
   }
 
   bool interceptor(bool stopDefaultButtonEvent, RouteInfo info) {
     Navigator.pop(context);
     return true;
-  }
-  
-  InputDecoration decoracionTxt(String label){
-    return InputDecoration(
-        disabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.orange, width: 1),borderRadius: BorderRadius.all(Radius.circular(7))),
-        labelStyle: formatosDisenio.txtLabelDatosUsu(context),
-        hintText: label,
-        labelText: label);
   }
 
   @override
@@ -65,53 +61,63 @@ class DatosCuentaState extends State<DatosCuentaWidget>{
         backgroundColor: Colors.white,
         elevation: 0,
         leading: GestureDetector(
-        child: const Icon(Icons.arrow_back_ios, color: Colors.black,),
-        onTap: (){Navigator.pop(context);},
-      ),),
+          child: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.black,
+          ),
+          onTap: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: Container(
         height: media.height,
         width: media.width,
         decoration: const BoxDecoration(color: Colors.white70),
         child: Padding(
-          padding: EdgeInsets.only(left: media.height/50,right: media.height/50),
-          child: ListView(
-            shrinkWrap: true,
-            scrollDirection: Axis.vertical,
-            children: [
-              Text('Datos de la cuenta', style: formatosDisenio.txtTituloRec(context)),
-              formatosDisenio.separacionNormal(context),
-              TextFormField(
-                decoration: decoracionTxt('Nombre'),
-                style: formatosDisenio.txtInfoDatosUsu(context),
-                controller: TextEditingController(text: nombre),
-                enabled: false,
-              ),
-              formatosDisenio.separacionPequenia(context),
-              TextFormField(
-                decoration: decoracionTxt('Apellidos'),
-                style: formatosDisenio.txtInfoDatosUsu(context),
-                controller: TextEditingController(text: apellidos),
-                enabled: false,
-              ),
-              formatosDisenio.separacionPequenia(context),
-              TextFormField(
-                decoration: decoracionTxt('Correo'),
-                style: formatosDisenio.txtInfoDatosUsu(context),
-                controller: TextEditingController(text: username),
-                enabled: false,
-              ),
-              formatosDisenio.separacionPequenia(context),
-              TextFormField(
-                decoration: decoracionTxt('Teléfono'),
-                style: formatosDisenio.txtInfoDatosUsu(context),
-                controller: TextEditingController(text: telefono),
-                enabled: false,
-              ),
-            ],
-          )
-        ),
-      ) ,
+            padding: EdgeInsets.only(
+                left: media.height / 50, right: media.height / 50),
+            child: ListView(
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+              children: [
+                Text('Datos de la cuenta',
+                    style: formatosDisenio.txtTituloRec(context)),
+                formatosDisenio.separacionNormal(context),
+                TextFormField(
+                  decoration:
+                      FormatosDisenio().decoracionFormDatos(context, 'Nombre'),
+                  style: formatosDisenio.txtInfoDatosUsu(context),
+                  controller: TextEditingController(text: nombre),
+                  enabled: false,
+                ),
+                formatosDisenio.separacionPequenia(context),
+                TextFormField(
+                  decoration: FormatosDisenio()
+                      .decoracionFormDatos(context, 'Apellidos'),
+                  style: formatosDisenio.txtInfoDatosUsu(context),
+                  controller: TextEditingController(text: apellidos),
+                  enabled: false,
+                ),
+                formatosDisenio.separacionPequenia(context),
+                TextFormField(
+                  decoration:
+                      FormatosDisenio().decoracionFormDatos(context, 'Correo'),
+                  style: formatosDisenio.txtInfoDatosUsu(context),
+                  controller: TextEditingController(text: username),
+                  enabled: false,
+                ),
+                formatosDisenio.separacionPequenia(context),
+                TextFormField(
+                  decoration: FormatosDisenio()
+                      .decoracionFormDatos(context, 'Teléfono'),
+                  style: formatosDisenio.txtInfoDatosUsu(context),
+                  controller: TextEditingController(text: telefono),
+                  enabled: false,
+                ),
+              ],
+            )),
+      ),
     );
   }
-
 }

@@ -114,25 +114,23 @@ class CasaState extends State<CasaWidget> {
     if (btnPulsadoS != btnActualS) {
       nombreBtnPulsado = nombre;
 
+      //Coge el indice del btn señalado en este momento
       int indiceBtn = _botones.indexOf(btnActualS);
 
-      ///Coge el indice del btn señalado en este momento
+      // Quita el boton señalado con estilo de pulsado
       _botones.remove(btnActualS);
 
-      /// Quita el boton señalado con estilo de pulsado
+      //Añade el botón sin estilo de pulsado
       _botones.insert(indiceBtn, btnActual);
 
-      ///Añade el botón sin estilo de pulsado
-
+      //Coge el indice del boton pulsado
       int indiceBtnPulsado = _botones.indexOf(btnPulsado);
 
-      ///Coge el indice del boton pulsado
+      //Quita el boton pulsado sin estilo de pulsado
       _botones.remove(btnPulsado);
 
-      ///Quita el boton pulsado sin estilo de pulsado
+      //Añade el botón con estilo de pulsado
       _botones.insert(indiceBtnPulsado, btnPulsadoS);
-
-      ///Añade el botón con estilo de pulsado
 
       btnActual = btnPulsado;
       btnActualS = btnPulsadoS;
@@ -198,6 +196,10 @@ class CasaState extends State<CasaWidget> {
     return recetasActuales;
   }
 
+  refreshPage() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     Size media = MediaQuery.of(context).size;
@@ -260,7 +262,8 @@ class CasaState extends State<CasaWidget> {
                               ),
                             );
                           } else {
-                            return GestureDetector( ///Caja con información de la receta
+                            return GestureDetector(
+                              ///Caja con información de la receta
                               onTap: () {
                                 var data = snapshot.data?[index];
                                 Navigator.push(context,
@@ -286,7 +289,8 @@ class CasaState extends State<CasaWidget> {
                                     decoration: formatosDisenio.cajaRecetas(),
                                     child: Column(
                                       children: [
-                                        SizedBox( ///Imagen de la receta
+                                        SizedBox(
+                                          ///Imagen de la receta
                                           height: 80,
                                           width: media.width,
                                           child: FittedBox(
@@ -312,7 +316,8 @@ class CasaState extends State<CasaWidget> {
                                                 children: [
                                                   Row(
                                                     children: [
-                                                      Text( ///Titulo
+                                                      Text(
+                                                        ///Titulo
                                                         snapshot.data?[index][
                                                             dR(DatosReceta
                                                                 .nombre)],
@@ -354,7 +359,9 @@ class CasaState extends State<CasaWidget> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.end,
                                                 children: [
-                                                  IconButton( ///Botón de favoritos
+                                                  IconButton(
+
+                                                      ///Botón de favoritos
                                                       onPressed: () async {
                                                         if (esFav(snapshot
                                                                 .data?[index][
@@ -408,11 +415,13 @@ class CasaState extends State<CasaWidget> {
                                                         }
                                                         _buscaRecetasFavs();
                                                         setState(() {});
-                                                        try{
-                                                          keys[1] ///Refresca la página de favoritos para tener actualizados los datos
+                                                        try {
+                                                          keys[1]
+
+                                                              ///Refresca la página de favoritos para tener actualizados los datos
                                                               .currentState!
                                                               .refreshPage();
-                                                        } catch(_){}
+                                                        } catch (_) {}
                                                       },
                                                       iconSize: formatosDisenio
                                                           .tamBtnEstrella(
@@ -432,7 +441,8 @@ class CasaState extends State<CasaWidget> {
                           }
                         });
                   } else {
-                    return Center( ///Elemento de carga mientras se trae los datos
+                    return Center(
+                      ///Elemento de carga mientras se trae los datos
                       child: SizedBox(
                         width: 400,
                         height: 400,

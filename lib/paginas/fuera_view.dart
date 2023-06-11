@@ -6,8 +6,9 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hambrout/services/map_services.dart';
 import 'package:hambrout/utils/formularios.dart';
-import 'package:lottie/lottie.dart' as Lottie;
+import 'package:lottie/lottie.dart' as lottie;
 
+/// Clase que genera la vista de Fuera
 class FueraWidget extends StatefulWidget {
   const FueraWidget({super.key});
 
@@ -22,16 +23,22 @@ class FueraState extends State<FueraWidget> {
 
   static const _localizacionInicial = LatLng(40.4165000, -3.7025600);
 
+  //Controladores
   late GoogleMapController _googleMapController;
-  Map<String, Marker> _markers = {};
+  final CustomInfoWindowController _customInfoWindowController =
+      CustomInfoWindowController();
+
+  Map<String, Marker> _marcadores = {};
+  Marker marcadorAntiguo = const Marker(markerId: MarkerId(''));
 
   double lat = 0;
   double long = 0;
   var markerIdCounter = 1;
 
-  Set<Circle> circulo = Set<Circle>();
+  Set<Circle> circulo = <Circle>{};
   var radioCirculo = 2000.0;
   bool cambiarRadio = true;
+  bool cargando = false;
 
   List<dynamic> allLugares = [];
 
@@ -45,18 +52,19 @@ class FueraState extends State<FueraWidget> {
   ];
   String lugar = 'Restaurantes';
 
-  int paginaAnterior = 0;
   String imagenSitio = '';
-  var indiceGaleriaFoto = 0;
-  bool cardTapped = false;
 
+  ///key de la API
   final key = 'AIzaSyC5YstKsWGxE_29dDccBbRe17VkpxtYymw';
 
-  Marker marcadorAntiguo = const Marker(markerId: MarkerId(''));
+  @override
+  void dispose() {
+    super.dispose();
+    _googleMapController.dispose();
+    _customInfoWindowController.dispose();
+  }
 
-  final CustomInfoWindowController _customInfoWindowController =
-      CustomInfoWindowController();
-
+  ///Obtiene el string de la imagen, si existe
   void traerImagen(int cont) async {
     if (allLugares[cont - 1]['photos'] != null) {
       setState(() {
@@ -67,14 +75,7 @@ class FueraState extends State<FueraWidget> {
     }
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    _googleMapController.dispose();
-    _customInfoWindowController.dispose();
-  }
-
-  ///Obtiene el objeto Posicion del dispositivo en tiempo real
+  ///Obtiene el objeto Posicion del dispositivo comprobando que se de permiso para ello
   Future<Position> _getLocalizacionActual() async {
     bool servicioHabilitado = await Geolocator.isLocationServiceEnabled();
     if (!servicioHabilitado) {
@@ -96,7 +97,7 @@ class FueraState extends State<FueraWidget> {
     return await Geolocator.getCurrentPosition();
   }
 
-  ///
+  ///Devuelve la latitud y longitud en vivo
   LatLng _localizacionEnVivo() {
     LocationSettings locationSettings = const LocationSettings(
         accuracy: LocationAccuracy.high, distanceFilter: 3);
@@ -109,9 +110,9 @@ class FueraState extends State<FueraWidget> {
     return LatLng(lat, long);
   }
 
-  /// Establece los marcadores de los lugares que pide la API
+  /// Establece un marcador de los lugares que pide la API
   void setLugaresMarker(LatLng pos, String nombre, List tipos, String abierto,
-      String precio, String valoracion, String id) {
+      String valoracion, String id) {
     var counter = markerIdCounter++;
 
     Widget widgetAbierto;
@@ -152,6 +153,7 @@ class FueraState extends State<FueraWidget> {
             origen.latitude, origen.longitude, pos.latitude, pos.longitude);
         traerImagen(counter);
 
+        ///Ventana de información del marcador
         _customInfoWindowController.addInfoWindow!(
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -189,8 +191,8 @@ class FueraState extends State<FueraWidget> {
                                   SizedBox(
                                     width: 306,
                                     child: Text(nombre,
-                                        style: formatosDisenio
-                                            .txtTituloLugar(context)),
+                                        style:
+                                            formatosDisenio.txtTituloLugar()),
                                   ),
                                 ],
                               ),
@@ -204,7 +206,7 @@ class FueraState extends State<FueraWidget> {
                                         Wrap(
                                           spacing: 7,
                                           children: [
-                                            Image(
+                                            const Image(
                                               image: AssetImage(
                                                   'images/icons/favourite.png'),
                                               width: 20,
@@ -215,11 +217,11 @@ class FueraState extends State<FueraWidget> {
                                             ),
                                           ],
                                         ),
-                                        Text('·',
+                                        const Text('·',
                                             style: TextStyle(fontSize: 17)),
                                         Wrap(
                                           children: [
-                                            Image(
+                                            const Image(
                                               image: AssetImage(
                                                   'images/icons/relaxing-walk.png'),
                                               width: 20,
@@ -227,16 +229,17 @@ class FueraState extends State<FueraWidget> {
                                             Text(
                                               tiempoAndando['routes'][0]['legs']
                                                   [0]['duration']['text'],
-                                              style: TextStyle(fontSize: 17),
+                                              style:
+                                                  const TextStyle(fontSize: 17),
                                             ),
                                           ],
                                         ),
-                                        Text('·',
+                                        const Text('·',
                                             style: TextStyle(fontSize: 17)),
                                         Wrap(
                                           spacing: 7,
                                           children: [
-                                            Image(
+                                            const Image(
                                               image: AssetImage(
                                                   'images/icons/car-fill-from-frontal-view.png'),
                                               width: 20,
@@ -244,7 +247,8 @@ class FueraState extends State<FueraWidget> {
                                             Text(
                                               tiempoCoche['routes'][0]['legs']
                                                   [0]['duration']['text'],
-                                              style: TextStyle(fontSize: 17),
+                                              style:
+                                                  const TextStyle(fontSize: 17),
                                             )
                                           ],
                                         ),
@@ -259,7 +263,7 @@ class FueraState extends State<FueraWidget> {
                                       width: 306,
                                       child: Text(
                                         info['formatted_address'],
-                                        style: TextStyle(fontSize: 17),
+                                        style: const TextStyle(fontSize: 17),
                                       ))
                                 ],
                               ),
@@ -277,7 +281,7 @@ class FueraState extends State<FueraWidget> {
                       ],
                     ),
                   )),
-              Image(
+              const Image(
                 image: AssetImage('images/icons/triangulo-blanco.png'),
                 height: 15,
               ),
@@ -290,19 +294,16 @@ class FueraState extends State<FueraWidget> {
       icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
     );
     setState(() {
-      _markers['marcador_$counter'] = marker;
+      _marcadores['marcador_$counter'] = marker;
     });
-    //}
   }
-
-  bool cargando = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
-          Container(
+          SizedBox(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             child: GoogleMap(
@@ -322,20 +323,20 @@ class FueraState extends State<FueraWidget> {
                       CameraPosition(target: LatLng(lat, long), zoom: 13)));
                   crearCirculo(LatLng(lat, long));
                   cambiarRadio = true;
-                  addMarker('Tu ubicación', LatLng(lat, long));
+                  aniadirUserMarker('Tu ubicación', LatLng(lat, long));
                 });
               },
               onCameraMove: (pos) {
                 _customInfoWindowController.onCameraMove!();
               },
-              markers: _markers.values.toSet(),
+              markers: _marcadores.values.toSet(),
               onTap: (latLong) {
                 _customInfoWindowController.hideInfoWindow!();
               },
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(30),
+            padding: const EdgeInsets.all(30),
             child: Container(
               height: 80,
               color: Colors.white.withOpacity(0.98),
@@ -351,7 +352,7 @@ class FueraState extends State<FueraWidget> {
                       tokenKey = '';
                       radioCirculo = nuevoValor;
                       crearCirculo(LatLng(lat, long));
-                      addMarker('Tu ubicación', LatLng(lat, long));
+                      aniadirUserMarker('Tu ubicación', LatLng(lat, long));
                       setState(() {});
                     },
                   )),
@@ -359,14 +360,15 @@ class FueraState extends State<FueraWidget> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       DropdownButton(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          style: TextStyle(color: Colors.black, fontSize: 20),
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          style: const TextStyle(
+                              color: Colors.black, fontSize: 20),
                           dropdownColor: Colors.white,
                           items: datosLugares
                               .map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
-                              child: Text(value),
                               value: value,
+                              child: Text(value),
                             );
                           }).toList(),
                           value: lugar,
@@ -393,7 +395,7 @@ class FueraState extends State<FueraWidget> {
                             getAllLugares('bakery');
                           }
                         },
-                        child: Text(
+                        child: const Text(
                           'Buscar',
                           style: TextStyle(fontSize: 20),
                         ),
@@ -419,7 +421,7 @@ class FueraState extends State<FueraWidget> {
                   child: SizedBox(
                     height: 250,
                     width: 250,
-                    child: Lottie.LottieBuilder.asset(
+                    child: lottie.LottieBuilder.asset(
                         'images/animacion/106177-food-loading.json'),
                   ),
                 )
@@ -430,7 +432,7 @@ class FueraState extends State<FueraWidget> {
         backgroundColor: Colors.orange,
         tooltip: 'Ir a tu ubicación',
         onPressed: () async {
-          _markers.clear();
+          _marcadores.clear();
           _googleMapController.animateCamera(CameraUpdate.newCameraPosition(
               CameraPosition(target: _localizacionEnVivo(), zoom: 15)));
         },
@@ -439,6 +441,12 @@ class FueraState extends State<FueraWidget> {
     );
   }
 
+  ///Obtiene todos los lugares que recibe de la API en cada llamda
+  ///
+  /// Cada vez que se llama a la API devuelve como máximo 20 elementos.
+  /// Si la API trae un valor llamado 'next_page_token' significa que puede traer otros 20.
+  ///
+  /// El número máximo de elementos que trae la API es 60
   void getAllLugares(String tipo) {
     if (tokenKey == '') {
       if (_temporizador?.isActive ?? false) {
@@ -455,8 +463,8 @@ class FueraState extends State<FueraWidget> {
 
         allLugares = lugaresCercanos;
         tokenKey = lugares['next_page_token'] ?? 'none';
-        _markers = {};
-        addMarker('Tu ubicación', LatLng(lat, long));
+        _marcadores = {};
+        aniadirUserMarker('Tu ubicación', LatLng(lat, long));
         for (var element in lugaresCercanos) {
           setLugaresMarker(
               LatLng(element['geometry']['location']['lat'],
@@ -465,9 +473,8 @@ class FueraState extends State<FueraWidget> {
               element['types'],
               element['opening_hours'] != null
                   ? element['opening_hours']['open_now'].toString() ??
-                      'No disponible'
+                      'No disponible' //El elemento open_now no es obligatorio por lo que a veces no lo trae
                   : 'No disponible',
-              element['price_level'].toString() ?? 'No disponible',
               element['rating'] != null
                   ? element['rating'].toString()
                   : 'No disponible',
@@ -499,9 +506,8 @@ class FueraState extends State<FueraWidget> {
               element['types'],
               element['opening_hours'] != null
                   ? element['opening_hours']['open_now'].toString() ??
-                      'No disponible'
+                      'No disponible' //El elemento open_now no es obligatorio por lo que a veces no lo trae
                   : 'No disponible',
-              element['price_level'].toString() ?? 'No disponible',
               element['rating'] != null
                   ? element['rating'].toString()
                   : 'No disponible',
@@ -514,14 +520,15 @@ class FueraState extends State<FueraWidget> {
     } else {}
   }
 
-  void addMarker(String markerId, LatLng pos) {
+  ///Añade el marcador de la posicion del usuario
+  void aniadirUserMarker(String markerId, LatLng pos) {
     var marker = Marker(
         markerId: MarkerId(markerId),
         position: pos,
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
         infoWindow: InfoWindow(title: markerId));
 
-    _markers[markerId] = marker;
+    _marcadores[markerId] = marker;
     setState(() {});
   }
 
