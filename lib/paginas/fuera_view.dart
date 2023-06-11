@@ -169,7 +169,7 @@ class FueraState extends State<FueraWidget>{
     widgetAbierto=Text(abierto, style: estiloAbierto,);
 
     TextStyle estiloValoracion;
-    if(valoracion=='No disponible'){
+    if(valoracion=='-/5.0'){
       estiloValoracion=TextStyle(color: Colors.black54, fontSize: 17);
     } else {
       valoracion='$valoracion/5.0';
@@ -187,85 +187,102 @@ class FueraState extends State<FueraWidget>{
           traerImagen(counter);
           if(_customInfoWindowController!=null){
             _customInfoWindowController.addInfoWindow!(
-              Container(
-                width: 320,
-                //height: 250,
-                decoration: formatosDisenio.cajaRecetas(),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 80,
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
                       width: 320,
-                      child: FittedBox(
-                        fit: BoxFit.fitWidth,
-                        alignment: Alignment.center,
-                        clipBehavior: Clip.hardEdge,
-                        child: Image(image: NetworkImage(imagenSitio != ''
-                            ? 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=$imagenSitio&key=$key'
-                            : 'https://cdn-icons-png.flaticon.com/512/813/813789.png?w=826&t=st=1686398815~exp=1686399415~hmac=b23e01bdd231369d0b79b2094ebacbe4427d6746ab481b46a5740e98da1868a0'),),),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(7),
-                      child:
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Row(
-                            children: [SizedBox(
-                              width: 306,
-                              child: Text(nombre, style: formatosDisenio.txtTituloLugar(context)),
+                      height: 220,
+                      decoration: BoxDecoration(color: Colors.white),
+                      child: SingleChildScrollView(
+                        physics: PageScrollPhysics(),
+                        scrollDirection: Axis.vertical,
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 80,
+                              width: 320,
+                              child: FittedBox(
+                                fit: BoxFit.fitWidth,
+                                alignment: Alignment.center,
+                                clipBehavior: Clip.hardEdge,
+                                child: Image(image: NetworkImage(imagenSitio != ''
+                                    ? 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=$imagenSitio&key=$key'
+                                    : 'https://cdn-icons-png.flaticon.com/512/813/813789.png?w=826&t=st=1686398815~exp=1686399415~hmac=b23e01bdd231369d0b79b2094ebacbe4427d6746ab481b46a5740e98da1868a0'),),),
                             ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: 306,
-                                child: Wrap(
-                                  spacing: 10,
-                                  children: [
-                                    Text(valoracion, style: estiloValoracion,),
-                                    Text('·', style: TextStyle(fontSize: 17)),
-                                    Wrap(
-                                      children: [
-                                        Image(image: AssetImage('images/icons/relaxing-walk.png'),width: 20,),
-                                        Text(tiempoAndando['routes'][0]['legs'][0]['duration']['text'], style: TextStyle(fontSize: 17),),
-                                      ],
+                            Padding(
+                              padding: const EdgeInsets.all(7),
+                              child:
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Row(
+                                    children: [SizedBox(
+                                      width: 306,
+                                      child: Text(nombre, style: formatosDisenio.txtTituloLugar(context)),
                                     ),
-                                    Text('·', style: TextStyle(fontSize: 17)),
-                                    Wrap(
-                                      spacing: 7,
-                                      children: [
-                                        Image(image: AssetImage('images/icons/car.png'),width: 20,),
-                                        Text(tiempoCoche['routes'][0]['legs'][0]['duration']['text'], style: TextStyle(fontSize: 17),)
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              SizedBox(
-                                  width: 306,
-                                  child: Text(info['formatted_address'], style: TextStyle(fontSize: 17),)
-                              )
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: 306,
-                                child: widgetAbierto,
-                              )
-                            ],
-                          )
-                        ],
-                      ),
-                    )
-                  ],
-                ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        width: 306,
+                                        child: Wrap(
+                                          spacing: 10,
+                                          children: [
+                                            Wrap(
+                                              spacing: 7,
+                                              children: [
+                                                Image(image: AssetImage('images/icons/favourite.png'),width: 20,),
+                                                Text(valoracion, style: estiloValoracion,),
+                                              ],
+                                            ),
+                                            Text('·', style: TextStyle(fontSize: 17)),
+                                            Wrap(
+                                              children: [
+                                                Image(image: AssetImage('images/icons/relaxing-walk.png'),width: 20,),
+                                                Text(tiempoAndando['routes'][0]['legs'][0]['duration']['text'], style: TextStyle(fontSize: 17),),
+                                              ],
+                                            ),
+                                            Text('·', style: TextStyle(fontSize: 17)),
+                                            Wrap(
+                                              spacing: 7,
+                                              children: [
+                                                Image(image: AssetImage('images/icons/car-fill-from-frontal-view.png'),width: 20,),
+                                                Text(tiempoCoche['routes'][0]['legs'][0]['duration']['text'], style: TextStyle(fontSize: 17),)
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                          width: 306,
+                                          child: Text(info['formatted_address'], style: TextStyle(fontSize: 17),)
+                                      )
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        width: 306,
+                                        child: widgetAbierto,
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+
+                          ],
+                        ),
+                      )
+                  ),
+                  Image(image: AssetImage('images/icons/triangulo-blanco.png'),width: 50,),
+                ],
               ),
               pos,
             );
@@ -322,11 +339,11 @@ class FueraState extends State<FueraWidget>{
           Padding(padding: EdgeInsets.all(30),
             child: Container(
               height: 50,
-              color: Colors.black.withOpacity(0.3),
+              color: Colors.white.withOpacity(0.98),
               child: Row(
                 children: [
                   Expanded(child: Slider(
-                    activeColor: Colors.white,
+                    activeColor: Colors.black,
                     max: 5000,
                     min: 300,
                     value: radioCirculo,
@@ -339,18 +356,27 @@ class FueraState extends State<FueraWidget>{
                     },
                   )),
                   DropdownButton(
+                      style: TextStyle(color: Colors.black, fontSize: 20),
+                      dropdownColor: Colors.white,
                       items: datosLugares.map<DropdownMenuItem<String>>((String value){
                         return DropdownMenuItem<String>(child: Text(value),value: value,);
                       }).toList(),
                       value: lugar,
+                      iconSize: 30,
+                      iconEnabledColor: Colors.black,
+                      //padding: EdgeInsets.only(left: 20),
                       onChanged: (String? value){
                         tokenKey='';
                         lugar=value!;
                         setState(() {});
                       }),
                   Padding(
-                    padding: EdgeInsets.only(right: 20),
+                    padding: EdgeInsets.only(right: 20, left: 20),
                     child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.orange,
+                        foregroundColor: Colors.white
+                      ),
                         onPressed: (){
                           if(lugar==datosLugares[0]){
                             getAllLugares('restaurant');
@@ -362,7 +388,7 @@ class FueraState extends State<FueraWidget>{
                             getAllLugares('bakery');
                           }
                         },
-                        child: Text('Ver')),
+                        child: Text('Buscar', style: TextStyle(fontSize: 20),),),
                   )
                 ],
               ),
@@ -371,14 +397,15 @@ class FueraState extends State<FueraWidget>{
           CustomInfoWindow(
             controller: _customInfoWindowController,
             width: 320,
-            height: 250,
-            offset: 35,
+            height: 270,
+            offset: 1,
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.orange,
+        tooltip: 'Ir a tu ubicación',
         onPressed: ()  async{
-          //final GoogleMapController controlador = await _googleMapController.future;
           _markers.clear();
           _googleMapController.animateCamera(
               CameraUpdate.newCameraPosition(
