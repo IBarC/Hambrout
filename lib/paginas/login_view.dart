@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:hambrout/paginas/crear_cuenta_view.dart';
 import 'package:hambrout/utils/formatos_disenio.dart';
 import 'package:hambrout/utils/formularios.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../enum/enum_usuario.dart';
-import 'app_principal_view.dart';
 
 class LogInWidget extends StatefulWidget{
   const LogInWidget({super.key});

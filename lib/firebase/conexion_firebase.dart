@@ -8,7 +8,6 @@ import 'package:hambrout/enum/enum_usuario.dart';
 import 'package:hambrout/firebase_options.dart';
 import 'package:hambrout/models/lista.dart';
 import 'package:hambrout/models/receta.dart';
-import 'package:hambrout/paginas/casa_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../main.dart';
@@ -80,7 +79,6 @@ class ConexionDatos {
       options: DefaultFirebaseOptions.currentPlatform,
     );
 
-    List usuario = [];
     CollectionReference collectionReferenceUsuario = FirebaseFirestore.instance.collection(c(Colecciones.userdata));
 
     QuerySnapshot queryUsuario = await collectionReferenceUsuario.get();

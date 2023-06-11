@@ -2,11 +2,6 @@ import 'dart:io';
 
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
-import 'package:hambrout/paginas/ayuda_view.dart';
-import 'package:hambrout/paginas/casa_view.dart';
-import 'package:hambrout/paginas/favs_view.dart';
-import 'package:hambrout/paginas/fuera_view.dart';
-import 'package:hambrout/paginas/listas_view.dart';
 import 'package:hambrout/utils/formatos_disenio.dart';
 
 import '../firebase/conexion_firebase.dart';
@@ -86,8 +81,6 @@ class _PaginaBase extends State<PaginaBaseWidget>{
 
   @override
   Widget build(BuildContext context) {
-    Size media = MediaQuery.of(context).size;
-    ///double tamanioIcono = media.width/14;
 
     return PersistentTabView(
       context,

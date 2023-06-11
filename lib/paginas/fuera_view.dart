@@ -18,15 +18,12 @@ class FueraWidget extends StatefulWidget {
 }
 
 class FueraState extends State<FueraWidget> {
-  //Completer<GoogleMapController> _googleMapController = Completer();
-
   Timer? _temporizador;
 
   static const _localizacionInicial = LatLng(40.4165000, -3.7025600);
 
   late GoogleMapController _googleMapController;
   Map<String, Marker> _markers = {};
-  Map<String, Marker> _markersDupe = {};
 
   double lat = 0;
   double long = 0;
@@ -48,49 +45,19 @@ class FueraState extends State<FueraWidget> {
   ];
   String lugar = 'Restaurantes';
 
-  //late PageController pageController;
   int paginaAnterior = 0;
-  var tappedPlaceDetail;
   String imagenSitio = '';
   var indiceGaleriaFoto = 0;
   bool cardTapped = false;
 
   final key = 'AIzaSyC5YstKsWGxE_29dDccBbRe17VkpxtYymw';
 
-  var selectedPlaceDetails;
-
-  Marker marcadorAntiguo = Marker(markerId: MarkerId(''));
+  Marker marcadorAntiguo = const Marker(markerId: MarkerId(''));
 
   final CustomInfoWindowController _customInfoWindowController =
       CustomInfoWindowController();
 
-  @override
-  void initState() {
-    super.initState();
-    //pageController = PageController(
-    //initialPage: 1, viewportFraction: 0.85)..addListener(alDeslizar);
-  }
-
-  /** void alDeslizar(){
-      if(pageController.page!.toInt() != paginaAnterior){
-      paginaAnterior = pageController.page!.toInt();
-      indiceGaleriaFoto = 1;
-      //irASitio();
-      traerImagen();
-      cardTapped = false;
-      }
-      }**/
-
   void traerImagen(int cont) async {
-    //if(pageController.page!=null){
-    //if(allLugares[pageController.page!.toInt()]['photos'] != null){
-    //setState(() {
-    //imagenSitio=allLugares[pageController.page!.toInt()]['photos'][0]['photo_reference'];
-    //});
-    //} else {
-    //imagenSitio='';
-    //}
-    //}
     if (allLugares[cont - 1]['photos'] != null) {
       setState(() {
         imagenSitio = allLugares[cont - 1]['photos'][0]['photo_reference'];
@@ -99,17 +66,6 @@ class FueraState extends State<FueraWidget> {
       imagenSitio = '';
     }
   }
-
-  /**Future<void> irASitio() async{
-      //final GoogleMapController controlador = await _googleMapController.future;
-
-      var lugarSeleccionado = allLugares[pageController.page!.toInt()];
-
-      //addBigMarker(lugarSeleccionado['name'], LatLng(lugarSeleccionado['geometry']['location']['lat'],lugarSeleccionado['geometry']['location']['lng']));
-
-      _googleMapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-      target: LatLng(lugarSeleccionado['geometry']['location']['lat'],lugarSeleccionado['geometry']['location']['lng']),zoom:17)));
-      }**/
 
   @override
   void dispose() {
@@ -163,13 +119,13 @@ class FueraState extends State<FueraWidget> {
 
     if (abierto == 'true') {
       abierto = 'Abierto';
-      estiloAbierto = TextStyle(color: Colors.green, fontSize: 17);
+      estiloAbierto = const TextStyle(color: Colors.green, fontSize: 17);
     } else if (abierto == 'false') {
       abierto = 'Cerrado';
-      estiloAbierto = TextStyle(color: Colors.red, fontSize: 17);
+      estiloAbierto = const TextStyle(color: Colors.red, fontSize: 17);
     } else {
       abierto = 'Apertura no disponible';
-      estiloAbierto = TextStyle(color: Colors.black54, fontSize: 17);
+      estiloAbierto = const TextStyle(color: Colors.black54, fontSize: 17);
     }
     widgetAbierto = Text(
       abierto,
@@ -178,10 +134,10 @@ class FueraState extends State<FueraWidget> {
 
     TextStyle estiloValoracion;
     if (valoracion == '-/5.0') {
-      estiloValoracion = TextStyle(color: Colors.black54, fontSize: 17);
+      estiloValoracion = const TextStyle(color: Colors.black54, fontSize: 17);
     } else {
       valoracion = '$valoracion/5.0';
-      estiloValoracion = TextStyle(fontSize: 17);
+      estiloValoracion = const TextStyle(fontSize: 17);
     }
 
     Marker marker = Marker(
@@ -203,9 +159,9 @@ class FueraState extends State<FueraWidget> {
               Container(
                   width: 320,
                   height: 190,
-                  decoration: BoxDecoration(color: Colors.white),
+                  decoration: const BoxDecoration(color: Colors.white),
                   child: SingleChildScrollView(
-                    physics: PageScrollPhysics(),
+                    physics: const PageScrollPhysics(),
                     scrollDirection: Axis.vertical,
                     child: Column(
                       children: [
@@ -355,7 +311,7 @@ class FueraState extends State<FueraWidget> {
               compassEnabled: true,
               circles: circulo,
               initialCameraPosition:
-              const CameraPosition(target: _localizacionInicial, zoom: 7),
+                  const CameraPosition(target: _localizacionInicial, zoom: 7),
               onMapCreated: (controller) {
                 _customInfoWindowController.googleMapController = controller;
                 _googleMapController = controller;
@@ -387,18 +343,18 @@ class FueraState extends State<FueraWidget> {
                 children: [
                   Expanded(
                       child: Slider(
-                        activeColor: Colors.black,
-                        max: 5000,
-                        min: 300,
-                        value: radioCirculo,
-                        onChanged: (nuevoValor) {
-                          tokenKey = '';
-                          radioCirculo = nuevoValor;
-                          crearCirculo(LatLng(lat, long));
-                          addMarker('Tu ubicación', LatLng(lat, long));
-                          setState(() {});
-                        },
-                      )),
+                    activeColor: Colors.black,
+                    max: 5000,
+                    min: 300,
+                    value: radioCirculo,
+                    onChanged: (nuevoValor) {
+                      tokenKey = '';
+                      radioCirculo = nuevoValor;
+                      crearCirculo(LatLng(lat, long));
+                      addMarker('Tu ubicación', LatLng(lat, long));
+                      setState(() {});
+                    },
+                  )),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -454,12 +410,19 @@ class FueraState extends State<FueraWidget> {
             height: 250,
             offset: 1,
           ),
-          cargando?
-              Container(height:MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                alignment: Alignment.center,
-                decoration: const BoxDecoration(color: Colors.black12),
-                child: SizedBox(height: 200, width: 200, child: Lottie.LottieBuilder.asset('images/animacion/106177-food-loading.json'),),)
+          cargando
+              ? Container(
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
+                  alignment: Alignment.center,
+                  decoration: const BoxDecoration(color: Colors.black38),
+                  child: SizedBox(
+                    height: 250,
+                    width: 250,
+                    child: Lottie.LottieBuilder.asset(
+                        'images/animacion/106177-food-loading.json'),
+                  ),
+                )
               : Container()
         ],
       ),
@@ -482,11 +445,10 @@ class FueraState extends State<FueraWidget> {
         _temporizador?.cancel();
       }
       setState(() {
-        cargando=true;
+        cargando = true;
       });
       markerIdCounter = 0;
-      _temporizador = Timer(Duration(seconds: 2), () async {
-        print('dentro de la funcion asincrona');
+      _temporizador = Timer(const Duration(seconds: 2), () async {
         var lugares = await MapServices().getDetallesLugar(
             _localizacionEnVivo(), radioCirculo.toInt(), tipo);
         List<dynamic> lugaresCercanos = lugares['results'] as List;
@@ -495,9 +457,7 @@ class FueraState extends State<FueraWidget> {
         tokenKey = lugares['next_page_token'] ?? 'none';
         _markers = {};
         addMarker('Tu ubicación', LatLng(lat, long));
-        print(lugaresCercanos.length);
-        print(radioCirculo);
-        lugaresCercanos.forEach((element) {
+        for (var element in lugaresCercanos) {
           setLugaresMarker(
               LatLng(element['geometry']['location']['lat'],
                   element['geometry']['location']['lng']),
@@ -512,29 +472,26 @@ class FueraState extends State<FueraWidget> {
                   ? element['rating'].toString()
                   : 'No disponible',
               element['place_id']);
-        });
+        }
         setState(() {
-          cargando=false;
+          cargando = false;
         });
       });
-
-      //marcadorAntiguo = markers['marcador_2'] as Marker;
-      //_markersDupe = _markers;
     } else if (tokenKey != 'none') {
       if (_temporizador?.isActive ?? false) {
         _temporizador?.cancel();
       }
       setState(() {
-        cargando=true;
+        cargando = true;
       });
-      _temporizador = Timer(Duration(seconds: 2), () async {
+      _temporizador = Timer(const Duration(seconds: 2), () async {
         var resulLugares = await MapServices().getMorePlaceDetails(tokenKey);
         List<dynamic> lugaresCercanos = resulLugares['results'] as List;
 
         allLugares.addAll(lugaresCercanos);
 
         tokenKey = resulLugares['next_page_token'] ?? 'none';
-        lugaresCercanos.forEach((element) {
+        for (var element in lugaresCercanos) {
           setLugaresMarker(
               LatLng(element['geometry']['location']['lat'],
                   element['geometry']['location']['lng']),
@@ -549,13 +506,12 @@ class FueraState extends State<FueraWidget> {
                   ? element['rating'].toString()
                   : 'No disponible',
               element['place_id']);
-        });
+        }
         setState(() {
-          cargando=false;
+          cargando = false;
         });
       });
-    } else {
-    }
+    } else {}
   }
 
   void addMarker(String markerId, LatLng pos) {

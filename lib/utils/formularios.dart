@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:hambrout/enum/enum_usuario.dart';
 import 'package:hambrout/firebase/conexion_firebase.dart';
-import 'package:hambrout/paginas/app_principal_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'formatos_disenio.dart';
 
