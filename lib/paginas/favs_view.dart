@@ -58,7 +58,7 @@ class FavsState extends State<FavsWidget> {
         cambiarBtnPulsado('México', btnMexS, btnMex);
       },
       style: FormatosDisenio().btnCatNoSel(),
-      child: Text('EE.UU', style: estiloTxt));
+      child: Text('México', style: estiloTxt));
   late ElevatedButton btnJap = ElevatedButton(
       onPressed: () {
         cambiarBtnPulsado('Japón', btnJapS, btnJap);
