@@ -167,7 +167,7 @@ class FormatosDisenio{
     if(base<350){
       tam=20;
     }else if(base>700){
-      tam=25;
+      tam=27;
     }
     return TextStyle(
         overflow: TextOverflow.visible,
@@ -368,7 +368,7 @@ class FormatosDisenio{
 
   InputDecoration decoracionInputLogIn(String label, String hint){
     return InputDecoration(
-        border: const OutlineInputBorder(borderSide: BorderSide(color: Colors.black54, width: 1),borderRadius: BorderRadius.all(Radius.circular(7))),
+        border: const OutlineInputBorder(borderSide: BorderSide(color: Colors.black, width: 1),borderRadius: BorderRadius.all(Radius.circular(7))),
         hintText: hint,
         labelText: label,
 

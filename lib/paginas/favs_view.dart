@@ -21,16 +21,12 @@ class FavsWidget extends StatefulWidget {
   }
 }
 
-var refreshKey = GlobalKey<RefreshIndicatorState>();
-
 class FavsState extends State<FavsWidget> {
   late List<ElevatedButton> _botones = [];
 
   late List recetas = [];
 
   final TextStyle estiloTxt = const TextStyle(fontSize: 20);
-
-  late List recetasFavs = [];
 
   late String nombreBtnPulsado = 'Todo';
   late ElevatedButton btnTodo = ElevatedButton(
@@ -57,9 +53,9 @@ class FavsState extends State<FavsWidget> {
       },
       style: FormatosDisenio().btnCatNoSel(),
       child: Text('Marruecos', style: estiloTxt));
-  late ElevatedButton btnEEUU = ElevatedButton(
+  late ElevatedButton btnMex = ElevatedButton(
       onPressed: () {
-        cambiarBtnPulsado('EE.UU', btnEEUUS, btnEEUU);
+        cambiarBtnPulsado('México', btnMexS, btnMex);
       },
       style: FormatosDisenio().btnCatNoSel(),
       child: Text('EE.UU', style: estiloTxt));
@@ -86,10 +82,10 @@ class FavsState extends State<FavsWidget> {
       onPressed: () {},
       style: FormatosDisenio().btnCatSel(),
       child: Text('Marruecos', style: estiloTxt));
-  late ElevatedButton btnEEUUS = ElevatedButton(
+  late ElevatedButton btnMexS = ElevatedButton(
       onPressed: () {},
       style: FormatosDisenio().btnCatSel(),
-      child: Text('EE.UU', style: estiloTxt));
+      child: Text('México', style: estiloTxt));
   late ElevatedButton btnJapS = ElevatedButton(
       onPressed: () {},
       style: FormatosDisenio().btnCatSel(),
@@ -104,8 +100,7 @@ class FavsState extends State<FavsWidget> {
   @override
   void initState() {
     super.initState();
-    _botones = [btnTodoS, btnEsp, btnRum, btnMarr, btnEEUU, btnJap];
-    _buscaRecetasFavs();
+    _botones = [btnTodoS, btnEsp, btnRum, btnMarr, btnMex, btnJap];
   }
 
   ///Cambia el estilo del botón señalado actualmente por el botón que se acaba de pulsar
@@ -139,10 +134,6 @@ class FavsState extends State<FavsWidget> {
       btnActualS = btnPulsadoS;
       setState(() {});
     }
-  }
-
-  _buscaRecetasFavs() async {
-    recetasFavs = await ConexionDatos().buscarRecetasFavs();
   }
 
   ///Cambia las recetas que se muestran dependiendo del filtro

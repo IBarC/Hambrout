@@ -52,9 +52,9 @@ class CasaState extends State<CasaWidget> {
       },
       style: FormatosDisenio().btnCatNoSel(),
       child: Text('Marruecos', style: estiloTxt));
-  late ElevatedButton btnEEUU = ElevatedButton(
+  late ElevatedButton btnMex = ElevatedButton(
       onPressed: () {
-        cambiarBtnPulsado('EE.UU', btnEEUUS, btnEEUU);
+        cambiarBtnPulsado('México', btnMexS, btnMex);
       },
       style: FormatosDisenio().btnCatNoSel(),
       child: Text('EE.UU', style: estiloTxt));
@@ -81,10 +81,10 @@ class CasaState extends State<CasaWidget> {
       onPressed: () {},
       style: FormatosDisenio().btnCatSel(),
       child: Text('Marruecos', style: estiloTxt));
-  late ElevatedButton btnEEUUS = ElevatedButton(
+  late ElevatedButton btnMexS = ElevatedButton(
       onPressed: () {},
       style: FormatosDisenio().btnCatSel(),
-      child: Text('EE.UU', style: estiloTxt));
+      child: Text('México', style: estiloTxt));
   late ElevatedButton btnJapS = ElevatedButton(
       onPressed: () {},
       style: FormatosDisenio().btnCatSel(),
@@ -99,8 +99,7 @@ class CasaState extends State<CasaWidget> {
   @override
   void initState() {
     super.initState();
-    _botones = [btnTodoS, btnEsp, btnRum, btnMarr, btnEEUU, btnJap];
-    _buscaRecetasFavs();
+    _botones = [btnTodoS, btnEsp, btnRum, btnMarr, btnMex, btnJap];
   }
 
   ///Cambia el estilo del botón señalado actualmente por el botón que se acaba de pulsar

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hambrout/firebase/conexion_firebase.dart';
 import 'package:hambrout/main.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 
-import '../enum/enum_listas.dart';
 import '../models/lista.dart';
 import '../utils/formatos_disenio.dart';
 
@@ -31,8 +29,6 @@ class ListaState extends State<ListaWidget>{
   late TextEditingController tituloController;
   final _formKey = GlobalKey<FormState>();
 
-  late int id;
-  late SharedPreferences prefs;
   late int tamanioListView;
 
   @override
@@ -42,7 +38,6 @@ class ListaState extends State<ListaWidget>{
       lista.elementos.add(Elemento(nombre: '', tachado: false, controlador: TextEditingController(text: '')));
     }
     tituloController = TextEditingController(text: lista.titulo);
-    inicializar();
     BackButtonInterceptor.add(interceptor);
     setState(() {});
   }
@@ -68,11 +63,6 @@ class ListaState extends State<ListaWidget>{
       elemento.nombre==elemento.controlador.text;
       currentFocus.focusInDirection(TraversalDirection.down);
     }
-  }
-
-  void inicializar()async{
-    prefs = await SharedPreferences.getInstance();
-    id=prefs.getInt(listas(DatosListas.id))??1;
   }
 
   ///Crea un TextField en base a si esta tachado

@@ -3,10 +3,8 @@ import 'package:hambrout/enum/enum_listas.dart';
 import 'package:hambrout/firebase/conexion_firebase.dart';
 import 'package:hambrout/paginas/lista_view.dart';
 import 'package:hambrout/utils/formatos_disenio.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/lista.dart';
-import '../utils/formularios.dart';
 
 /// Clase que genera la vista de Listas
 class ListasWidget extends StatefulWidget {
@@ -19,17 +17,10 @@ class ListasWidget extends StatefulWidget {
 }
 
 class ListasState extends State<ListasWidget> {
-  late int id;
 
   @override
   void initState() {
     super.initState();
-    inicializar();
-  }
-
-  void inicializar() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    id = prefs.getInt(listas(DatosListas.id)) ?? 1;
   }
 
   ///Crea los objetos elemento de la lista

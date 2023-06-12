@@ -50,7 +50,7 @@ class _Receta extends State<RecetaWidget>{
       listaIngredientes.add(Row(children: [Container(
         width: media.width-(media.height/50)*3,
         margin: EdgeInsets.only(left: media.height/50),
-        child: Text('· $ingrediente', style: estilo.txtRecetas3(context)),
+        child: Text('· $ingrediente',overflow: TextOverflow.visible, style: estilo.txtRecetas3(context)),
       )],));
       if(ingrediente!=receta.ingredientes.last){
         listaIngredientes.add(estilo.separacionMasPequenia(context));
@@ -114,7 +114,7 @@ class _Receta extends State<RecetaWidget>{
               estilo.separacionNormal(context),
               Row(children: [Text('Información', style: estilo.txtRecetas1(context),)],),
               estilo.separacionPequenia(context),
-              Row(children: [
+              Wrap(children: [
                 Text('   · Tiempo de preparación: ', style: estilo.txtRecetas2(context),),
                 Text(receta.tiempo,  style: estilo.txtRecetas3(context))
               ],),

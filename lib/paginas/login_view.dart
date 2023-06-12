@@ -14,15 +14,11 @@ class LogInWidget extends StatefulWidget {
 }
 
 class _LogIn extends State<LogInWidget> {
-  void cambiarPagina() {
-    Navigator.of(context)
-        .pushNamedAndRemoveUntil('/principal', (route) => false);
-  }
 
   @override
   Widget build(BuildContext context) {
     Size media = MediaQuery.of(context).size;
-    double tamanioLogo = media.width/30;
+    double tamanioLogo = media.width/9;
 
     if (media.width < 350) {
       tamanioLogo = 60;
@@ -49,7 +45,6 @@ class _LogIn extends State<LogInWidget> {
             child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Column(
-                //crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Container(
                     width: 450,
@@ -69,7 +64,7 @@ class _LogIn extends State<LogInWidget> {
                           "Hambrout",
                           style: TextStyle(
                               color: Colors.black,
-                              fontSize: 90,
+                              fontSize: 70,
                               fontFamily: 'AlumniSans',
                               fontWeight: FontWeight.w400,
                               letterSpacing: -3),
@@ -77,10 +72,11 @@ class _LogIn extends State<LogInWidget> {
                       ],
                     ),
                   ),
-                  FormatosDisenio().separacionNormal(context),
+                  FormatosDisenio().separacionGrande(context),
                   const FormularioLogInWidget(),
                   FormatosDisenio().separacionGrande(context),
                   Container(
+                    width: 300,
                     height: 100,
                     decoration: const BoxDecoration(
                         border: Border(

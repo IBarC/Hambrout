@@ -38,7 +38,6 @@ class FueraState extends State<FueraWidget> {
 
   Set<Circle> circulo = <Circle>{};
   var radioCirculo = 2000.0;
-  bool cambiarRadio = true;
   bool cargando = false;
 
   List<dynamic> allLugares = [];
@@ -323,7 +322,6 @@ class FueraState extends State<FueraWidget> {
                   controller.animateCamera(CameraUpdate.newCameraPosition(
                       CameraPosition(target: LatLng(lat, long), zoom: 13)));
                   crearCirculo(LatLng(lat, long));
-                  cambiarRadio = true;
                   aniadirUserMarker('Tu ubicación', LatLng(lat, long));
                 });
               },
