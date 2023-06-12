@@ -21,17 +21,17 @@ class ConexionDatos {
     );
 
     try{
-      final collection = FirebaseFirestore.instance.collection(c(Colecciones.userdata));
+      final collection = FirebaseFirestore.instance.collection(colecciones(Colecciones.userdata));
 
       final datos = <String, dynamic>{
-        dU(DatosUsuario.nombre): nombre,
-        dU(DatosUsuario.apellidos): apellidos,
-        dU(DatosUsuario.username): username,
-        dU(DatosUsuario.password): password,
-        dU(DatosUsuario.telefono):tel
+        datosUsu(DatosUsuario.nombre): nombre,
+        datosUsu(DatosUsuario.apellidos): apellidos,
+        datosUsu(DatosUsuario.username): username,
+        datosUsu(DatosUsuario.password): password,
+        datosUsu(DatosUsuario.telefono):tel
       };
       collection.doc(username).set(datos);
-      collection.doc(username).collection(c(Colecciones.listas)).doc('id').set({'id':0});
+      collection.doc(username).collection(colecciones(Colecciones.listas)).doc('id').set({'id':0});
     } catch(_){
 
     }
@@ -44,7 +44,7 @@ class ConexionDatos {
     );
 
     List usuario = [];
-    CollectionReference collectionReferenceUsuario = FirebaseFirestore.instance.collection(c(Colecciones.userdata));
+    CollectionReference collectionReferenceUsuario = FirebaseFirestore.instance.collection(colecciones(Colecciones.userdata));
 
     QuerySnapshot queryUsuario = await collectionReferenceUsuario.get();
 
@@ -60,13 +60,13 @@ class ConexionDatos {
       options: DefaultFirebaseOptions.currentPlatform,
     );
 
-    CollectionReference collectionReferenceUsuario = FirebaseFirestore.instance.collection(c(Colecciones.userdata));
+    CollectionReference collectionReferenceUsuario = FirebaseFirestore.instance.collection(colecciones(Colecciones.userdata));
 
     QuerySnapshot queryUsuario = await collectionReferenceUsuario.get();
 
     for (var documento in queryUsuario.docs) {
       var dato = documento.data() as Map<String, dynamic>;
-      if(dato[dU(DatosUsuario.username)]==username){
+      if(dato[datosUsu(DatosUsuario.username)]==username){
         return dato;
       }
     }
@@ -79,13 +79,13 @@ class ConexionDatos {
       options: DefaultFirebaseOptions.currentPlatform,
     );
 
-    CollectionReference collectionReferenceUsuario = FirebaseFirestore.instance.collection(c(Colecciones.userdata));
+    CollectionReference collectionReferenceUsuario = FirebaseFirestore.instance.collection(colecciones(Colecciones.userdata));
 
     QuerySnapshot queryUsuario = await collectionReferenceUsuario.get();
 
     for (var documento in queryUsuario.docs) {
       var dato = documento.data() as Map<String, dynamic>;
-      if(dato[dU(DatosUsuario.username)]==username){
+      if(dato[datosUsu(DatosUsuario.username)]==username){
         return true;
       }
     }
@@ -100,7 +100,7 @@ class ConexionDatos {
     );
 
     try{
-      final collection = FirebaseFirestore.instance.collection(c(Colecciones.userdata));
+      final collection = FirebaseFirestore.instance.collection(colecciones(Colecciones.userdata));
       await collection.doc(nombre).delete();
     } catch(_){
 
@@ -114,7 +114,7 @@ class ConexionDatos {
     );
 
     List recetas = [];
-    CollectionReference collectionReferenceRecetas = FirebaseFirestore.instance.collection(c(Colecciones.recetas));
+    CollectionReference collectionReferenceRecetas = FirebaseFirestore.instance.collection(colecciones(Colecciones.recetas));
 
     QuerySnapshot queryRecetas = await collectionReferenceRecetas.get();
 
@@ -131,23 +131,23 @@ class ConexionDatos {
     );
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? username = prefs.getString(dU(DatosUsuario.username));
+    String? username = prefs.getString(datosUsu(DatosUsuario.username));
 
     try{
-      final collection = FirebaseFirestore.instance.collection(c(Colecciones.userdata));
+      final collection = FirebaseFirestore.instance.collection(colecciones(Colecciones.userdata));
 
       final datos = <String, dynamic>{
-        dR(DatosReceta.nombre):r.nombre,
-        dR(DatosReceta.dificultad):r.dificultad,
-        dR(DatosReceta.elaboracion):r.elaboracion,
-        dR(DatosReceta.foto):r.foto,
-        dR(DatosReceta.ingredientes):r.ingredientes,
-        dR(DatosReceta.npersonas):r.npersonas,
-        dR(DatosReceta.origen):r.origen,
-        dR(DatosReceta.tiempo):r.tiempo,
-        dR(DatosReceta.tipo):r.tipo,
+        datosReceta(DatosReceta.nombre):r.nombre,
+        datosReceta(DatosReceta.dificultad):r.dificultad,
+        datosReceta(DatosReceta.elaboracion):r.elaboracion,
+        datosReceta(DatosReceta.foto):r.foto,
+        datosReceta(DatosReceta.ingredientes):r.ingredientes,
+        datosReceta(DatosReceta.npersonas):r.npersonas,
+        datosReceta(DatosReceta.origen):r.origen,
+        datosReceta(DatosReceta.tiempo):r.tiempo,
+        datosReceta(DatosReceta.tipo):r.tipo,
       };
-      collection.doc(username).collection(c(Colecciones.recetasFavs)).doc(r.nombre).set(datos);
+      collection.doc(username).collection(colecciones(Colecciones.recetasFavs)).doc(r.nombre).set(datos);
     } catch(_){
 
     }
@@ -160,12 +160,12 @@ class ConexionDatos {
     );
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? username = prefs.getString(dU(DatosUsuario.username));
+    String? username = prefs.getString(datosUsu(DatosUsuario.username));
 
     List recetas = [];
-    CollectionReference collectionReferenceRecetas = FirebaseFirestore.instance.collection(c(Colecciones.userdata));
+    CollectionReference collectionReferenceRecetas = FirebaseFirestore.instance.collection(colecciones(Colecciones.userdata));
 
-    QuerySnapshot queryRecetas = await collectionReferenceRecetas.doc(username).collection(c(Colecciones.recetasFavs)).get();
+    QuerySnapshot queryRecetas = await collectionReferenceRecetas.doc(username).collection(colecciones(Colecciones.recetasFavs)).get();
 
     for (var documento in queryRecetas.docs) {
       recetas.add(documento.data());
@@ -180,11 +180,11 @@ class ConexionDatos {
     );
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? username = prefs.getString(dU(DatosUsuario.username));
+    String? username = prefs.getString(datosUsu(DatosUsuario.username));
 
     try{
-      final collection = FirebaseFirestore.instance.collection(c(Colecciones.userdata));
-      await collection.doc(username).collection(c(Colecciones.recetasFavs)).doc(nombre).delete();
+      final collection = FirebaseFirestore.instance.collection(colecciones(Colecciones.userdata));
+      await collection.doc(username).collection(colecciones(Colecciones.recetasFavs)).doc(nombre).delete();
     } catch(_){
 
     }
@@ -197,12 +197,12 @@ class ConexionDatos {
     );
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? username = prefs.getString(dU(DatosUsuario.username));
+    String? username = prefs.getString(datosUsu(DatosUsuario.username));
 
     List listas = [];
-    CollectionReference collectionReferenceRecetas = FirebaseFirestore.instance.collection(c(Colecciones.userdata));
+    CollectionReference collectionReferenceRecetas = FirebaseFirestore.instance.collection(colecciones(Colecciones.userdata));
 
-    QuerySnapshot queryListas = await collectionReferenceRecetas.doc(username).collection(c(Colecciones.listas)).get();
+    QuerySnapshot queryListas = await collectionReferenceRecetas.doc(username).collection(colecciones(Colecciones.listas)).get();
     for (var documento in queryListas.docs) {
       if(documento.id!='id'){
         listas.add(documento.data());
@@ -219,21 +219,20 @@ class ConexionDatos {
     );
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? username = prefs.getString(dU(DatosUsuario.username));
+    String? username = prefs.getString(datosUsu(DatosUsuario.username));
 
     try{
-      final collection = FirebaseFirestore.instance.collection(c(Colecciones.userdata));
+      final collection = FirebaseFirestore.instance.collection(colecciones(Colecciones.userdata));
 
       final datos = <String, dynamic>{
-        l(DatosListas.titulo):lista.titulo,
-        l(DatosListas.elementos):guardarElementos(lista.elementos),
-        l(DatosListas.id):lista.id,
+        listas(DatosListas.titulo):lista.titulo,
+        listas(DatosListas.elementos):guardarElementos(lista.elementos),
+        listas(DatosListas.id):lista.id,
         'modificacion':DateTime.now().toUtc().toString()
       };
-      collection.doc(username).collection(c(Colecciones.listas)).doc(lista.id.toString()).set(datos);
+      collection.doc(username).collection(colecciones(Colecciones.listas)).doc(lista.id.toString()).set(datos);
 
     } catch(_) {}
-    //keys[2].currentState!.refreshPage();
   }
 
   Future<void> guardarListaNueva(Lista lista) async{
@@ -243,15 +242,15 @@ class ConexionDatos {
     );
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? username = prefs.getString(dU(DatosUsuario.username));
+    String? username = prefs.getString(datosUsu(DatosUsuario.username));
 
     try{
-      final collection = FirebaseFirestore.instance.collection(c(Colecciones.userdata));
+      final collection = FirebaseFirestore.instance.collection(colecciones(Colecciones.userdata));
 
       List id = [];
-      CollectionReference crId = FirebaseFirestore.instance.collection(c(Colecciones.userdata));
+      CollectionReference crId = FirebaseFirestore.instance.collection(colecciones(Colecciones.userdata));
 
-      QuerySnapshot queryListas = await crId.doc(username).collection(c(Colecciones.listas)).get();
+      QuerySnapshot queryListas = await crId.doc(username).collection(colecciones(Colecciones.listas)).get();
       for (var documento in queryListas.docs) {
         if(documento.id=='id'){
           id.add(documento.data());
@@ -263,13 +262,13 @@ class ConexionDatos {
       lista.id=id[0]['id'];
 
       final datos = <String, dynamic>{
-        l(DatosListas.titulo):lista.titulo,
-        l(DatosListas.elementos):guardarElementos(lista.elementos),
-        l(DatosListas.id):lista.id,
+        listas(DatosListas.titulo):lista.titulo,
+        listas(DatosListas.elementos):guardarElementos(lista.elementos),
+        listas(DatosListas.id):lista.id,
         'modificacion':DateTime.now().toUtc().toString()
       };
-      collection.doc(username).collection(c(Colecciones.listas)).doc(lista.id.toString()).set(datos);
-      collection.doc(username).collection(c(Colecciones.listas)).doc(l(DatosListas.id)).set({'id':lista.id});
+      collection.doc(username).collection(colecciones(Colecciones.listas)).doc(lista.id.toString()).set(datos);
+      collection.doc(username).collection(colecciones(Colecciones.listas)).doc(listas(DatosListas.id)).set({'id':lista.id});
 
     } catch(_) {}
     keys[2].currentState!.refreshPage();
@@ -280,8 +279,8 @@ class ConexionDatos {
     for(var elem in elementos){
       if(elem.controlador.text!=''){
         lista.add({
-          l(DatosListas.nombre):elem.controlador.text,
-          l(DatosListas.tachado):elem.tachado,
+          listas(DatosListas.nombre):elem.controlador.text,
+          listas(DatosListas.tachado):elem.tachado,
 
         });
       }

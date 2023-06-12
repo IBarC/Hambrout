@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hambrout/services/map_services.dart';
-import 'package:hambrout/utils/formularios.dart';
 import 'package:lottie/lottie.dart' as lottie;
+
+import '../utils/formatos_disenio.dart';
 
 /// Clase que genera la vista de Fuera
 class FueraWidget extends StatefulWidget {
@@ -145,7 +146,7 @@ class FueraState extends State<FueraWidget> {
       markerId: MarkerId('marcador_$counter'),
       position: pos,
       onTap: () async {
-        var info = await MapServices().getPlace(id);
+        var info = await MapServices().getLugar(id);
         LatLng origen = _localizacionEnVivo();
         var tiempoAndando = await MapServices().getDireccionAndando(
             origen.latitude, origen.longitude, pos.latitude, pos.longitude);
@@ -192,7 +193,7 @@ class FueraState extends State<FueraWidget> {
                                     width: 306,
                                     child: Text(nombre,
                                         style:
-                                            formatosDisenio.txtTituloLugar()),
+                                        FormatosDisenio().txtTituloLugar()),
                                   ),
                                 ],
                               ),
@@ -492,7 +493,7 @@ class FueraState extends State<FueraWidget> {
         cargando = true;
       });
       _temporizador = Timer(const Duration(seconds: 2), () async {
-        var resulLugares = await MapServices().getMorePlaceDetails(tokenKey);
+        var resulLugares = await MapServices().geMasDetallesLugar(tokenKey);
         List<dynamic> lugaresCercanos = resulLugares['results'] as List;
 
         allLugares.addAll(lugaresCercanos);

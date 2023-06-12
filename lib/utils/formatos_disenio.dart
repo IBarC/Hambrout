@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
+///Clase que contiene los estilos
 class FormatosDisenio{
 
-  /**
-   * Estilo de botón de login burdeos
-   */
+//----------BOTONES----------
+
   ButtonStyle btnBurdeos(){
     return ElevatedButton.styleFrom(
       shadowColor: Colors.black,
@@ -45,6 +45,8 @@ class FormatosDisenio{
     );
   }
 
+//----------CAJAS----------
+
   SizedBox separacionGrande(BuildContext context){
     return SizedBox(height: MediaQuery.of(context).size.width/12);
   }
@@ -67,6 +69,30 @@ class FormatosDisenio{
     return SizedBox(height: MediaQuery.of(context).size.width/80);
   }
 
+//----------DECORACION DE CAJAS----------
+
+  BoxDecoration cajaRecetas(){
+    return const BoxDecoration(
+        color: Color.fromRGBO(246, 209, 193, 1),
+        boxShadow: [
+          BoxShadow(
+              color: Colors.black26,
+              blurRadius: 2,
+              offset: Offset(0, 4),
+              blurStyle: BlurStyle.normal
+          ),
+        ]
+    );
+  }
+
+  BoxDecoration cajaAjustes(){
+    return const BoxDecoration(
+      color: Color.fromRGBO(246, 209, 193, 1),
+    );
+  }
+
+//--------------------TEXTOS--------------------
+
   TextStyle txtTituloPag(BuildContext context){
     double base = MediaQuery.of(context).size.width;
     double tam=base/12;
@@ -84,26 +110,6 @@ class FormatosDisenio{
     );
   }
 
-  BoxDecoration cajaRecetas(){
-    return const BoxDecoration(
-      color: Color.fromRGBO(246, 209, 193, 1),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black26,
-            blurRadius: 2,
-            offset: Offset(0, 4),
-            blurStyle: BlurStyle.normal
-          ),
-        ]
-    );
-  }
-
-  BoxDecoration cajaAjustes(){
-    return const BoxDecoration(
-        color: Color.fromRGBO(246, 209, 193, 1),
-    );
-  }
-
   TextStyle txtTituloCat(BuildContext context){
     double base = MediaQuery.of(context).size.width;
     double tam=base/13;
@@ -117,17 +123,6 @@ class FormatosDisenio{
       fontSize: tam
     );
   }
-
-  double tamBtnEstrella(BuildContext context){
-    double tam = MediaQuery.of(context).size.width;
-    if(tam<350) {
-      return 20;
-    } if (tam>700){
-      return 35;
-    }
-    return tam/13;
-  }
-
 
   TextStyle txtInfoLogin1(bool texto){
     if(texto){
@@ -146,7 +141,6 @@ class FormatosDisenio{
   TextStyle txtInfoLogin2(BuildContext context, bool boton){
     double base = MediaQuery.of(context).size.width;
     double tam=base/20;
-    print(base);
     if(base<350){
       tam=13;
     }else if(base>700){
@@ -170,7 +164,6 @@ class FormatosDisenio{
   TextStyle txtTituloCrearCuetna(BuildContext context){
     double base = MediaQuery.of(context).size.width;
     double tam=base/13;
-    print(base);
     if(base<350){
       tam=20;
     }else if(base>700){
@@ -359,9 +352,23 @@ class FormatosDisenio{
     );
   }
 
+//--------------------TAMAÑOS--------------------
+
+  double tamBtnEstrella(BuildContext context){
+    double tam = MediaQuery.of(context).size.width;
+    if(tam<350) {
+      return 20;
+    } if (tam>700){
+      return 35;
+    }
+    return tam/13;
+  }
+
+//--------------------DECORACIONES CAMPOS DE TEXTO--------------------
+
   InputDecoration decoracionInputLogIn(String label, String hint){
     return InputDecoration(
-        border: OutlineInputBorder(borderSide: BorderSide(color: Colors.black54, width: 1),borderRadius: BorderRadius.all(Radius.circular(7))),
+        border: const OutlineInputBorder(borderSide: BorderSide(color: Colors.black54, width: 1),borderRadius: BorderRadius.all(Radius.circular(7))),
         hintText: hint,
         labelText: label,
 

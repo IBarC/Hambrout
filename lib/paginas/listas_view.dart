@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hambrout/enum/enum_listas.dart';
+import 'package:hambrout/firebase/conexion_firebase.dart';
 import 'package:hambrout/paginas/lista_view.dart';
 import 'package:hambrout/utils/formatos_disenio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -7,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/lista.dart';
 import '../utils/formularios.dart';
 
+/// Clase que genera la vista de Listas
 class ListasWidget extends StatefulWidget {
   const ListasWidget({super.key});
 
@@ -27,17 +29,18 @@ class ListasState extends State<ListasWidget> {
 
   void inicializar() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    id = prefs.getInt(l(DatosListas.id)) ?? 1;
+    id = prefs.getInt(listas(DatosListas.id)) ?? 1;
   }
 
+  ///Crea los objetos elemento de la lista
   List creaElementos(var elementos) {
     List lista = [];
     for (var elemento in elementos) {
       lista.add(Elemento(
-          nombre: elemento[l(DatosListas.nombre)],
-          tachado: elemento[l(DatosListas.tachado)],
+          nombre: elemento[listas(DatosListas.nombre)],
+          tachado: elemento[listas(DatosListas.tachado)],
           controlador: TextEditingController(
-            text: elemento[l(DatosListas.nombre)],
+            text: elemento[listas(DatosListas.nombre)],
           )));
     }
     return lista;
@@ -47,8 +50,9 @@ class ListasState extends State<ListasWidget> {
     setState(() {});
   }
 
+  ///Busca las listas
   Future<List?>? comprobarListas()async {
-    List listas = await conexionDatos.buscarListas();
+    List listas = await ConexionDatos().buscarListas();
       if(listas.isEmpty){
         return ['VACIO'];
       }
@@ -65,7 +69,7 @@ class ListasState extends State<ListasWidget> {
         elevation: 1,
         title: Text(
           'Listas',
-          style: formatosDisenio.txtTituloPag(context),
+          style: FormatosDisenio().txtTituloPag(context),
         ),
         backgroundColor: Colors.white,
       ),
@@ -76,11 +80,9 @@ class ListasState extends State<ListasWidget> {
               right: media.height / 30),
           child: FutureBuilder(
               future: comprobarListas(),
-              //esta es la funcion que tiene que devolver la lista necesaria de datos
               builder: ((context, snapshot) {
                 if (snapshot.hasData) {
                   return ListView.builder(
-                      //shrinkWrap: true,
                       itemCount: snapshot.data?.length,
                       itemBuilder: (context, index) {
                         if (snapshot.data?[0] == 'VACIO') {
@@ -100,35 +102,35 @@ class ListasState extends State<ListasWidget> {
                                   esNueva: false,
                                   lista: Lista(
                                       titulo: snapshot.data?[index]
-                                          [l(DatosListas.titulo)],
+                                          [listas(DatosListas.titulo)],
                                       elementos: creaElementos(
                                           snapshot.data?[index]
-                                              [l(DatosListas.elementos)]),
+                                              [listas(DatosListas.elementos)]),
                                       id: snapshot.data?[index]
-                                          [l(DatosListas.id)]));
+                                          [listas(DatosListas.id)]));
                             }));
                           },
                           child: Padding(
                               padding:
                                   EdgeInsets.only(bottom: media.height / 30),
                               child: Container(
-                                padding: EdgeInsets.all(10),
-                                decoration: formatosDisenio.cajaRecetas(),
+                                padding: const EdgeInsets.all(10),
+                                decoration: FormatosDisenio().cajaRecetas(),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       snapshot.data?[index]
-                                          [l(DatosListas.titulo)],
-                                      style: formatosDisenio
+                                          [listas(DatosListas.titulo)],
+                                      style: FormatosDisenio()
                                           .txtTituloRecPrev(context),
                                     ),
-                                    formatosDisenio.separacionPequenia(context),
+                                    FormatosDisenio().separacionPequenia(context),
                                     Text(
                                       snapshot.data?[index]
-                                              [l(DatosListas.elementos)][0]
-                                          [l(DatosListas.nombre)],
-                                      style: formatosDisenio
+                                              [listas(DatosListas.elementos)][0]
+                                          [listas(DatosListas.nombre)],
+                                      style: FormatosDisenio()
                                           .txtDatoRecPrev(context),
                                     )
                                   ],

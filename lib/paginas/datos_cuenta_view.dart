@@ -1,7 +1,6 @@
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
 import 'package:hambrout/utils/formatos_disenio.dart';
-import 'package:hambrout/utils/formularios.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../enum/enum_usuario.dart';
@@ -40,10 +39,10 @@ class DatosCuentaState extends State<DatosCuentaWidget> {
 
   void inicializar() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    username = prefs.getString(dU(DatosUsuario.username)) ?? 'no user';
-    nombre = prefs.getString(dU(DatosUsuario.nombre)) ?? 'no nombre';
-    apellidos = prefs.getString(dU(DatosUsuario.apellidos)) ?? 'no apellidos';
-    telefono = prefs.getString(dU(DatosUsuario.telefono)) ?? 'no telefono';
+    username = prefs.getString(datosUsu(DatosUsuario.username)) ?? 'no user';
+    nombre = prefs.getString(datosUsu(DatosUsuario.nombre)) ?? 'no nombre';
+    apellidos = prefs.getString(datosUsu(DatosUsuario.apellidos)) ?? 'no apellidos';
+    telefono = prefs.getString(datosUsu(DatosUsuario.telefono)) ?? 'no telefono';
     setState(() {});
   }
 
@@ -82,36 +81,36 @@ class DatosCuentaState extends State<DatosCuentaWidget> {
               scrollDirection: Axis.vertical,
               children: [
                 Text('Datos de la cuenta',
-                    style: formatosDisenio.txtTituloRec(context)),
-                formatosDisenio.separacionNormal(context),
+                    style: FormatosDisenio().txtTituloRec(context)),
+                FormatosDisenio().separacionNormal(context),
                 TextFormField(
                   decoration:
                       FormatosDisenio().decoracionFormDatos(context, 'Nombre'),
-                  style: formatosDisenio.txtInfoDatosUsu(context),
+                  style: FormatosDisenio().txtInfoDatosUsu(context),
                   controller: TextEditingController(text: nombre),
                   enabled: false,
                 ),
-                formatosDisenio.separacionPequenia(context),
+                FormatosDisenio().separacionPequenia(context),
                 TextFormField(
                   decoration: FormatosDisenio()
                       .decoracionFormDatos(context, 'Apellidos'),
-                  style: formatosDisenio.txtInfoDatosUsu(context),
+                  style: FormatosDisenio().txtInfoDatosUsu(context),
                   controller: TextEditingController(text: apellidos),
                   enabled: false,
                 ),
-                formatosDisenio.separacionPequenia(context),
+                FormatosDisenio().separacionPequenia(context),
                 TextFormField(
                   decoration:
                       FormatosDisenio().decoracionFormDatos(context, 'Correo'),
-                  style: formatosDisenio.txtInfoDatosUsu(context),
+                  style: FormatosDisenio().txtInfoDatosUsu(context),
                   controller: TextEditingController(text: username),
                   enabled: false,
                 ),
-                formatosDisenio.separacionPequenia(context),
+                FormatosDisenio().separacionPequenia(context),
                 TextFormField(
                   decoration: FormatosDisenio()
                       .decoracionFormDatos(context, 'Teléfono'),
-                  style: formatosDisenio.txtInfoDatosUsu(context),
+                  style: FormatosDisenio().txtInfoDatosUsu(context),
                   controller: TextEditingController(text: telefono),
                   enabled: false,
                 ),

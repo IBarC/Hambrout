@@ -1,3 +1,4 @@
+///Modelo del objeto Receta
 class Receta{
   String nombre;
   String dificultad;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hambrout/firebase/conexion_firebase.dart';
 import 'package:hambrout/paginas/receta_view.dart';
 import 'package:lottie/lottie.dart';
 
@@ -36,62 +37,62 @@ class FavsState extends State<FavsWidget> {
       onPressed: () {
         cambiarBtnPulsado('Todo', btnTodoS, btnTodo);
       },
-      style: formatosDisenio.btnCatNoSel(),
+      style: FormatosDisenio().btnCatNoSel(),
       child: Text('Todo', style: estiloTxt));
   late ElevatedButton btnEsp = ElevatedButton(
       onPressed: () {
         cambiarBtnPulsado('España', btnEspS, btnEsp);
       },
-      style: formatosDisenio.btnCatNoSel(),
+      style: FormatosDisenio().btnCatNoSel(),
       child: Text('España', style: estiloTxt));
   late ElevatedButton btnRum = ElevatedButton(
       onPressed: () {
         cambiarBtnPulsado('Rumanía', btnRumS, btnRum);
       },
-      style: formatosDisenio.btnCatNoSel(),
+      style: FormatosDisenio().btnCatNoSel(),
       child: Text('Rumanía', style: estiloTxt));
   late ElevatedButton btnMarr = ElevatedButton(
       onPressed: () {
         cambiarBtnPulsado('Marruecos', btnMarrS, btnMarr);
       },
-      style: formatosDisenio.btnCatNoSel(),
+      style: FormatosDisenio().btnCatNoSel(),
       child: Text('Marruecos', style: estiloTxt));
   late ElevatedButton btnEEUU = ElevatedButton(
       onPressed: () {
         cambiarBtnPulsado('EE.UU', btnEEUUS, btnEEUU);
       },
-      style: formatosDisenio.btnCatNoSel(),
+      style: FormatosDisenio().btnCatNoSel(),
       child: Text('EE.UU', style: estiloTxt));
   late ElevatedButton btnJap = ElevatedButton(
       onPressed: () {
         cambiarBtnPulsado('Japón', btnJapS, btnJap);
       },
-      style: formatosDisenio.btnCatNoSel(),
+      style: FormatosDisenio().btnCatNoSel(),
       child: Text('Japón', style: estiloTxt));
 
   late ElevatedButton btnTodoS = ElevatedButton(
       onPressed: () {},
-      style: formatosDisenio.btnCatSel(),
+      style: FormatosDisenio().btnCatSel(),
       child: Text('Todo', style: estiloTxt));
   late ElevatedButton btnEspS = ElevatedButton(
       onPressed: () {},
-      style: formatosDisenio.btnCatSel(),
+      style: FormatosDisenio().btnCatSel(),
       child: Text('España', style: estiloTxt));
   late ElevatedButton btnRumS = ElevatedButton(
       onPressed: () {},
-      style: formatosDisenio.btnCatSel(),
+      style: FormatosDisenio().btnCatSel(),
       child: Text('Rumanía', style: estiloTxt));
   late ElevatedButton btnMarrS = ElevatedButton(
       onPressed: () {},
-      style: formatosDisenio.btnCatSel(),
+      style: FormatosDisenio().btnCatSel(),
       child: Text('Marruecos', style: estiloTxt));
   late ElevatedButton btnEEUUS = ElevatedButton(
       onPressed: () {},
-      style: formatosDisenio.btnCatSel(),
+      style: FormatosDisenio().btnCatSel(),
       child: Text('EE.UU', style: estiloTxt));
   late ElevatedButton btnJapS = ElevatedButton(
       onPressed: () {},
-      style: formatosDisenio.btnCatSel(),
+      style: FormatosDisenio().btnCatSel(),
       child: Text('Japón', style: estiloTxt));
 
   ///Botón pulsado actualmente sin el estilo de pulsado
@@ -141,7 +142,7 @@ class FavsState extends State<FavsWidget> {
   }
 
   _buscaRecetasFavs() async {
-    recetasFavs = await conexionDatos.buscarRecetasFavs();
+    recetasFavs = await ConexionDatos().buscarRecetasFavs();
   }
 
   ///Cambia las recetas que se muestran dependiendo del filtro
@@ -149,7 +150,7 @@ class FavsState extends State<FavsWidget> {
   /// Si en el filtro señalado no hay recetas se devuelve una lista con un
   /// solo elemento para poder crear un widget
   Future<List?>? cambiarRecetas() async {
-    recetas = await conexionDatos.buscarRecetasFavs();
+    recetas = await ConexionDatos().buscarRecetasFavs();
     if (nombreBtnPulsado == 'Todo') {
       if (recetas.isEmpty) {
         return ['ERROR'];
@@ -158,7 +159,7 @@ class FavsState extends State<FavsWidget> {
     }
     List recetasActuales = [];
     for (var receta in recetas) {
-      if (receta[dR(DatosReceta.origen)] == nombreBtnPulsado) {
+      if (receta[datosReceta(DatosReceta.origen)] == nombreBtnPulsado) {
         recetasActuales.add(receta);
       }
     }
@@ -184,7 +185,7 @@ class FavsState extends State<FavsWidget> {
         elevation: 1,
         title: Text(
           'Favoritos',
-          style: formatosDisenio.txtTituloPag(context),
+          style: FormatosDisenio().txtTituloPag(context),
         ),
         backgroundColor: Colors.white,
       ),
@@ -258,7 +259,7 @@ class FavsState extends State<FavsWidget> {
                                   padding: EdgeInsets.only(
                                       bottom: media.height / 30),
                                   child: Container(
-                                      decoration: formatosDisenio.cajaRecetas(),
+                                      decoration: FormatosDisenio().cajaRecetas(),
                                       child: Column(
                                         children: [
                                           SizedBox(
@@ -271,7 +272,7 @@ class FavsState extends State<FavsWidget> {
                                               child: Image(
                                                 image: NetworkImage(
                                                     snapshot.data?[index]
-                                                        [dR(DatosReceta.foto)]),
+                                                        [datosReceta(DatosReceta.foto)]),
                                               ),
                                             ),
                                           ),
@@ -290,9 +291,9 @@ class FavsState extends State<FavsWidget> {
                                                       children: [
                                                         Text(
                                                           snapshot.data?[index][
-                                                              dR(DatosReceta
+                                                              datosReceta(DatosReceta
                                                                   .nombre)],
-                                                          style: formatosDisenio
+                                                          style: FormatosDisenio()
                                                               .txtTituloRecPrev(
                                                                   context),
                                                         )
@@ -302,14 +303,14 @@ class FavsState extends State<FavsWidget> {
                                                       children: [
                                                         Text(
                                                           snapshot.data?[index][
-                                                                  dR(DatosReceta
+                                                                  datosReceta(DatosReceta
                                                                       .origen)] +
                                                               "  ·  " +
                                                               snapshot.data?[
                                                                       index][
-                                                                  dR(DatosReceta
+                                                                  datosReceta(DatosReceta
                                                                       .tipo)],
-                                                          style: formatosDisenio
+                                                          style: FormatosDisenio()
                                                               .txtDatoRecPrev(
                                                                   context),
                                                         )
@@ -318,8 +319,8 @@ class FavsState extends State<FavsWidget> {
                                                     Row(
                                                       children: [
                                                         Text(
-                                                            "${snapshot.data?[index][dR(DatosReceta.npersonas)].toString()} personas  ·  ${snapshot.data?[index][dR(DatosReceta.dificultad)]}",
-                                                            style: formatosDisenio
+                                                            "${snapshot.data?[index][datosReceta(DatosReceta.npersonas)].toString()} personas  ·  ${snapshot.data?[index][datosReceta(DatosReceta.dificultad)]}",
+                                                            style: FormatosDisenio()
                                                                 .txtDatoRecPrev(
                                                                     context)),
                                                       ],
@@ -333,19 +334,22 @@ class FavsState extends State<FavsWidget> {
                                                     //ESTRELLA QUE INDICA SI ES FAV
                                                     IconButton(
                                                         onPressed: () async {
-                                                          await conexionDatos
+                                                          await ConexionDatos()
                                                               .borrarRecetaFav(snapshot
                                                                           .data?[
                                                                       index][
-                                                                  dR(DatosReceta
+                                                                  datosReceta(DatosReceta
                                                                       .nombre)]);
                                                           setState(() {});
-                                                          keys[0]
-                                                              .currentState!
-                                                              .refreshPage();
+                                                          try {
+                                                            //Refresca la página de favoritos para tener actualizados los datos
+                                                            keys[0]
+                                                                .currentState!
+                                                                .refreshPage();
+                                                          } catch (_) {}
                                                         },
                                                         iconSize:
-                                                            formatosDisenio
+                                                        FormatosDisenio()
                                                                 .tamBtnEstrella(
                                                                     context),
                                                         icon: const Stack(

@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:hambrout/enum/enum_usuario.dart';
 import 'package:hambrout/firebase/conexion_firebase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'formatos_disenio.dart';
 
-final FormatosDisenio formatosDisenio=FormatosDisenio();
-final ConexionDatos conexionDatos = ConexionDatos();
-
+///Clase que genera el formulario de LogIn
 class FormularioLogInWidget extends StatefulWidget{
   const FormularioLogInWidget({super.key});
 
@@ -51,17 +48,17 @@ class FormularioLogIn extends  State<FormularioLogInWidget>{
     _widgets.add(const SizedBox(height: 20));
 
     _widgets.add(ElevatedButton(
-        style: formatosDisenio.btnBurdeos(),
+        style: FormatosDisenio().btnBurdeos(),
         onPressed: () async{
           SharedPreferences prefs = await SharedPreferences.getInstance();
-          usuarioRegistrado = await conexionDatos.buscarUsuarios(userContr.text, passwContr.text);
+          usuarioRegistrado = await ConexionDatos().buscarUsuarios(userContr.text, passwContr.text);
 
           if(_formKey.currentState!.validate()){
-            prefs.setString(dU(DatosUsuario.username), userContr.text);
-            prefs.setBool(dU(DatosUsuario.sesionIniciada),true);
-            prefs.setString(dU(DatosUsuario.nombre), nombreUsuario);
-            prefs.setString(dU(DatosUsuario.apellidos), apellidosUsuario);
-            prefs.setString(dU(DatosUsuario.telefono), telefono);
+            prefs.setString(datosUsu(DatosUsuario.username), userContr.text);
+            prefs.setBool(datosUsu(DatosUsuario.sesionIniciada),true);
+            prefs.setString(datosUsu(DatosUsuario.nombre), nombreUsuario);
+            prefs.setString(datosUsu(DatosUsuario.apellidos), apellidosUsuario);
+            prefs.setString(datosUsu(DatosUsuario.telefono), telefono);
             Navigator.pushNamed(
               context!,
               '/principal',
@@ -94,9 +91,9 @@ class FormularioLogIn extends  State<FormularioLogInWidget>{
         bool exist = false;
         for(int i = 0; i<usuarioRegistrado.length; i++){
           if(usuarioRegistrado[i]['username']==userContr.text && usuarioRegistrado[i]['password']==passwContr.text){
-            nombreUsuario=usuarioRegistrado[i][dU(DatosUsuario.nombre)];
-            apellidosUsuario = usuarioRegistrado[i][dU(DatosUsuario.apellidos)];
-            telefono = usuarioRegistrado[i][dU(DatosUsuario.telefono)];
+            nombreUsuario=usuarioRegistrado[i][datosUsu(DatosUsuario.nombre)];
+            apellidosUsuario = usuarioRegistrado[i][datosUsu(DatosUsuario.apellidos)];
+            telefono = usuarioRegistrado[i][datosUsu(DatosUsuario.telefono)];
             exist = true;
           }
         }
@@ -136,7 +133,6 @@ class FormularioCrearCuentaWidget extends StatefulWidget{
   State<StatefulWidget> createState() {
     return FormularioCrearCuenta();
   }
-
 }
 
 class FormularioCrearCuenta extends State<FormularioCrearCuentaWidget>{
@@ -199,12 +195,12 @@ class FormularioCrearCuenta extends State<FormularioCrearCuentaWidget>{
     _widgets.add(const SizedBox(height: 20));
 
     _widgets.add(ElevatedButton(
-      style: formatosDisenio.btnBurdeos(),
+      style: FormatosDisenio().btnBurdeos(),
       onPressed: () async{
-        usuarioRegistrado = await conexionDatos.buscarUsuarios(correoContr.text, passwContr.text);
-        existeUser = await conexionDatos.existeUsuario(correoContr.text);
+        usuarioRegistrado = await ConexionDatos().buscarUsuarios(correoContr.text, passwContr.text);
+        existeUser = await ConexionDatos().existeUsuario(correoContr.text);
         if(_formKey.currentState!.validate()){
-          conexionDatos.crearUsuario(nombreContr.text, apellidosContr.text, correoContr.text, passwContr.text, telContr.text);
+          ConexionDatos().crearUsuario(nombreContr.text, apellidosContr.text, correoContr.text, passwContr.text, telContr.text);
           Navigator.popAndPushNamed(context!, '/login').then((value) => setState((){}));
         }
       },
@@ -251,7 +247,7 @@ class FormularioCrearCuenta extends State<FormularioCrearCuentaWidget>{
           return 'El campo no puede estar vacio';
         } else if(existeUser){
           return 'El correo ya está en uso';
-        } else if (!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value)){
+        } else if (!RegExp(r"^[a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value)){
           return 'El formato de correo no es válido';
         }
 
@@ -308,7 +304,7 @@ class FormularioCrearCuenta extends State<FormularioCrearCuentaWidget>{
         return null;
       },
       style: FormatosDisenio().txtInfoLogin1(true),
-      keyboardType: TextInputType.numberWithOptions(),
+      keyboardType: const TextInputType.numberWithOptions(),
       decoration: FormatosDisenio().decoracionInputLogIn(fieldName, hintText(fieldName)),
       controller: controller,
     );

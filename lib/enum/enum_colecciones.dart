@@ -1,6 +1,6 @@
 enum Colecciones {userdata, recetas, recetasFavs, listas}
 
-String c(var dato){
+String colecciones(var dato){
   switch(dato){
     case Colecciones.userdata:
       return 'userdata';

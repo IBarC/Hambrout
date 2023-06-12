@@ -1,7 +1,7 @@
 enum DatosReceta {nombre, dificultad, ingredientes, elaboracion, foto,
 npersonas,origen,tiempo,tipo}
 
-String dR(var dato){
+String datosReceta(var dato){
   switch(dato){
     case DatosReceta.nombre:
       return 'nombre';

@@ -2,9 +2,11 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
+///Clase que contiene los métodos que conectan con la API
 class MapServices{
   var key='AIzaSyC5YstKsWGxE_29dDccBbRe17VkpxtYymw';
 
+  ///Obtiene los datos de los lugares
   Future<dynamic> getDetallesLugar(LatLng coord, int radio, String tipo) async{
     var lat = coord.latitude;
     var long = coord.longitude;
@@ -17,7 +19,8 @@ class MapServices{
     return json;
   }
 
-  Future<dynamic> getMorePlaceDetails(String token) async{
+  ///Obtiene más datos de lugares usando 'next_page_token'
+  Future<dynamic> geMasDetallesLugar(String token) async{
 
     final String url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?&pagetoken=$token&key=$key';
 
@@ -27,7 +30,8 @@ class MapServices{
     return json;
   }
 
-  Future<Map<String, dynamic>> getPlace(String? palceId) async {
+  ///Obtiene información más detallada de un lugar
+  Future<Map<String, dynamic>> getLugar(String? palceId) async {
     final String url =
         'https://maps.googleapis.com/maps/api/place/details/json?place_id=$palceId&key=$key';
 
@@ -40,6 +44,7 @@ class MapServices{
     return results;
   }
 
+  ///Obtiene los datos de una ruta andando
   Future<dynamic> getDireccionAndando(double latOrigen, double longOrigen, double latDestino, double longDestino) async {
     final String url =
         "https://maps.googleapis.com/maps/api/directions/json?origin=$latOrigen,$longOrigen&destination=$latDestino,$longDestino"
@@ -52,6 +57,7 @@ class MapServices{
     return json;
   }
 
+  ///Obtiene los datos de una ruta en coche
   Future<dynamic> getDireccionCoche(double latOrigen, double longOrigen, double latDestino, double longDestino) async {
     final String url =
         "https://maps.googleapis.com/maps/api/directions/json?origin=$latOrigen,$longOrigen&destination=$latDestino,$longDestino"

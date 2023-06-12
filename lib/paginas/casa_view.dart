@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hambrout/enum/enum_receta.dart';
+import 'package:hambrout/firebase/conexion_firebase.dart';
 import 'package:hambrout/main.dart';
 import 'package:hambrout/models/receta.dart';
 import 'package:hambrout/paginas/receta_view.dart';
 import 'package:hambrout/utils/formatos_disenio.dart';
 import 'package:lottie/lottie.dart';
-
-import '../utils/formularios.dart';
 
 /// Clase que genera la vista de Casa
 class CasaWidget extends StatefulWidget {
@@ -33,62 +32,62 @@ class CasaState extends State<CasaWidget> {
       onPressed: () {
         cambiarBtnPulsado('Todo', btnTodoS, btnTodo);
       },
-      style: formatosDisenio.btnCatNoSel(),
+      style: FormatosDisenio().btnCatNoSel(),
       child: Text('Todo', style: estiloTxt));
   late ElevatedButton btnEsp = ElevatedButton(
       onPressed: () {
         cambiarBtnPulsado('España', btnEspS, btnEsp);
       },
-      style: formatosDisenio.btnCatNoSel(),
+      style: FormatosDisenio().btnCatNoSel(),
       child: Text('España', style: estiloTxt));
   late ElevatedButton btnRum = ElevatedButton(
       onPressed: () {
         cambiarBtnPulsado('Rumanía', btnRumS, btnRum);
       },
-      style: formatosDisenio.btnCatNoSel(),
+      style: FormatosDisenio().btnCatNoSel(),
       child: Text('Rumanía', style: estiloTxt));
   late ElevatedButton btnMarr = ElevatedButton(
       onPressed: () {
         cambiarBtnPulsado('Marruecos', btnMarrS, btnMarr);
       },
-      style: formatosDisenio.btnCatNoSel(),
+      style: FormatosDisenio().btnCatNoSel(),
       child: Text('Marruecos', style: estiloTxt));
   late ElevatedButton btnEEUU = ElevatedButton(
       onPressed: () {
         cambiarBtnPulsado('EE.UU', btnEEUUS, btnEEUU);
       },
-      style: formatosDisenio.btnCatNoSel(),
+      style: FormatosDisenio().btnCatNoSel(),
       child: Text('EE.UU', style: estiloTxt));
   late ElevatedButton btnJap = ElevatedButton(
       onPressed: () {
         cambiarBtnPulsado('Japón', btnJapS, btnJap);
       },
-      style: formatosDisenio.btnCatNoSel(),
+      style: FormatosDisenio().btnCatNoSel(),
       child: Text('Japón', style: estiloTxt));
 
   late ElevatedButton btnTodoS = ElevatedButton(
       onPressed: () {},
-      style: formatosDisenio.btnCatSel(),
+      style: FormatosDisenio().btnCatSel(),
       child: Text('Todo', style: estiloTxt));
   late ElevatedButton btnEspS = ElevatedButton(
       onPressed: () {},
-      style: formatosDisenio.btnCatSel(),
+      style: FormatosDisenio().btnCatSel(),
       child: Text('España', style: estiloTxt));
   late ElevatedButton btnRumS = ElevatedButton(
       onPressed: () {},
-      style: formatosDisenio.btnCatSel(),
+      style: FormatosDisenio().btnCatSel(),
       child: Text('Rumanía', style: estiloTxt));
   late ElevatedButton btnMarrS = ElevatedButton(
       onPressed: () {},
-      style: formatosDisenio.btnCatSel(),
+      style: FormatosDisenio().btnCatSel(),
       child: Text('Marruecos', style: estiloTxt));
   late ElevatedButton btnEEUUS = ElevatedButton(
       onPressed: () {},
-      style: formatosDisenio.btnCatSel(),
+      style: FormatosDisenio().btnCatSel(),
       child: Text('EE.UU', style: estiloTxt));
   late ElevatedButton btnJapS = ElevatedButton(
       onPressed: () {},
-      style: formatosDisenio.btnCatSel(),
+      style: FormatosDisenio().btnCatSel(),
       child: Text('Japón', style: estiloTxt));
 
   ///Botón pulsado actualmente sin el estilo de pulsado
@@ -139,13 +138,13 @@ class CasaState extends State<CasaWidget> {
   }
 
   _buscaRecetasFavs() async {
-    recetasFavs = await conexionDatos.buscarRecetasFavs();
+    recetasFavs = await ConexionDatos().buscarRecetasFavs();
   }
 
   ///Establece el icono de favorito dependiendo de si la receta es favorita o no
   Stack establecerFavs(var receta) {
     for (var rf in recetasFavs) {
-      if (receta[dR(DatosReceta.nombre)] == rf[dR(DatosReceta.nombre)]) {
+      if (receta[datosReceta(DatosReceta.nombre)] == rf[datosReceta(DatosReceta.nombre)]) {
         return const Stack(
           children: [
             Icon(
@@ -167,7 +166,7 @@ class CasaState extends State<CasaWidget> {
 
   bool esFav(String nombre) {
     for (var rf in recetasFavs) {
-      if (rf[dR(DatosReceta.nombre)] == nombre) {
+      if (rf[datosReceta(DatosReceta.nombre)] == nombre) {
         return true;
       }
     }
@@ -179,13 +178,13 @@ class CasaState extends State<CasaWidget> {
   /// Si en el filtro señalado no hay recetas se devuelve una lista con un
   /// solo elemento para poder crear un widget
   Future<List?>? cambiarRecetas() async {
-    recetas = await conexionDatos.buscarRecetas();
+    recetas = await ConexionDatos().buscarRecetas();
     if (nombreBtnPulsado == 'Todo') {
       return recetas;
     }
     List recetasActuales = [];
     for (var receta in recetas) {
-      if (receta[dR(DatosReceta.origen)] == nombreBtnPulsado) {
+      if (receta[datosReceta(DatosReceta.origen)] == nombreBtnPulsado) {
         recetasActuales.add(receta);
       }
     }
@@ -210,7 +209,7 @@ class CasaState extends State<CasaWidget> {
         elevation: 1,
         title: Text(
           'En casa',
-          style: formatosDisenio.txtTituloPag(context),
+          style: FormatosDisenio().txtTituloPag(context),
         ),
         backgroundColor: Colors.white,
       ),
@@ -248,7 +247,6 @@ class CasaState extends State<CasaWidget> {
                 builder: ((context, snapshot) {
                   if (snapshot.hasData) {
                     return ListView.builder(
-                        //shrinkWrap: true,
                         scrollDirection: Axis.vertical,
                         itemCount: snapshot.data?.length,
                         itemBuilder: (context, index) {
@@ -286,7 +284,7 @@ class CasaState extends State<CasaWidget> {
                                 padding:
                                     EdgeInsets.only(bottom: media.height / 30),
                                 child: Container(
-                                    decoration: formatosDisenio.cajaRecetas(),
+                                    decoration: FormatosDisenio().cajaRecetas(),
                                     child: Column(
                                       children: [
                                         SizedBox(
@@ -300,7 +298,7 @@ class CasaState extends State<CasaWidget> {
                                             child: Image(
                                               image: NetworkImage(
                                                   snapshot.data?[index]
-                                                      [dR(DatosReceta.foto)]),
+                                                      [datosReceta(DatosReceta.foto)]),
                                             ),
                                           ),
                                         ),
@@ -319,9 +317,9 @@ class CasaState extends State<CasaWidget> {
                                                       Text(
                                                         ///Titulo
                                                         snapshot.data?[index][
-                                                            dR(DatosReceta
+                                                            datosReceta(DatosReceta
                                                                 .nombre)],
-                                                        style: formatosDisenio
+                                                        style: FormatosDisenio()
                                                             .txtTituloRecPrev(
                                                                 context),
                                                       )
@@ -331,14 +329,14 @@ class CasaState extends State<CasaWidget> {
                                                     children: [
                                                       Text(
                                                         snapshot.data?[index][
-                                                                dR(DatosReceta
+                                                                datosReceta(DatosReceta
                                                                     .origen)] +
                                                             "  ·  " +
                                                             snapshot.data?[
                                                                     index][
-                                                                dR(DatosReceta
+                                                                datosReceta(DatosReceta
                                                                     .tipo)],
-                                                        style: formatosDisenio
+                                                        style: FormatosDisenio()
                                                             .txtDatoRecPrev(
                                                                 context),
                                                       )
@@ -347,8 +345,8 @@ class CasaState extends State<CasaWidget> {
                                                   Row(
                                                     children: [
                                                       Text(
-                                                          "${snapshot.data?[index][dR(DatosReceta.npersonas)].toString()} personas  ·  ${snapshot.data?[index][dR(DatosReceta.dificultad)]}",
-                                                          style: formatosDisenio
+                                                          "${snapshot.data?[index][datosReceta(DatosReceta.npersonas)].toString()} personas  ·  ${snapshot.data?[index][datosReceta(DatosReceta.dificultad)]}",
+                                                          style: FormatosDisenio()
                                                               .txtDatoRecPrev(
                                                                   context)),
                                                     ],
@@ -365,16 +363,16 @@ class CasaState extends State<CasaWidget> {
                                                       onPressed: () async {
                                                         if (esFav(snapshot
                                                                 .data?[index][
-                                                            dR(DatosReceta
+                                                            datosReceta(DatosReceta
                                                                 .nombre)])) {
-                                                          await conexionDatos
+                                                          await ConexionDatos()
                                                               .borrarRecetaFav(snapshot
                                                                           .data?[
                                                                       index][
-                                                                  dR(DatosReceta
+                                                                  datosReceta(DatosReceta
                                                                       .nombre)]);
                                                         } else {
-                                                          await conexionDatos
+                                                          await ConexionDatos()
                                                               .crearRecetaFav(
                                                                   Receta(
                                                             dificultad: snapshot
@@ -416,14 +414,13 @@ class CasaState extends State<CasaWidget> {
                                                         _buscaRecetasFavs();
                                                         setState(() {});
                                                         try {
+                                                          //Refresca la página de favoritos para tener actualizados los datos
                                                           keys[1]
-
-                                                              ///Refresca la página de favoritos para tener actualizados los datos
                                                               .currentState!
                                                               .refreshPage();
                                                         } catch (_) {}
                                                       },
-                                                      iconSize: formatosDisenio
+                                                      iconSize: FormatosDisenio()
                                                           .tamBtnEstrella(
                                                               context),
                                                       icon: establecerFavs(

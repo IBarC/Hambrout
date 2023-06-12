@@ -5,7 +5,7 @@ import 'package:hambrout/paginas/login_view.dart';
 import 'package:hambrout/utils/formatos_disenio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../utils/formularios.dart';
+import '../firebase/conexion_firebase.dart';
 
 /// Clase que genera la vista de Ayuda
 class AyudaWidget extends StatefulWidget {
@@ -31,19 +31,19 @@ class AyudaState extends State<AyudaWidget> {
 
   void inicializar() async {
     prefs = await SharedPreferences.getInstance();
-    username = prefs.getString(dU(DatosUsuario.username)) ?? '';
-    nombre = prefs.getString(dU(DatosUsuario.nombre)) ?? '';
-    apellidos = prefs.getString(dU(DatosUsuario.apellidos)) ?? '';
+    username = prefs.getString(datosUsu(DatosUsuario.username)) ?? '';
+    nombre = prefs.getString(datosUsu(DatosUsuario.nombre)) ?? '';
+    apellidos = prefs.getString(datosUsu(DatosUsuario.apellidos)) ?? '';
     setState(() {});
   }
 
   /// Establece los valores a nada y lleva a la pantalla de LogIn cuando se
   /// pulsa 'si' en los Alerts de cerrar sesión o eliminar cuenta
   void accionCerrarOEliminar() {
-    prefs.setString(dU(DatosUsuario.username), '');
-    prefs.setBool(dU(DatosUsuario.sesionIniciada), false);
-    prefs.setString(dU(DatosUsuario.nombre), '');
-    prefs.setString(dU(DatosUsuario.apellidos), '');
+    prefs.setString(datosUsu(DatosUsuario.username), '');
+    prefs.setBool(datosUsu(DatosUsuario.sesionIniciada), false);
+    prefs.setString(datosUsu(DatosUsuario.nombre), '');
+    prefs.setString(datosUsu(DatosUsuario.apellidos), '');
     Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
       MaterialPageRoute(
         builder: (BuildContext context) {
@@ -105,7 +105,7 @@ class AyudaState extends State<AyudaWidget> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  conexionDatos.borrarUsuario(username);
+                  ConexionDatos().borrarUsuario(username);
                   accionCerrarOEliminar();
                 },
                 style: FormatosDisenio().btnSeleccionAlert(),
@@ -143,7 +143,7 @@ class AyudaState extends State<AyudaWidget> {
                         ///Nombre del usuario
                         nombre,
                         textAlign: TextAlign.center,
-                        style: formatosDisenio.txtTituloRecPrev(context),
+                        style: FormatosDisenio().txtTituloRecPrev(context),
                       ),
                       const SizedBox(
                         height: 7,
@@ -152,7 +152,7 @@ class AyudaState extends State<AyudaWidget> {
                         ///Correo del usuario
                         username,
                         textAlign: TextAlign.center,
-                        style: formatosDisenio.txtAjustes(context),
+                        style: FormatosDisenio().txtAjustes(context),
                       ),
                     ],
                   ),
@@ -162,52 +162,52 @@ class AyudaState extends State<AyudaWidget> {
                   onTap: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                      return DatosCuentaWidget();
+                      return const DatosCuentaWidget();
                     }));
                   },
                   child: Container(
                     padding: const EdgeInsets.only(
                         top: 10, bottom: 10, left: 13, right: 13),
-                    decoration: formatosDisenio.cajaAjustes(),
+                    decoration: FormatosDisenio().cajaAjustes(),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           'Datos de la cuenta',
-                          style: formatosDisenio.txtAjustes(context),
+                          style: FormatosDisenio().txtAjustes(context),
                         ),
                         const Icon(Icons.arrow_forward_ios)
                       ],
                     ),
                   ),
                 ),
-                formatosDisenio.separacionNormal(context),
+                FormatosDisenio().separacionNormal(context),
                 GestureDetector( ///Contiene la caja de cerrar sesión
                   onTap: () => alertCerarSesion(),
                   child: Container(
                     padding:
                         const EdgeInsets.only(top: 10, bottom: 10, left: 13),
-                    decoration: formatosDisenio.cajaAjustes(),
+                    decoration: FormatosDisenio().cajaAjustes(),
                     child: Text(
                       'Cerrar sesión',
-                      style: formatosDisenio.txtAjustes(context),
+                      style: FormatosDisenio().txtAjustes(context),
                     ),
                   ),
                 ),
-                formatosDisenio.separacionNormal(context),
+                FormatosDisenio().separacionNormal(context),
                 GestureDetector( ///Contien la caja de eliminar cuenta
                   onTap: () => alertEliminarCuenta(),
                   child: Container(
                     padding:
                         const EdgeInsets.only(top: 10, bottom: 10, left: 13),
-                    decoration: formatosDisenio.cajaAjustes(),
+                    decoration: FormatosDisenio().cajaAjustes(),
                     child: Text(
                       'Eliminar cuenta',
-                      style: formatosDisenio.txtAjustes(context),
+                      style: FormatosDisenio().txtAjustes(context),
                     ),
                   ),
                 ),
-                formatosDisenio.separacionNormal(context),
+                FormatosDisenio().separacionNormal(context),
               ],
             )));
   }

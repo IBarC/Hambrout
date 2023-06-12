@@ -2,16 +2,12 @@ import 'dart:io';
 
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
-import 'package:hambrout/utils/formatos_disenio.dart';
-
-import '../firebase/conexion_firebase.dart';
 
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import '../main.dart';
 
-final ConexionDatos conexionDatos = ConexionDatos();
-
+/// Clase que genera la base de la app con la barra de navegación permanente
 class PaginaBaseWidget extends StatefulWidget{
   const PaginaBaseWidget({super.key});
 
@@ -20,41 +16,34 @@ class PaginaBaseWidget extends StatefulWidget{
     return _PaginaBase();
   }
 }
-//int _indiceSeleccionado = 0;
+
 class _PaginaBase extends State<PaginaBaseWidget>{
 
-  PersistentTabController _controller = PersistentTabController(initialIndex: 0);
-
-  FormatosDisenio formatosDisenio=FormatosDisenio();
+  final PersistentTabController _controller = PersistentTabController(initialIndex: 0);
 
   static final List<PersistentBottomNavBarItem> _navBarsItems = <PersistentBottomNavBarItem>[
     PersistentBottomNavBarItem(
-      icon: Icon(Icons.location_on_outlined,),
-      //title: ("Fuera"),
+      icon: const Icon(Icons.location_on_outlined,),
       activeColorPrimary: Colors.orange,
       inactiveColorPrimary: Colors.black12,
     ),
     PersistentBottomNavBarItem(
-      icon: Icon(Icons.house_outlined),
-      //title: ("Casa"),
+      icon: const Icon(Icons.house_outlined),
       activeColorPrimary: Colors.orange,
       inactiveColorPrimary: Colors.black12,
     ),
     PersistentBottomNavBarItem(
-      icon: Icon(Icons.star_purple500_rounded,),
-      //title: ("Favs"),
+      icon: const Icon(Icons.star_purple500_rounded,),
       activeColorPrimary: Colors.orange,
       inactiveColorPrimary: Colors.black12,
     ),
     PersistentBottomNavBarItem(
-      icon: Icon(Icons.event_note,),
-      //title: ("Listas"),
+      icon: const Icon(Icons.event_note,),
       activeColorPrimary: Colors.orange,
       inactiveColorPrimary: Colors.black12,
     ),
     PersistentBottomNavBarItem(
-      icon: Icon(Icons.settings),
-      //title: ("Ayuda"),
+      icon: const Icon(Icons.settings),
       activeColorPrimary: Colors.orange,
       inactiveColorPrimary: Colors.black12,
     ),
@@ -112,81 +101,3 @@ class _PaginaBase extends State<PaginaBaseWidget>{
     );
   }
 }
-
-/**
-class _PaginaBase extends State<PaginaBaseWidget>{
-  FormatosDisenio formatosDisenio=FormatosDisenio();
-
-  int _indiceSeleccionado = 0;
-
-  void _cambiarPantalla(int indice){
-    setState(() {
-      _indiceSeleccionado = indice;
-    });
-  }
-
-  final List<Future<List>> _funciones = [
-    conexionDatos.buscarRecetas()
-  ];
-
-  static const List<Widget> _pages = <Widget>[
-    FueraWidget(),
-    CasaWidget(),
-    FavsWidget(),
-    ListasWidget(),
-    AyudaWidget()
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-
-    Size media = MediaQuery.of(context).size;
-    double tamanioIcono = media.width/14;
-
-    return Scaffold(
-      body: SizedBox(
-          width: media.width,
-          height: media.height,
-          child: IndexedStack(
-            index: _indiceSeleccionado,
-            children: _pages,
-          )
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: const Color(0xFFF5B067),
-        elevation: 8,
-        type: BottomNavigationBarType.fixed,
-        //showUnselectedLabels: true,
-        selectedIconTheme: const IconThemeData(color: Colors.black,),
-        selectedItemColor: Colors.black,
-        //showSelectedLabels: true,
-        selectedFontSize:  media.width/28,
-        unselectedIconTheme: const IconThemeData(color: Colors.black38),
-        currentIndex: _indiceSeleccionado,
-        onTap: _cambiarPantalla,
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-              icon: Icon(Icons.location_on_outlined, size: tamanioIcono,),
-              label: 'Fuera'
-          ),
-          BottomNavigationBarItem(
-              icon:Icon(Icons.house_outlined, size: tamanioIcono,),
-              label: 'Casa'
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.star_purple500_rounded, size: tamanioIcono,),
-              label: 'Favs'
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.event_note, size: tamanioIcono,),
-              label: 'Listas'
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.settings, size: tamanioIcono,),
-              label: 'Ayuda'
-          ),
-        ],
-      ),
-    );
-  }
-}**/

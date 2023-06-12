@@ -1,6 +1,6 @@
 enum DatosListas{titulo, elementos, nombre, tachado, id}
 
-String l(var dato){
+String listas(var dato){
   switch(dato){
     case DatosListas.titulo:
       return 'titulo';

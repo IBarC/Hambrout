@@ -5,7 +5,6 @@ import 'package:hambrout/paginas/ayuda_view.dart';
 import 'package:hambrout/paginas/casa_view.dart';
 import 'package:hambrout/paginas/favs_view.dart';
 import 'package:hambrout/paginas/fuera_view.dart';
-import 'package:hambrout/paginas/lista_view.dart';
 import 'package:hambrout/paginas/listas_view.dart';
 import 'package:hambrout/paginas/login_view.dart';
 import 'package:lottie/lottie.dart';
@@ -16,9 +15,8 @@ import 'enum/enum_usuario.dart';
 final GlobalKey<CasaState> casaKey = GlobalKey();
 final GlobalKey<FavsState> favKey = GlobalKey();
 final GlobalKey<ListasState> listKey = GlobalKey();
-final GlobalKey<ListaState> listaKey = GlobalKey();
 
-List<GlobalKey<dynamic>> keys =[casaKey,favKey,listKey, listaKey];
+List<GlobalKey<dynamic>> keys =[casaKey,favKey,listKey];
 
  List<Widget> pages = <Widget>[
   const FueraWidget(),
@@ -40,24 +38,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Hambrout',
-      home: /**FutureBuilder(
-        future: SharedPreferences.getInstance(),
-        builder: ((context, snapshot){
-          if(snapshot.hasData){
-            bool sesionIniciada = snapshot.data?.getBool(dU(DatosUsuario.sesionIniciada))??false;
-            if(sesionIniciada){
-              return const AppPrincipalWidget();
-            } else {
-              return const LogInWidget();
-            }
-          } else {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        }),
-      ),**/const PaginaCarga(),
-      //initialRoute: '/login',
+      home: const PaginaCarga(),
       routes: {
         '/login': (context) => const LogInWidget(),
         '/principal' : (context) => const AppPrincipalWidget()
@@ -66,6 +47,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
+///Clase que crea una vista de carga
 class PaginaCarga extends StatefulWidget{
   const PaginaCarga({super.key});
 
@@ -86,7 +68,7 @@ class PaginaCargaState extends State<PaginaCarga>{
 
   void inicializar()async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    sesionIniciada=prefs.getBool(dU(DatosUsuario.sesionIniciada))??false;
+    sesionIniciada=prefs.getBool(datosUsu(DatosUsuario.sesionIniciada))??false;
   }
 
   Widget pagina(){

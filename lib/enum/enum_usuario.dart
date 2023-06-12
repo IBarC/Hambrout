@@ -1,6 +1,6 @@
 enum DatosUsuario {nombre, apellidos, password, username, sesionIniciada, telefono}
 
-String dU(var dato){
+String datosUsu(var dato){
   switch(dato){
     case DatosUsuario.nombre:
       return 'nombre';

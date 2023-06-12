@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-
+///Modelo del objeto Lista
 class Lista{
   String titulo;
   List elementos;

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:hambrout/firebase/conexion_firebase.dart';
 import 'package:hambrout/main.dart';
-import 'package:hambrout/utils/formularios.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 
 import '../enum/enum_listas.dart';
 import '../models/lista.dart';
+import '../utils/formatos_disenio.dart';
 
+/// Clase que genera la vista de Lista
 class ListaWidget extends StatefulWidget{
   final Lista lista;
   final bool esNueva;
@@ -70,7 +72,7 @@ class ListaState extends State<ListaWidget>{
 
   void inicializar()async{
     prefs = await SharedPreferences.getInstance();
-    id=prefs.getInt(l(DatosListas.id))??1;
+    id=prefs.getInt(listas(DatosListas.id))??1;
   }
 
   ///Crea un TextField en base a si esta tachado
@@ -130,9 +132,9 @@ class ListaState extends State<ListaWidget>{
             if(!esListaVacia()) {
               if(_formKey.currentState!.validate()){
                 if(esNueva){
-                  conexionDatos.guardarListaNueva(lista);
+                  ConexionDatos().guardarListaNueva(lista);
                 } else {
-                  conexionDatos.guardarLista(lista);
+                  ConexionDatos().guardarLista(lista);
                 }
                 keys[2].currentState!.refreshPage();
                 Navigator.pop(context);
@@ -146,7 +148,7 @@ class ListaState extends State<ListaWidget>{
           key: _formKey,
           child: TextFormField(
             decoration: const InputDecoration(hintText: 'Titulo'),
-            style: formatosDisenio.txtTituloLista(context),
+            style: FormatosDisenio().txtTituloLista(context),
             controller: tituloController, validator: (value) {
             if (value!.isEmpty) {
               return 'El titulo necesita un valor';
